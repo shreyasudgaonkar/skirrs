@@ -1,0 +1,2 @@
+This directory will contain the classes, manifests and resources for the Skirrs android app.
+The app will use the php files under ../lib to access the Skirrs database
