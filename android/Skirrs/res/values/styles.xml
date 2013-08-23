@@ -1,4 +1,5 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -13,8 +14,30 @@
     </style>
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
+    <style name="SkirrsTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        
+        <item name="android:windowBackground">@color/skirrs_bg_color</item>
+        <item name="android:textColorPrimary">@color/skirrs_text_color</item>
+        <item name="android:buttonStyle">@style/SkirrsButton</item>
+        
+    </style>
+
+    <style name="LoginFormContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+    </style>
+    
+    <style name="SkirrsButton"  parent="android:style/Widget.Button">
+        
+        <item name="android:textSize">19sp</item>
+        <item name="android:layout_margin">0dip</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:paddingLeft">32dp</item>
+        <item name="android:paddingRight">32dp</item>
+        <item name="android:layout_gravity">right</item>
+        
     </style>
 
 </resources>
