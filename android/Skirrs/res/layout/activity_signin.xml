@@ -1,6 +1,6 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".LoginActivity" >
+    tools:context=".SignInActivity" >
 
     <!-- Login progress -->
 
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:fontFamily="sans-serif-light"
-            android:text="@string/login_progress_signing_in"
+            android:text="@string/com.skirrs.login_progress_signing_in"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
@@ -44,7 +44,7 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/prompt_email"
+                android:hint="@string/com.skirrs.email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -53,9 +53,9 @@
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/prompt_password"
+                android:hint="@string/com.skirrs.password"
                 android:imeActionId="@+id/login"
-                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeActionLabel="@string/com.skirrs.signin"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -64,24 +64,26 @@
             <LinearLayout
                 android:orientation="horizontal" 
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp">
                 
 	            <Button
 	                android:id="@+id/sign_in_button"
 	                 android:layout_height="wrap_content"
 	                android:layout_width="fill_parent"
 	                android:layout_weight="1"
-	                android:text="@string/action_sign_in_short" />
+	                android:text="@string/com.skirrs.signin" />
 	            
 	             <Button 
 	                android:id="@+id/link_to_register"
 	                android:layout_width="fill_parent"
 	                android:layout_height="wrap_content"
 	                android:layout_weight="1"
-	                android:text="@string/com.skirrs.register"/>
+	                android:text="@string/com.skirrs.register"
+	                android:onClick="launchRegisterActivity"/>
              
              </LinearLayout>
-             
+            
         </LinearLayout>
         
     </ScrollView>

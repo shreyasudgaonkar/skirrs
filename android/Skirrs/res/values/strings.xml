@@ -8,15 +8,20 @@
     <string name="none"></string>
 
     <!-- Login screen -->
-    <string name="com.skirrs.login">Login</string>
+    <string name="com.skirrs.signin">Sign in</string>
     <string name="com.skirrs.register">Register</string>
     <string name="com.skirrs.email">Email</string>
-    <string name="com.skirrs.enter_email">Enter your email</string>
     <string name="com.skirrs.password">Password</string>
-    <string name="com.skirrs.enter_password">Enter your password</string>
+    <string name="com.skirrs.action_forgot_password">Recover lost password</string>
+    <string name="com.skirrs.login_progress_signing_in">Signing in&#8230;</string>
+    <string name="com.skirrs.error_invalid_email">This email address is invalid</string>
+    <string name="com.skirrs.error_invalid_password">This password is too short</string>
+    <string name="com.skirrs.error_incorrect_password">This password is incorrect</string>
+    <string name="com.skirrs.error_field_required">This field is required</string>
 
     <!-- Register screen -->
     <string name="com.skirrs.full_name">Full name</string>
-    <string name="title_activity_register">RegisterActivity</string>
+    <string name="com.skirrs.title_activity_register">Register</string>
+    <string name="title_activity_home">HomeActivity</string>
 
 </resources>
