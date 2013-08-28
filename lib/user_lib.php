@@ -3,10 +3,12 @@
 require('password_handler_lib.php');
 require('mysql_dblib.php');
 
-/* This function will register the user in skirrs database
+/* 
+This function will register the user in skirrs database
 1 - Make an entry in users table
 2 - Make an entry in user_profiles table
 3 - Make an entry in user_addresses table
+NOTE: This function receives json encoded array
 */
 function register_user($json_arr)
 {
@@ -160,6 +162,22 @@ function get_userid_from_email($email_address)
 	if($result == false)
 	{
 		echo "Getting user_id failed";
+		return -1;
+	}
+	return $result;
+}
+
+/*
+   TODO: this is to be included in ORM
+   This function will return encrypted_password, given user's email_address
+*/
+function get_encrypted_password_from_email($email_address)
+{
+	$query = "SELECT `password` FROM `users` WHERE `email_address`='".$email_address."'";
+	$result = fetch($query, 'single_data');
+	if($result == false)
+	{
+		echo "Getting encrypted_password failed";
 		return -1;
 	}
 	return $result;

@@ -1,7 +1,6 @@
 <?php
 
 require('PasswordHash.php');
-
 /*
   This function will take the input password during registration and find its hash using PasswordHash.
   Store the hash in password field of users table
@@ -22,15 +21,13 @@ function encrypt_password($password)
   This function will be called when a user gives email_address and password to login
   Password will be matched against its stored hash in users table using PasswordHash
 */
-//TODO: Replace $hash with $email_address, and get $hash from skirrs.users table using email_address
-function verify_password($password, $hash)
+function verify_password($email_address, $password)
 {
+	require('user_lib.php');
+        $stored_password = get_encrypted_password_from_email($email_address);
 	$hasher = new PasswordHash(8, false);
-	$check = $hasher->CheckPassword($password, $hash);
-	if ($check)
-		return 1;
-	else
-		return -1;
+	$match = $hasher->CheckPassword($password, $stored_password);
+	return $match;
 }
 ?>
 
