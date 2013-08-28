@@ -13,7 +13,10 @@
 		// Convert the $_POST array to json and register the user
 		$json_arr = json_encode($_POST);
 		$result = verify_login_credentials($json_arr);
-		if($result)
+		
+		$response = json_decode ( $result, true );
+	
+		if( $response[ 'success' ] == 1 )
 		{
 			echo 'Login Successful';
 			$login_success = 1;
