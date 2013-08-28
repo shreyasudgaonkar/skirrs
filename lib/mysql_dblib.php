@@ -2,11 +2,12 @@
 
 
 /*
-   This function will be used to establish a connection with database
-*/
+ * This function will be used to establish a connection with database
+ */
 function connect() 
 {
-	$con=mysqli_connect('localhost', 'root', 'awesome', 'skirrs');
+	require_once __DIR__ . '/db_config.php'
+	$con=mysqli_connect( DB_SERVER , DB_USER, DB_PASSWORD, DB_DATABASE );
 	
 	// Check connection
 	if (mysqli_connect_errno($con))
@@ -18,8 +19,8 @@ function connect()
 
 
 /*
-  This function will be typically used to insert/update/alter/delete queries 
-*/
+ * This function will be typically used to insert/update/alter/delete queries 
+ */
 function execute($query)
 {
 	$con=connect();
@@ -38,11 +39,11 @@ function execute($query)
 
 
 /* This finction will be used for selection rows, i.e., fetching data from the tables
-   Takes the sql query and format, wrt which results will be sent
-   Single Data - Select user_id from users where email_address='xyz@xyz.com'
-   Single row - Select user_id, first_name, last_name from users where email_address='xyz@xyz.com'
-   Multiple Rows - Select * from users
-*/
+ * Takes the sql query and format, wrt which results will be sent
+ * Single Data - Select user_id from users where email_address='xyz@xyz.com'
+ * Single row - Select user_id, first_name, last_name from users where email_address='xyz@xyz.com'
+ * Multiple Rows - Select * from users
+ */
 function fetch($query, $format)
 {
 	$con=connect();		
@@ -77,8 +78,8 @@ function fetch($query, $format)
 
 
 /*
-  This function will be used to close the connection with database
-*/
+ * This function will be used to close the connection with database
+ */
 function close($con)
 {
 	mysqli_close($con);
