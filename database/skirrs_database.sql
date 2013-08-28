@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 24, 2013 at 01:07 AM
+-- Generation Time: Aug 28, 2013 at 05:16 AM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.4.3
 
@@ -58,7 +58,7 @@ INSERT INTO `profile_types` (`profile_type_id`, `profile_name`) VALUES
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `email_address` varchar(254) NOT NULL,
-  `user_id` int(10) NOT NULL,
+  `user_id` int(10) NOT NULL AUTO_INCREMENT,
   `first_name` varchar(26) NOT NULL,
   `last_name` varchar(26) DEFAULT NULL,
   `password` varchar(256) NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`email_address`),
   UNIQUE KEY `user_id` (`user_id`,`phone_number`),
   KEY `email_address` (`email_address`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Base user table';
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Base user table' AUTO_INCREMENT=29 ;
 
 --
 -- Dumping data for table `users`
@@ -93,7 +93,8 @@ CREATE TABLE IF NOT EXISTS `user_addresses` (
   `state` varchar(32) NOT NULL,
   `zip` varchar(16) NOT NULL,
   `country` varchar(16) NOT NULL,
-  PRIMARY KEY (`user_id`)
+  PRIMARY KEY (`user_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
