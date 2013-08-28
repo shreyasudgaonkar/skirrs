@@ -1,5 +1,6 @@
 <?php
 
+
 /*
    This function will be used to establish a connection with database
 */

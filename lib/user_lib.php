@@ -1,6 +1,5 @@
 <?php
 
-require('password_handler_lib.php');
 require('mysql_dblib.php');
 
 /* 
@@ -12,6 +11,7 @@ NOTE: This function receives json encoded array
 */
 function register_user($json_arr)
 {
+	require('password_handler_lib.php');
 	$user_info = json_decode($json_arr, true);
 
 	

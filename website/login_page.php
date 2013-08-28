@@ -3,10 +3,30 @@
 <head>
 <title>Skirrs - Login Page</title></head>
 <body>
+
 <?php
-session_start();
-$capital = 67;
-print("Variable capital is $capital<br>");
+	session_start();
+	require('../lib/verify_lib.php');
+	$login_success = 0;
+	if(isset($_POST['email_address']) && isset($_POST['password']))
+	{
+		// Convert the $_POST array to json and register the user
+		$json_arr = json_encode($_POST);
+		$result = verify_login_credentials($json_arr);
+		if($result)
+		{
+			echo 'Login Successful';
+			$login_success = 1;
+		}
+		else
+		{
+			echo 'Incorrect email_address or password. Please try again... <br>'; 
+		}
+	}
+	
+	if($login_success == 0) 
+	{
+	
 ?>
 	<script type='text/javascript'>
 			
@@ -20,15 +40,13 @@ print("Variable capital is $capital<br>");
 			        alert('Enter password');
 				return false;
 			} else {	
-				alert(email_address);
-				alert(password);
 				document.submit();
 				return true;			
 			}
 		}
 	</script>
 	
-	<form name='login_form' action='../lib/login_lib.php' method='POST'> 
+	<form name='login_form' action="<?php $_PHP_SELF ?>" method='POST'> 
 	        <table>
 			<tr>
 				<td>Email Address: </td>
@@ -46,5 +64,9 @@ print("Variable capital is $capital<br>");
 		</table>
 	</form>
 	
+	<?php
+	}
+	?>
+
 </body>
 </html>

@@ -36,7 +36,7 @@ require('../lib/user_lib.php');
 	if(! isset($_POST['registration_request']) || $registration_success == 0 ) { 
 	?>
 	
-		<form action="<?php $_PHP_SELF ?>" method="POST">
+		<form name="registration_form" action="<?php $_PHP_SELF ?>" method="POST">
 		<table border="0">
 			<tr>
 				<td>First Name: </td>
