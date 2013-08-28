@@ -38,20 +38,14 @@ function register_user($json_arr)
 
 	
 	// Get the userid that is required to make an entry in skirrs.user_profiles 
-	/* TODO: Once ORM is in place, use class USER to get user_id given the email-address*/
-	$query2 = "SELECT `user_id` FROM `users` WHERE `email_address`='".$user_info['email_address']."'";
-	$fetch_result = fetch($query2, 'single_data');
-	if($fetch_result == false)
-	{
-		echo "Getting user_id failed";
+	$user_id = get_userid_from_email($user_info['email_address']);
+	if (!$user_id)
 		return -1;
-	}
-	$user_id = $fetch_result;
 	
 	
 	// Get the profile_id for the user
-	$query3 = "SELECT `profile_type_id` FROM `profile_types` WHERE `profile_name`='".$user_info['profile_name']."'";
-	$fetch_result = fetch($query3, 'single_data');
+	$query2 = "SELECT `profile_type_id` FROM `profile_types` WHERE `profile_name`='".$user_info['profile_name']."'";
+	$fetch_result = fetch($query2, 'single_data');
 	if($fetch_result == false)
 	{
 		echo "Unable to determine profile_type_id for given user's profile";
@@ -62,7 +56,7 @@ function register_user($json_arr)
 	
 	
 	// Make an entry in user_profiles table
-	$query4= "INSERT INTO `user_profiles`(`user_id`, `dob`, `sex`, `profile_type_id`, `picture_id`, `rating`, `rides_offered`, `avg_reponse_time`, `registration_date`) "
+	$query3= "INSERT INTO `user_profiles`(`user_id`, `dob`, `sex`, `profile_type_id`, `picture_id`, `rating`, `rides_offered`, `avg_reponse_time`, `registration_date`) "
                 ." VALUES ('"
 		.$user_id."', '"
 		.$user_info['dob']."', '"
@@ -73,7 +67,7 @@ function register_user($json_arr)
 		."0, "
 		."NULL, '"
 		.date("Y-m-d")."')";
-	$insert_result = execute($query4);	
+	$insert_result = execute($query3);	
 	if($insert_result == -1)
 	{
 		echo "Insertion in user_profiles failed";
@@ -83,7 +77,7 @@ function register_user($json_arr)
 		
 		
 	//make an entry in user_addresses table
-	$query5 = "INSERT INTO `user_addresses` (`user_id`, `street_address`, `city`, `state`, `zip`, `country`) "
+	$query4 = "INSERT INTO `user_addresses` (`user_id`, `street_address`, `city`, `state`, `zip`, `country`) "
 	          ."VALUES ("
 		  .$user_id.", '"
 		  .$user_info['street_address']."', '"
@@ -91,7 +85,7 @@ function register_user($json_arr)
 		  .$user_info['state']."', '"
 		  .$user_info['zip']."', '"
 		  .$user_info['country']."')";
-	$insert_result = execute($query5);	
+	$insert_result = execute($query4);	
 	if($insert_result == -1)
 	{
 		echo "User registered but entry in user_addresses failed";
@@ -135,7 +129,8 @@ function clear_user_record_by_userid($user_id)
 		echo "User record could not be deleted";
 		return -1;
 	}
-	echo "User record deleted";	
+	echo "User record deleted";
+	return 1;	
 }
 
 
@@ -145,16 +140,30 @@ function clear_user_record_by_userid($user_id)
 */
 function clear_user_record_by_email($email_address) 
 {
-	$query = "SELECT `user_id` FROM `users` WHERE `email_address`='".$email_address."'";
-	$user_id = fetch($query, 'single_data');
+	$result = -1;
+	$user_id = get_userid_from_email($email_address);
 	if($user_id)
 	{
-		clear_user_record_by_userid($user_id);
+		$result = clear_user_record_by_userid($user_id);
 	}
-	
+	return $result;	
 }
 
-
+/*
+   TODO: this is to be included in ORM
+   This function will return userid, given user's email_address
+*/
+function get_userid_from_email($email_address)
+{
+	$query = "SELECT `user_id` FROM `users` WHERE `email_address`='".$email_address."'";
+	$result = fetch($query, 'single_data');
+	if($result == false)
+	{
+		echo "Getting user_id failed";
+		return -1;
+	}
+	return $result;
+}
 
 ?>
 
