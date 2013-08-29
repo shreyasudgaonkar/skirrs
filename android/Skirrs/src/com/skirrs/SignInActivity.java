@@ -51,7 +51,8 @@ public class SignInActivity extends Activity {
     JSONParser jParser = new JSONParser();
     
     // URL to sign in
-    private static String url_sign_in = "http://localhost/skirrs/lib/sign_in.php";
+    private static String url_sign_in = 
+    		"http://ec2-50-16-7-194.compute-1.amazonaws.com/skirrs/lib/verify_lib.php";
     
     /*
      * Managing sessions and user sign-ins
@@ -258,17 +259,17 @@ public class SignInActivity extends Activity {
             httpParams.add( new BasicNameValuePair( "email", mEmail ) );
             httpParams.add( new BasicNameValuePair( "password", mPassword ) );
             
-            // getting JSON string from URL
-            JSONObject json = jParser.makeHttpRequest( url_sign_in, 
-            										   "GET",
-            										   httpParams);
- 
-            // Check your log cat for JSON response
-            Log.d( "Signing in: ", json.toString() );
-            
             boolean signin = false;
 
             try {
+            	
+            	// getting JSON string from URL
+                JSONObject json = jParser.makeHttpRequest( url_sign_in, 
+                										   "POST",
+                										   httpParams);
+     
+                // Check your log cat for JSON response
+                Log.d( "Signing in: ", json.toString() );
             	
             	int success = json.getInt( JSONParser.TAG_SUCCESS );
             	
@@ -277,7 +278,7 @@ public class SignInActivity extends Activity {
             		/*
             		 * Sign-in successful
             		 */
-            		signin = true;         		
+            		signin = true;   		
             		
             	} else {
             		
@@ -288,7 +289,7 @@ public class SignInActivity extends Activity {
             	}
             	
             } catch ( JSONException j ) {
-            	
+            	System.out.println( "JSONException: " + j );
             }
             
 			return signin;
@@ -313,7 +314,9 @@ public class SignInActivity extends Activity {
 				/*
 				 * Launch home screen activity here
 				 */
-				
+				Intent homeActIntent = new Intent( getApplicationContext(), 
+												HomeActivity.class );
+				startActivity( homeActIntent );
 				finish();
 				
 			} else {

@@ -1,8 +1,7 @@
 <?php
 
-
 /*
- * This function will verify the user's login credentials and the ones that are stored in database
+ * This function will verify the user's login credentials with the ones that are stored in database
  * Note: input is a json struct with email_address and password keys.
  */
 function verify_login_credentials($json_arr)
