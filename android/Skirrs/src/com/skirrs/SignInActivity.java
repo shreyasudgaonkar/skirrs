@@ -17,7 +17,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -52,7 +51,7 @@ public class SignInActivity extends Activity {
     
     // URL to sign in
     private static String url_sign_in = 
-    		"http://ec2-50-16-7-194.compute-1.amazonaws.com/skirrs/lib/verify_lib.php";
+    		"http://ec2-50-16-7-194.compute-1.amazonaws.com/skirrs/lib/app/sign_in.php";
     
     /*
      * Managing sessions and user sign-ins
@@ -256,7 +255,7 @@ public class SignInActivity extends Activity {
 			
 			// Building Parameters
             List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
-            httpParams.add( new BasicNameValuePair( "email", mEmail ) );
+            httpParams.add( new BasicNameValuePair( "email_address", mEmail ) );
             httpParams.add( new BasicNameValuePair( "password", mPassword ) );
             
             boolean signin = false;
@@ -267,26 +266,26 @@ public class SignInActivity extends Activity {
                 JSONObject json = jParser.makeHttpRequest( url_sign_in, 
                 										   "POST",
                 										   httpParams);
-     
-                // Check your log cat for JSON response
-                Log.d( "Signing in: ", json.toString() );
             	
-            	int success = json.getInt( JSONParser.TAG_SUCCESS );
-            	
-            	if ( success == 1 ) {
-            		
-            		/*
-            		 * Sign-in successful
-            		 */
-            		signin = true;   		
-            		
-            	} else {
-            		
-            		/*
-            		 * Incorrect user-name or password
-            		 */
-            		signin = false;
-            	}
+                if ( json != null && json.length() > 0 ) {
+                
+	            	int success = json.getInt( JSONParser.TAG_SUCCESS );
+	            	
+	            	if ( success == 1 ) {
+	            		
+	            		/*
+	            		 * Sign-in successful
+	            		 */
+	            		signin = true;   		
+	            		
+	            	} else {
+	            		
+	            		/*
+	            		 * Incorrect user-name or password
+	            		 */
+	            		signin = false;
+	            	}
+                }
             	
             } catch ( JSONException j ) {
             	System.out.println( "JSONException: " + j );
