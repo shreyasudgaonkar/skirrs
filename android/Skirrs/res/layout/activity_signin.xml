@@ -45,24 +45,40 @@
                 android:hint="@string/com.skirrs.email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true" 
+                android:background="@null"/>
+            
+            <!-- Horizontal divider -->
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:layout_marginLeft="4dip"
+                    android:layout_marginRight="4dip"
+                    android:background="@color/skirrs_divider_color"/>
 
             <EditText
+                android:layout_marginTop="16dp"
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/com.skirrs.password"
-                android:imeActionId="@+id/login"
-                android:imeActionLabel="@string/com.skirrs.signin"
-                android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:background="@null" />
+            
+            <!-- Horizontal divider -->
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:layout_marginLeft="4dip"
+                    android:layout_marginRight="4dip"
+                    android:background="@color/skirrs_divider_color"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_marginTop="28dp">
+                android:layout_height="46dp"
+                android:layout_marginTop="42dp">
                 
                 <!-- Horizontal divider -->
                 <View

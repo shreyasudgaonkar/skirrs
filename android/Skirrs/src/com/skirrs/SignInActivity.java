@@ -70,21 +70,6 @@ public class SignInActivity extends Activity {
 		// Set up the login form.
 		mEmailView    = ( EditText ) findViewById( R.id.email );
 		mPasswordView = ( EditText ) findViewById( R.id.password );
-		
-		mPasswordView
-				.setOnEditorActionListener( new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction( TextView textView,
-												   int id,
-												   KeyEvent keyEvent) {
-						
-						if ( id == R.id.login || id == EditorInfo.IME_NULL ) {
-							attemptLogin();
-							return true;
-						}
-						return false;
-					}
-				});
 
 		mLoginFormView   = findViewById( R.id.login_form );
 		mLoginStatusView = findViewById( R.id.login_status) ;
@@ -304,8 +289,7 @@ public class SignInActivity extends Activity {
 				
 				/* 
 				 * Add user data to SessionManager
-				 */
-				
+				 */				
 				if ( sessionManager != null ) {
 					sessionManager.createLoginSession( mEmail );
 				}
@@ -314,7 +298,7 @@ public class SignInActivity extends Activity {
 				 * Launch home screen activity here
 				 */
 				Intent homeActIntent = new Intent( getApplicationContext(), 
-												HomeActivity.class );
+												   HomeActivity.class );
 				startActivity( homeActIntent );
 				finish();
 				

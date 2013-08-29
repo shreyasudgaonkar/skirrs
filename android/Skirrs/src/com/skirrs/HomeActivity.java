@@ -50,10 +50,10 @@ public class HomeActivity extends Activity {
 	 * 
 	 */
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu( Menu menu ) {
 		
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.home, menu);
+		getMenuInflater().inflate( R.menu.home, menu );
 		return true;
 	}
 	
@@ -91,10 +91,22 @@ public class HomeActivity extends Activity {
 	 */
 	public void logoutUser()
 	{
+		/*
+		 * Invalidate the current session
+		 */
 		sessionManager.invalidateLoginSession();
+		
+		/*
+		 * Redirect the user to the sign-in screen
+		 */
 		Intent signInIntent = new Intent( getApplicationContext(),
 				  SignInActivity.class );
 		startActivity( signInIntent );
+		
+		/*
+		 * Finish this activity so that user cannot press the back key
+		 * and return to this screen
+		 */
 		finish();
 	}
 
