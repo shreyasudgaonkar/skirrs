@@ -9,7 +9,7 @@ function verify_login_credentials($json_arr)
 	require('password_handler_lib.php');
 	
 	$response = array();
-	$response[ "success" ] = 0;
+	$response[ 'success' ] = 0;
 	
 	$login_info = json_decode($json_arr, true);
 	
@@ -20,7 +20,7 @@ function verify_login_credentials($json_arr)
 		$match = verify_password($login_info['password'], $stored_password);
 		if($match)
 		{
-			$response[ "success" ] = 1;
+			$response[ 'success' ] = 1;
 		}
 	}
 	return json_encode( $response );

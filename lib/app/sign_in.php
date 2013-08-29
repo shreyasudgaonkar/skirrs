@@ -8,12 +8,12 @@
  * HTML code directly invokes verify_login_credentials()
  * This file is an indirection used only by apps (android or iOS)
  */
-if( isset( $_POST[ "email_address" ] ) && isset( $_POST[ "password" ] ) ) {
+if( isset( $_POST[ 'email_address' ] ) && isset( $_POST[ 'password' ] ) ) {
 
-	require('verify_lib.php');	
+	require( '../verify_lib.php' );
 
 	$request = json_encode( $_POST );
-	return verify_login_credentials( $request );
+	echo verify_login_credentials( $request );
 }
 
 ?>
