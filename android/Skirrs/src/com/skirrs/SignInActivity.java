@@ -307,7 +307,7 @@ public class SignInActivity extends Activity {
 				 */
 				
 				if ( sessionManager != null ) {
-					sessionManager.createLoginSession( mEmail, mPassword );
+					sessionManager.createLoginSession( mEmail );
 				}
 				
 				/*

@@ -26,8 +26,8 @@ public class SessionManager {
 	/*
 	 * The keys to be used in SharedPreferences
 	 */
-	private static final String KEY_NAME  = "key_name";
-	private static final String KEY_EMAIL = "key_email";
+	public final String KEY_NAME  = "key_name";
+	public final String KEY_EMAIL = "key_email";
 	
 	
 	/**
@@ -59,7 +59,7 @@ public class SessionManager {
 	/**
 	 * 
 	 */
-	public void createLoginSession( String name, String email )
+	public void createLoginSession( String email )
 	{
 		if ( pref != null ) {
 			
@@ -73,7 +73,6 @@ public class SessionManager {
 			/*
 			 * Add user details
 			 */
-			editor.putString( KEY_NAME, name );
 			editor.putString( KEY_EMAIL, email );
 			
 			editor.commit();
@@ -114,10 +113,24 @@ public class SessionManager {
 		boolean retVal = false;
 		
 		if ( pref != null ) {
+			
+			System.out.println( "checking isLoggedIn()" );
 			retVal = pref.getBoolean( IS_LOGGED_IN, false );
+			System.out.println( "retVal: " + retVal );
 		}
-		
+
 		return retVal;
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public void invalidateLoginSession()
+	{
+		if ( pref != null ) {
+			pref.edit().clear().commit();
+		}
 	}
 	
 }

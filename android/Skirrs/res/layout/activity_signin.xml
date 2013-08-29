@@ -24,9 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/com.skirrs.login_progress_signing_in"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:text="@string/com.skirrs.login_progress_signing_in"/>
     </LinearLayout>
 
     <!-- Login form -->
@@ -61,28 +59,63 @@
                 android:maxLines="1"
                 android:singleLine="true" />
 
-            <LinearLayout
-                android:orientation="horizontal" 
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="20dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginTop="28dp">
                 
+                <!-- Horizontal divider -->
+                <View
+		            android:layout_width="match_parent"
+		            android:layout_height="1dip"
+		            android:layout_marginLeft="4dip"
+		            android:layout_marginRight="4dip"
+		            android:background="@color/skirrs_divider_color"
+		            android:layout_alignParentTop="true"/>
+                
+                <!-- Vertical divider -->
+		        <View
+		            android:id="@+id/signInRegisterDivider"
+		            android:layout_width="1dip"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentTop="true"
+		            android:layout_alignParentBottom="true"
+		            android:layout_marginBottom="4dip"
+		            android:layout_marginTop="4dip"
+		            android:background="@color/skirrs_divider_color" 
+		            android:layout_centerHorizontal="true"/>
+		        
 	            <Button
 	                android:id="@+id/sign_in_button"
 	                 android:layout_height="wrap_content"
-	                android:layout_width="fill_parent"
-	                android:layout_weight="1"
-	                android:text="@string/com.skirrs.signin" />
+	                android:layout_width="wrap_content"
+	                android:text="@string/com.skirrs.signin" 
+	                android:layout_alignParentBottom="true"
+	                android:layout_toLeftOf="@id/signInRegisterDivider"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"/>
 	            
 	             <Button 
 	                android:id="@+id/link_to_register"
-	                android:layout_width="fill_parent"
+	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:layout_weight="1"
 	                android:text="@string/com.skirrs.register"
-	                android:onClick="launchRegisterActivity"/>
-             
-             </LinearLayout>
+	                android:onClick="launchRegisterActivity"
+	                android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@id/signInRegisterDivider"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    />
+	             
+	             <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:layout_marginLeft="4dip"
+                    android:layout_marginRight="4dip"
+                    android:background="@color/skirrs_divider_color"
+                    android:layout_alignParentBottom="true"/>
+	
+             </RelativeLayout>
             
         </LinearLayout>
         
