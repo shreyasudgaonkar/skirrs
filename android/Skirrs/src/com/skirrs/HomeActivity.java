@@ -31,6 +31,7 @@ public class HomeActivity extends Activity {
 	private String firstName;
 	private String lastName;
 	private String phoneNumber;
+	private String userId;
 	
 	// JSON Parser object
     JSONParser jParser = new JSONParser();
@@ -115,6 +116,21 @@ public class HomeActivity extends Activity {
 	    	return true;
 	    	
 	    case R.id.action_post_ride:
+	    	
+	    	/*
+			 * Redirect the user to the sign-in screen
+			 */
+			Intent submitRideIntent = new Intent( getApplicationContext(),
+					  							  SubmitRide.class );
+			
+			submitRideIntent.putExtra( "email_address", emailAddress );
+			submitRideIntent.putExtra( "first_name",    firstName );
+			submitRideIntent.putExtra( "last_name",     lastName );
+			submitRideIntent.putExtra( "phone_number",  phoneNumber );
+			submitRideIntent.putExtra( "user_id",       userId );
+			
+			startActivity( submitRideIntent );
+			
 	    	return true;
 	    	
 	    case R.id.action_search:
@@ -175,6 +191,7 @@ public class HomeActivity extends Activity {
 	            		firstName   = json.getString( JSONParser.TAG_FIRST_NAME );
 	            		lastName    = json.getString( JSONParser.TAG_LAST_NAME );
 	            		phoneNumber = json.getString( JSONParser.TAG_PHONE_NUM );
+	            		userId      = json.getString( JSONParser.TAG_USER_ID );
 	            		
 	            	} else {
 	            		

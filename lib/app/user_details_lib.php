@@ -30,6 +30,7 @@ if ( isset ( $_POST[ 'email_address' ] ) ) {
 		$response[ 'first_name' ] = $result[ 'first_name' ];
 		$response[ 'last_name' ] = $result[ 'last_name' ];
 		$response[ 'phone_number' ] = $result[ 'phone_number' ];
+		$response[ 'user_id' ] = $result[ 'user_id' ];
 		
 		echo json_encode( $response );
 	}

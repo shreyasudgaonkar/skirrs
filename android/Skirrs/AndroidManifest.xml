@@ -16,12 +16,12 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/SkirrsTheme" >
-        
+
         <!-- Sign-in activity -->
         <activity
             android:name="com.skirrs.SignInActivity"
-            android:label="@string/com.skirrs.title_activity_signin" 
-            android:noHistory="true">  
+            android:label="@string/com.skirrs.title_activity_signin"
+            android:noHistory="true" >
         </activity>
 
         <!-- Register activity -->
@@ -29,19 +29,22 @@
             android:name="com.skirrs.RegisterActivity"
             android:label="@string/com.skirrs.title_activity_register" >
         </activity>
-        
-        <!--  Home activity (Main Activity) -->
+
+        <!-- Home activity (Main Activity) -->
         <activity
             android:name="com.skirrs.HomeActivity"
-            android:label="@string/com.skirrs.title_activity_home" 
-            android:uiOptions="splitActionBarWhenNarrow"
-            android:launchMode="singleTop">
-            
+            android:label="@string/com.skirrs.title_activity_home"
+            android:launchMode="singleTop"
+            android:uiOptions="splitActionBarWhenNarrow" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            
+        </activity>
+        <activity
+            android:name="com.skirrs.SubmitRide"
+            android:label="@string/title_activity_submit_ride" >
         </activity>
     </application>
 
