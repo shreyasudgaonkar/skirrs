@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 02, 2013 at 06:39 PM
+-- Generation Time: Sep 02, 2013 at 06:54 PM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.4.3
 
@@ -59,8 +59,8 @@ DROP TABLE IF EXISTS `rides_offered`;
 CREATE TABLE IF NOT EXISTS `rides_offered` (
   `ride_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'auto-incremented and primary',
   `user_id` int(10) NOT NULL COMMENT 'user who posted the ride',
-  `source` varchar(32) NOT NULL COMMENT 'ride from',
-  `destination` varchar(32) NOT NULL COMMENT 'ride to',
+  `source` varchar(64) NOT NULL COMMENT 'ride from',
+  `destination` varchar(64) NOT NULL COMMENT 'ride to',
   `departure_date_time` datetime NOT NULL COMMENT 'date and time of departure',
   `seats_offered` int(10) NOT NULL COMMENT 'no.of available seats',
   `price` int(10) NOT NULL COMMENT 'price quoted by driver',
@@ -96,15 +96,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `email_address` (`email_address`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Base user table' AUTO_INCREMENT=46 ;
 
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`email_address`, `user_id`, `first_name`, `last_name`, `password`, `phone_number`) VALUES
-('mitesh.mehta@skirrs.com', 1, 'Mitesh', 'Mehta', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '6072800250'),
-('rohit.sureka@skirrs.com', 3, 'Rohit', 'Skirrs', 'cccccccccccccccccccccccccccccccccccccccc', '3233273046'),
-('shreyas.udgaonkar@skirrs.com', 2, 'Shreyas', 'Udgaonkar', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', '4128778085');
-
 -- --------------------------------------------------------
 
 --
@@ -124,15 +115,6 @@ CREATE TABLE IF NOT EXISTS `user_addresses` (
   PRIMARY KEY (`user_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `user_addresses`
---
-
-INSERT INTO `user_addresses` (`user_id`, `street_address`, `city`, `state`, `zip`, `country`) VALUES
-(1, 'El Parque Ct', 'San Mateo', 'CA', '94403', 'USA'),
-(2, 'California St', 'Mountain View', 'CA', '94040', 'USA'),
-(3, 'Santa Clara', 'Santa Clara', 'CA', '94065', 'USA');
 
 -- --------------------------------------------------------
 
@@ -157,15 +139,6 @@ CREATE TABLE IF NOT EXISTS `user_profiles` (
   KEY `user_id` (`user_id`),
   KEY `profile_type_id` (`profile_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `user_profiles`
---
-
-INSERT INTO `user_profiles` (`user_id`, `dob`, `sex`, `profile_type_id`, `picture_id`, `rating`, `rides_offered`, `avg_reponse_time`, `registration_date`) VALUES
-(1, '1988-03-03', 'M', 1, NULL, 0, NULL, NULL, '2013-08-23'),
-(2, '1985-01-10', 'M', 1, NULL, 5, NULL, NULL, '2013-08-23'),
-(3, '1987-07-04', 'M', 1, NULL, 5, NULL, NULL, '2013-08-23');
 
 --
 -- Constraints for dumped tables
