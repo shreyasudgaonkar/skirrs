@@ -1,18 +1,23 @@
 <?php
 
+define('ROOT', '/Applications/MAMP/htdocs/skirrs/lib/');
 
 /*
  * This function will be used to establish a connection with database
  */
 function connect() 
 {
-	require_once __DIR__ . '/db_config.php';
+	require_once ROOT . '/db_config.php';
+	require_once ROOT . '/KLogger.php';
+	$log = new KLogger('/Users/Shreyas/Desktop', KLogger::INFO);
+	
 	$con=mysqli_connect( DB_SERVER , DB_USER, DB_PASSWORD, DB_DATABASE );
 	
 	// Check connection
 	if (mysqli_connect_errno($con))
 	{
-	      echo "Failed to connect to MySQL: " . mysqli_connect_error();	      
+		 $log->logError( "Failed to connect to MYSQL :" . mysqli_connect_error() );
+	      echo "Failed to connect to MySQL: " . mysqli_connect_error(); 
 	}	
 	return $con;
 }
@@ -29,6 +34,7 @@ function execute($query)
 	}
 	if (!mysqli_query($con, $query))
 	{
+		$log->logError( "Failed to execute query :" .mysqli_error($con) );
 		echo 'Error: '.mysqli_error($con);
 		return -1;
 	}

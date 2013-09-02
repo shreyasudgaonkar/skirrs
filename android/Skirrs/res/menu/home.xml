@@ -12,6 +12,12 @@
           android:icon="@drawable/ic_action_post_ride"
           android:title="@string/com.skirrs.action_post_ride" 
           android:showAsAction="always"/>
+    
+    <item 
+          android:id="@+id/action_messages"
+          android:icon="@drawable/ic_action_messages"
+          android:title="@string/com.skirrs.action_messages" 
+          android:showAsAction="always"/>
 
     <item 
           android:id="@+id/action_edit_profile"

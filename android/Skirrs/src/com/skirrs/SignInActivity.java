@@ -17,10 +17,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -50,9 +48,13 @@ public class SignInActivity extends Activity {
     JSONParser jParser = new JSONParser();
     
     // URL to sign in
-    private static String url_sign_in = 
+    /*private static String url_sign_in = 
     		"http://ec2-50-16-7-194.compute-1.amazonaws.com/skirrs/lib/app/sign_in.php";
+    */
     
+    private static String url_sign_in = 
+    		"http://192.168.1.64/skirrs/lib/app/sign_in.php";
+   
     /*
      * Managing sessions and user sign-ins
      */
@@ -72,7 +74,7 @@ public class SignInActivity extends Activity {
 		mPasswordView = ( EditText ) findViewById( R.id.password );
 
 		mLoginFormView   = findViewById( R.id.login_form );
-		mLoginStatusView = findViewById( R.id.login_status) ;
+		mLoginStatusView = findViewById( R.id.login_status );
 		
 		mLoginStatusMessageView = ( TextView ) findViewById( R.id.login_status_message );
 
@@ -83,6 +85,7 @@ public class SignInActivity extends Activity {
 						attemptLogin();
 					}
 				});
+		
 	}
 
 	
@@ -111,6 +114,7 @@ public class SignInActivity extends Activity {
 		 */		
 		startActivity( intent );
 		
+		finish();
 	}
 	
 	
@@ -254,6 +258,8 @@ public class SignInActivity extends Activity {
             	
                 if ( json != null && json.length() > 0 ) {
                 
+                	System.out.println( "json: " + json );
+                	
 	            	int success = json.getInt( JSONParser.TAG_SUCCESS );
 	            	
 	            	if ( success == 1 ) {
@@ -261,6 +267,7 @@ public class SignInActivity extends Activity {
 	            		/*
 	            		 * Sign-in successful
 	            		 */
+	            		System.out.println( "Sign-in successful" );
 	            		signin = true;   		
 	            		
 	            	} else {
@@ -299,6 +306,9 @@ public class SignInActivity extends Activity {
 				 */
 				Intent homeActIntent = new Intent( getApplicationContext(), 
 												   HomeActivity.class );
+				
+				homeActIntent.putExtra( "EXTRA_EMAIL_ADDRESS", mEmail );
+				
 				startActivity( homeActIntent );
 				finish();
 				

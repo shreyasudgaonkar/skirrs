@@ -17,7 +17,7 @@
     <style name="SkirrsTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         
-        <item name="android:windowBackground">@drawable/textured_paper</item>
+        <item name="android:windowBackground">@drawable/escher_bk_texture</item>
         <item name="android:textColorPrimary">@color/skirrs_text_color</item>
         <item name="android:buttonStyle">@style/SkirrsButton</item>
         <item name="android:textSize">20sp</item>

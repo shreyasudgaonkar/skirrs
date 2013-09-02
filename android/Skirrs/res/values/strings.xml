@@ -28,6 +28,7 @@
     <string name="com.skirrs.action_search">Search</string>
     <string name="com.skirrs.action_edit_profile">Edit profile</string>
     <string name="com.skirrs.action_post_ride">Post ride</string>
+    <string name="com.skirrs.action_messages">Messages</string>
     <string name="com.skirrs.action_logout">Logout</string>
 
 </resources>
