@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 28, 2013 at 05:16 AM
+-- Generation Time: Sep 02, 2013 at 06:39 PM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.4.3
 
@@ -50,6 +50,34 @@ INSERT INTO `profile_types` (`profile_type_id`, `profile_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `rides_offered`
+--
+-- Creation: Sep 02, 2013 at 06:30 PM
+--
+
+DROP TABLE IF EXISTS `rides_offered`;
+CREATE TABLE IF NOT EXISTS `rides_offered` (
+  `ride_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'auto-incremented and primary',
+  `user_id` int(10) NOT NULL COMMENT 'user who posted the ride',
+  `source` varchar(32) NOT NULL COMMENT 'ride from',
+  `destination` varchar(32) NOT NULL COMMENT 'ride to',
+  `departure_date_time` datetime NOT NULL COMMENT 'date and time of departure',
+  `seats_offered` int(10) NOT NULL COMMENT 'no.of available seats',
+  `price` int(10) NOT NULL COMMENT 'price quoted by driver',
+  `pick_up_offered` tinyint(1) NOT NULL COMMENT '0 --> false, 1 --> True',
+  `share_contact_info` tinyint(1) NOT NULL COMMENT '0 --> false, 1 --> True',
+  `ltt` float(10,6) NOT NULL COMMENT 'lattitude',
+  `lng` float(10,6) NOT NULL COMMENT 'longitude',
+  `comments` text NOT NULL COMMENT 'comments about ride/driver',
+  PRIMARY KEY (`ride_id`),
+  KEY `user_id` (`user_id`),
+  KEY `ride_id` (`ride_id`),
+  KEY `ride_id_2` (`ride_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 -- Creation: Aug 23, 2013 at 11:26 PM
@@ -66,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`email_address`),
   UNIQUE KEY `user_id` (`user_id`,`phone_number`),
   KEY `email_address` (`email_address`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Base user table' AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Base user table' AUTO_INCREMENT=46 ;
 
 --
 -- Dumping data for table `users`
@@ -142,6 +170,12 @@ INSERT INTO `user_profiles` (`user_id`, `dob`, `sex`, `profile_type_id`, `pictur
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `rides_offered`
+--
+ALTER TABLE `rides_offered`
+  ADD CONSTRAINT `rides_offered_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `user_addresses`
