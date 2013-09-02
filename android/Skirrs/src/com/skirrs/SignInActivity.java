@@ -17,11 +17,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -51,9 +48,13 @@ public class SignInActivity extends Activity {
     JSONParser jParser = new JSONParser();
     
     // URL to sign in
-    private static String url_sign_in = 
-    		"http://ec2-50-16-7-194.compute-1.amazonaws.com/skirrs/lib/verify_lib.php";
+    /*private static String url_sign_in = 
+    		"http://ec2-50-16-7-194.compute-1.amazonaws.com/skirrs/lib/app/sign_in.php";
+    */
     
+    private static String url_sign_in = 
+    		"http://192.168.1.64/skirrs/lib/app/sign_in.php";
+   
     /*
      * Managing sessions and user sign-ins
      */
@@ -71,24 +72,9 @@ public class SignInActivity extends Activity {
 		// Set up the login form.
 		mEmailView    = ( EditText ) findViewById( R.id.email );
 		mPasswordView = ( EditText ) findViewById( R.id.password );
-		
-		mPasswordView
-				.setOnEditorActionListener( new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction( TextView textView,
-												   int id,
-												   KeyEvent keyEvent) {
-						
-						if ( id == R.id.login || id == EditorInfo.IME_NULL ) {
-							attemptLogin();
-							return true;
-						}
-						return false;
-					}
-				});
 
 		mLoginFormView   = findViewById( R.id.login_form );
-		mLoginStatusView = findViewById( R.id.login_status) ;
+		mLoginStatusView = findViewById( R.id.login_status );
 		
 		mLoginStatusMessageView = ( TextView ) findViewById( R.id.login_status_message );
 
@@ -99,6 +85,7 @@ public class SignInActivity extends Activity {
 						attemptLogin();
 					}
 				});
+		
 	}
 
 	
@@ -127,6 +114,7 @@ public class SignInActivity extends Activity {
 		 */		
 		startActivity( intent );
 		
+		finish();
 	}
 	
 	
@@ -256,7 +244,7 @@ public class SignInActivity extends Activity {
 			
 			// Building Parameters
             List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
-            httpParams.add( new BasicNameValuePair( "email", mEmail ) );
+            httpParams.add( new BasicNameValuePair( "email_address", mEmail ) );
             httpParams.add( new BasicNameValuePair( "password", mPassword ) );
             
             boolean signin = false;
@@ -267,26 +255,29 @@ public class SignInActivity extends Activity {
                 JSONObject json = jParser.makeHttpRequest( url_sign_in, 
                 										   "POST",
                 										   httpParams);
-     
-                // Check your log cat for JSON response
-                Log.d( "Signing in: ", json.toString() );
             	
-            	int success = json.getInt( JSONParser.TAG_SUCCESS );
-            	
-            	if ( success == 1 ) {
-            		
-            		/*
-            		 * Sign-in successful
-            		 */
-            		signin = true;   		
-            		
-            	} else {
-            		
-            		/*
-            		 * Incorrect user-name or password
-            		 */
-            		signin = false;
-            	}
+                if ( json != null && json.length() > 0 ) {
+                
+                	System.out.println( "json: " + json );
+                	
+	            	int success = json.getInt( JSONParser.TAG_SUCCESS );
+	            	
+	            	if ( success == 1 ) {
+	            		
+	            		/*
+	            		 * Sign-in successful
+	            		 */
+	            		System.out.println( "Sign-in successful" );
+	            		signin = true;   		
+	            		
+	            	} else {
+	            		
+	            		/*
+	            		 * Incorrect user-name or password
+	            		 */
+	            		signin = false;
+	            	}
+                }
             	
             } catch ( JSONException j ) {
             	System.out.println( "JSONException: " + j );
@@ -305,17 +296,19 @@ public class SignInActivity extends Activity {
 				
 				/* 
 				 * Add user data to SessionManager
-				 */
-				
+				 */				
 				if ( sessionManager != null ) {
-					sessionManager.createLoginSession( mEmail, mPassword );
+					sessionManager.createLoginSession( mEmail );
 				}
 				
 				/*
 				 * Launch home screen activity here
 				 */
 				Intent homeActIntent = new Intent( getApplicationContext(), 
-												HomeActivity.class );
+												   HomeActivity.class );
+				
+				homeActIntent.putExtra( "EXTRA_EMAIL_ADDRESS", mEmail );
+				
 				startActivity( homeActIntent );
 				finish();
 				

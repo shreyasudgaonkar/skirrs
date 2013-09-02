@@ -1,6 +1,9 @@
 <?php
+define('ROOT', '/Applications/MAMP/htdocs/skirrs/lib/');
 
-require('mysql_dblib.php');
+require_once( ROOT . 'mysql_dblib.php');
+require_once( ROOT . 'user_lib.php');
+require_once( ROOT . 'KLogger.php');
 
 /* 
 This function will register the user in skirrs database
@@ -151,28 +154,25 @@ function clear_user_record_by_email($email_address)
 	return $result;	
 }
 
-/*
-   TODO: this is to be included in ORM
-   This function will return userid, given user's email_address
-*/
 function get_userid_from_email($email_address)
 {
+
+	$log = new KLogger('/Users/Shreyas/Desktop', KLogger::INFO);
+	$log->logInfo( "Inside get_userid_from_email" );
+	
 	$query = "SELECT `user_id` FROM `users` WHERE `email_address`='".$email_address."'";
 	$result = fetch($query, 'single_data');
 	if($result == false)
 	{
-		echo "Getting user_id failed";
 		return -1;
 	}
 	return $result;
 }
 
-/*
-   TODO: this is to be included in ORM
-   This function will return encrypted_password, given user's email_address
-*/
+
 function get_encrypted_password_from_email($email_address)
 {
+	
 	$query = "SELECT `password` FROM `users` WHERE `email_address`='".$email_address."'";
 	$result = fetch($query, 'single_data');
 	if($result == false)
@@ -182,6 +182,25 @@ function get_encrypted_password_from_email($email_address)
 	}
 	return $result;
 }
+
+
+function get_user_details_from_email( $email_address )
+{
+	$log = new KLogger('/Users/Shreyas/Desktop', KLogger::INFO);
+	
+	$log->logInfo( "In get_user_details_from_email: $email_address" );
+	
+	$query = "SELECT `user_id`, `first_name`, `last_name`, `phone_number` FROM `users` WHERE `email_address`='".$email_address."'";
+	$result = fetch($query, 'single_row');
+	if($result == false)
+	{
+		$log->logError( "Unable to get user details" );
+		return -1;
+	}
+	
+	return $result;
+}
+
 
 ?>
 

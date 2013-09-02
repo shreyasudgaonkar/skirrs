@@ -30,7 +30,13 @@ public class JSONParser {
     /*
      * JSON tags
      */
-    public static final String TAG_SUCCESS = "success";
+    public static final String TAG_SUCCESS    = "success";
+    public static final String TAG_STATUS     = "status";
+    public static final String TAG_FIRST_NAME = "first_name";
+    public static final String TAG_LAST_NAME  = "last_name";
+    public static final String TAG_PHONE_NUM  = "phone_number";
+    public static final String TAG_USER_ID    = "user_id";
+    
  
     /**
      * 
@@ -113,7 +119,6 @@ public class JSONParser {
          * try to parse the string into a JSON object
          */
         try {
-        	
             jObj = new JSONObject( json);
             
         } catch ( JSONException e ) {

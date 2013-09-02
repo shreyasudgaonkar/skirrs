@@ -4,10 +4,10 @@
     <!-- Generic strings -->
     <string name="app_name">Skirrs</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     <string name="none"></string>
 
     <!-- Login screen -->
+    <string name="com.skirrs.title_activity_signin">Sign in</string>
     <string name="com.skirrs.signin">Sign in</string>
     <string name="com.skirrs.register">Register</string>
     <string name="com.skirrs.email">Email</string>
@@ -22,6 +22,22 @@
     <!-- Register screen -->
     <string name="com.skirrs.full_name">Full name</string>
     <string name="com.skirrs.title_activity_register">Register</string>
-    <string name="title_activity_home">HomeActivity</string>
 
+    <!-- Home screen -->
+    <string name="com.skirrs.title_activity_home">Home</string>
+    <string name="com.skirrs.action_search">Search</string>
+    <string name="com.skirrs.action_edit_profile">Edit profile</string>
+    <string name="com.skirrs.action_post_ride">Post ride</string>
+    <string name="com.skirrs.action_messages">Messages</string>
+    <string name="com.skirrs.action_logout">Logout</string>
+    <string name="title_activity_submit_ride">SubmitRide</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <!-- Submit a ride screen -->
+    <string name="com.skirrs.source">Source</string>
+    <string name="com.skirrs.destination">Destination</string>
+    <string name="com.skirrs.num_seats_offered">Num. of seats offered</string>
+    <string name="com.skirrs.submit_ride">Submit Ride</string>
+    <string name="com.skirrs.cancel">Cancel</string>
+    
 </resources>
