@@ -17,15 +17,12 @@
             style="@style/LoginFormContainer"
             android:orientation="vertical" >
 
-            <AutoCompleteTextView
-                android:id="@+id/source"
-                android:layout_width="match_parent"
+            <!-- Tell us about your ride -->
+            <TextView 
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/com.skirrs.source"
-                android:inputType="textPostalAddress"
-                android:maxLines="1"
-                android:singleLine="true" 
-                android:background="@null"/>
+                android:background="@null"
+                android:text="@string/com.skirrs.submit_ride_prompt"/>
             
             <!-- Horizontal divider -->
             <View
@@ -34,7 +31,37 @@
                     android:layout_marginLeft="4dip"
                     android:layout_marginRight="4dip"
                     android:background="@color/skirrs_divider_color"/>
-
+            
+            <!-- Horizontal divider -->
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:layout_marginLeft="4dip"
+                    android:layout_marginRight="4dip"
+                    android:background="@color/skirrs_divider_color"/>
+            
+            <!-- Source -->
+            <AutoCompleteTextView
+                android:id="@+id/source"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/com.skirrs.source"
+                android:inputType="textPostalAddress"
+                android:maxLines="1"
+                android:singleLine="true" 
+                android:background="@null"
+                android:drawableRight="@drawable/ic_edittext_cancel"/>
+            
+            <!-- Horizontal divider -->
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:layout_marginLeft="4dip"
+                    android:layout_marginRight="4dip"
+                    android:background="@color/skirrs_divider_color"/>
+   
+            <!-- Destination -->
             <AutoCompleteTextView
                 android:layout_marginTop="16dp"
                 android:id="@+id/destination"
@@ -44,7 +71,8 @@
                 android:inputType="textPostalAddress"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:background="@null" />
+                android:background="@null"
+                android:drawableRight="@drawable/ic_edittext_cancel"/>
             
             <!-- Horizontal divider -->
             <View
@@ -54,12 +82,16 @@
                     android:layout_marginRight="4dip"
                     android:background="@color/skirrs_divider_color"/>
 
-            
-            <DatePicker 
+            <!-- Date -->
+            <TextView 
                 android:id="@+id/date"
                 android:layout_marginTop="16dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="showDatePickerDialog"
+                android:clickable="true"
+                android:hint="@string/com.skirrs.date"
+                android:background="@null"
                 />
             
             <!-- Horizontal divider -->
@@ -70,12 +102,77 @@
                     android:layout_marginRight="4dip"
                     android:background="@color/skirrs_divider_color"/>
             
-            <TimePicker 
+            <!-- Time -->
+            <TextView 
                 android:id="@+id/time"
                 android:layout_marginTop="16dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="showTimePickerDialog"
+                android:clickable="true"
+                android:hint="@string/com.skirrs.time"
+                android:background="@null"
                 />
+            
+            <!-- Horizontal divider -->
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:layout_marginLeft="4dip"
+                    android:layout_marginRight="4dip"
+                    android:background="@color/skirrs_divider_color"/>
+            
+            <!-- Price -->
+            <EditText
+                android:layout_marginTop="16dp"
+                android:id="@+id/price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/com.skirrs.price"
+                android:inputType="number"
+                android:maxLines="1"
+                android:singleLine="true" 
+                android:background="@null"/>
+            
+             <!-- Horizontal divider -->
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:layout_marginLeft="4dip"
+                    android:layout_marginRight="4dip"
+                    android:background="@color/skirrs_divider_color"/>
+            
+            <!-- Comments -->
+            <EditText
+                android:layout_marginTop="16dp"
+                android:id="@+id/comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/com.skirrs.comments"
+                android:inputType="text"
+                android:maxLines="2"
+                android:singleLine="false" 
+                android:background="@null"/>
+            
+            <!-- Horizontal divider -->
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:layout_marginLeft="4dip"
+                    android:layout_marginRight="4dip"
+                    android:background="@color/skirrs_divider_color"/>
+            
+            <!-- Number of seats offered -->
+            <EditText
+                android:layout_marginTop="16dp"
+                android:id="@+id/numseatsoffered"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/com.skirrs.num_seats_offered"
+                android:inputType="number"
+                android:maxLines="1"
+                android:singleLine="true" 
+                android:background="@null"/>
             
             <!-- Horizontal divider -->
             <View
@@ -119,7 +216,8 @@
                     android:layout_alignParentBottom="true"
                     android:layout_toLeftOf="@id/submitCancelDivider"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_alignParentTop="true"
+                    android:onClick="submitRide"/>
                 
                  <Button 
                     android:id="@+id/cancel_button"
