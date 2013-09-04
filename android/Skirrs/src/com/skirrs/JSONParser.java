@@ -36,7 +36,9 @@ public class JSONParser {
     public static final String TAG_LAST_NAME  = "last_name";
     public static final String TAG_PHONE_NUM  = "phone_number";
     public static final String TAG_USER_ID    = "user_id";
-    
+    public static final String TAG_RESULTS    = "results";
+    public static final String TAG_GEOMETRY   = "geometry";
+    public static final String TAG_LOCATION   = "location";
  
     /**
      * 
@@ -67,6 +69,8 @@ public class JSONParser {
                 HttpPost httpPost = new HttpPost( url );
                 httpPost.setEntity( new UrlEncodedFormEntity( params ) );
  
+                System.out.println( "url: " + url );
+                
                 HttpResponse httpResponse = httpClient.execute( httpPost );
                 HttpEntity httpEntity = httpResponse.getEntity();
                 
@@ -82,6 +86,8 @@ public class JSONParser {
                 url += "?" + paramString;
                 HttpGet httpGet = new HttpGet( url );
  
+                System.out.println( "url: " + url );
+                
                 HttpResponse httpResponse = httpClient.execute( httpGet );
                 HttpEntity httpEntity = httpResponse.getEntity();
                 
@@ -111,6 +117,8 @@ public class JSONParser {
             is.close();
             json = sb.toString();
             
+            //System.out.println( "json: " + json );
+            
         } catch ( Exception e ) {
             Log.e( "Buffer Error", "Error converting result " + e.toString() );
         }
@@ -120,7 +128,6 @@ public class JSONParser {
          */
         try {
             jObj = new JSONObject( json);
-            
         } catch ( JSONException e ) {
             Log.e( "JSON Parser", "Error parsing data " + e.toString() );
         }

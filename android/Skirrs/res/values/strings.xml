@@ -33,16 +33,21 @@
     <string name="hello_world">Hello world!</string>
     
     <!-- Submit a ride screen -->   
-    <string name="title_activity_submit_ride">Ride offer</string>
+    <string name="title_activity_submit_ride">Ride</string>
     <string name="com.skirrs.source">Source</string>
     <string name="com.skirrs.destination">Destination</string>
-    <string name="com.skirrs.num_seats_offered">Seats available</string>
+    <string name="com.skirrs.num_seats_available">Seats</string>
     <string name="com.skirrs.submit_ride">Submit Ride</string>
     <string name="com.skirrs.cancel">Cancel</string>
     <string name="com.skirrs.price">Price</string>
+    <string name="com.skirrs.priceperseat">Price per seat</string>
     <string name="com.skirrs.comments">Comments</string>
     <string name="com.skirrs.date">Date</string>
     <string name="com.skirrs.time">Time</string>
     <string name="com.skirrs.submit_ride_prompt">Tell us about your ride</string>
+    <string name="com.skirrs.from">From</string>
+    <string name="com.skirrs.to">To</string>
+    <string name="com.skirrs.dateandtime">Date and time</string>
+    <string name="com.skirrs.excludingdriver">Excluding driver</string>
     
 </resources>

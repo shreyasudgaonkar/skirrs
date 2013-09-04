@@ -26,22 +26,46 @@
 
     <style name="LoginFormContainer">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>
         <item name="android:padding">16dp</item>
     </style>
     
     <style name="SkirrsButton"  parent="android:style/Widget.Button">
-        
-        <item name="android:textSize">20sp</item>
-        <item name="android:layout_margin">0dip</item>
+
         <item name="android:layout_marginTop">16dp</item>
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">16dp</item>
-        <item name="android:layout_gravity">right</item>
-        <item name="android:background">?android:attr/selectableItemBackground</item>
-        <item name="android:textColor">@color/skirrs_text_color</item>
-        <item name="android:height">24dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@drawable/skirrs_button_blue</item>
+        <item name="android:height">36dp</item>      
+        <item name="android:textColor">@color/skirrs_button_text_color</item>
+	    <item name="android:textSize">20sp</item>
+	    <item name="android:textStyle">bold</item>
+	    <item name="android:shadowColor">#000000</item>
+	    <item name="android:shadowDx">1</item>
+	    <item name="android:shadowDy">1</item>
+	    <item name="android:shadowRadius">2</item>
+	    <item name="android:padding">8dip</item>
+	    <item name="android:gravity">center</item>
         
     </style>
+    
+    <style name="SkirrsEditText" parent="@android:style/Widget.Holo.EditText">
+        <item name="android:layout_marginTop">@dimen/activity_element_margin_top</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@null</item>
+        <item name="android:lines">1</item>
+        <item name="android:scrollHorizontally">false</item>
+    </style>
 
+    <style name="SkirrsDivider" parent="@android:style/Theme.Holo">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1.5dip</item>
+        <item name="android:background">@color/skirrs_divider_color</item>
+    </style>
+    
+    <style name="SkirrsActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/skirrs_action_bar_bg_color</item>
+        <item name="android:textColor">@color/skirrs_button_text_color</item>     
+    </style>
+    
 </resources>

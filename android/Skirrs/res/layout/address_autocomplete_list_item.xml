@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/escher_bk_texture" >
-</TextView>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <TextView
+        android:id="@+id/textContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:lines="3" />
+
+</LinearLayout>

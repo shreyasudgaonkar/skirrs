@@ -35,6 +35,8 @@
 
         <LinearLayout
             style="@style/LoginFormContainer"
+            android:layout_marginLeft="@dimen/activity_margin_left"
+            android:layout_marginRight="@dimen/activity_margin_right"
             android:orientation="vertical" >
 
             <EditText

@@ -2,267 +2,195 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_marginLeft="@dimen/activity_margin_left"
+    android:layout_marginRight="@dimen/activity_margin_right"
     tools:context=".SubmitRide" >
 
     <ScrollView
         android:id="@+id/submit_ride_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="fill_parent" >
         
         <LinearLayout
             style="@style/LoginFormContainer"
+            android:layout_marginLeft="@dimen/activity_margin_left"
+            android:layout_marginRight="@dimen/activity_margin_right"
             android:orientation="vertical" >
 
-            <!-- Tell us about your ride -->
+            <!-- Horizontal divider -->
+            <View style="@style/SkirrsDivider" />
+            
+            <!--  From -->
+            <TextView 
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@null"
+             android:text="@string/com.skirrs.from"
+             android:textColor="@color/skirrs_textview_text_color"
+             android:layout_marginTop="16dp"/>
+            
+           <!-- Source -->
+           <AutoCompleteTextView
+               android:id="@+id/source"
+               android:hint="@string/com.skirrs.source"
+               android:inputType="textMultiLine"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/activity_element_margin_top"
+               android:drawableRight="@drawable/ic_edittext_cancel"
+               android:maxLines="4"/>
+
+            <!-- Horizontal divider -->
+            <View style="@style/SkirrsDivider"/>
+   
+            <!--  To -->
             <TextView 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:text="@string/com.skirrs.submit_ride_prompt"/>
-            
-            <!-- Horizontal divider -->
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@color/skirrs_divider_color"/>
-            
-            <!-- Horizontal divider -->
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@color/skirrs_divider_color"/>
-            
-            <!-- Source -->
-            <AutoCompleteTextView
-                android:id="@+id/source"
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/com.skirrs.source"
-                android:inputType="textPostalAddress"
-                android:maxLines="1"
-                android:singleLine="true" 
-                android:background="@null"
-                android:drawableRight="@drawable/ic_edittext_cancel"/>
-            
-            <!-- Horizontal divider -->
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@color/skirrs_divider_color"/>
-   
+                android:text="@string/com.skirrs.to"
+                android:textColor="@color/skirrs_textview_text_color"
+                android:layout_marginTop="16dp"/>
+        
             <!-- Destination -->
             <AutoCompleteTextView
-                android:layout_marginTop="16dp"
                 android:id="@+id/destination"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:hint="@string/com.skirrs.destination"
-                android:inputType="textPostalAddress"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:background="@null"
-                android:drawableRight="@drawable/ic_edittext_cancel"/>
-            
-            <!-- Horizontal divider -->
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@color/skirrs_divider_color"/>
+                android:inputType="textMultiLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_element_margin_top"
+                android:drawableRight="@drawable/ic_edittext_cancel"
+                android:maxLines="4"/>
 
-            <!-- Date -->
+            <!-- Horizontal divider -->
+            <View style="@style/SkirrsDivider"/>
+
+            <!--  Date and time -->
             <TextView 
-                android:id="@+id/date"
-                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:text="@string/com.skirrs.dateandtime"
+                android:textColor="@color/skirrs_textview_text_color"
+                android:layout_marginTop="16dp"/>
+            
+            <LinearLayout 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="showDatePickerDialog"
-                android:clickable="true"
-                android:hint="@string/com.skirrs.date"
-                android:background="@null"
-                />
+                android:orientation="horizontal">
+ 
+	            <!-- Date -->
+	            <TextView 
+	                android:id="@+id/date"
+	                android:layout_marginTop="@dimen/activity_element_margin_top"
+	                android:layout_width="0dip"
+	                android:layout_height="wrap_content"
+	                android:onClick="showDatePickerDialog"
+	                android:clickable="true"
+	                android:hint="@string/com.skirrs.date"
+	                android:layout_weight="1"
+	                />
+	            
+	            <!-- Time -->
+	            <TextView 
+	                android:id="@+id/time"
+	                android:layout_marginTop="@dimen/activity_element_margin_top"
+	                android:layout_width="0dip"
+	                android:layout_height="wrap_content"
+	                android:onClick="showTimePickerDialog"
+	                android:clickable="true"
+	                android:hint="@string/com.skirrs.time"
+	                android:layout_weight="1"
+	                />
+            </LinearLayout>
             
             <!-- Horizontal divider -->
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@color/skirrs_divider_color"/>
+            <View style="@style/SkirrsDivider"/>
             
-            <!-- Time -->
+            <!--  Price text -->
             <TextView 
-                android:id="@+id/time"
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="showTimePickerDialog"
-                android:clickable="true"
-                android:hint="@string/com.skirrs.time"
                 android:background="@null"
-                />
-            
-            <!-- Horizontal divider -->
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@color/skirrs_divider_color"/>
+                android:text="@string/com.skirrs.price"
+                android:textColor="@color/skirrs_textview_text_color"
+                android:layout_marginTop="16dp"/>
             
             <!-- Price -->
             <EditText
-                android:layout_marginTop="16dp"
                 android:id="@+id/price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/com.skirrs.price"
                 android:inputType="number"
-                android:maxLines="1"
-                android:singleLine="true" 
-                android:background="@null"/>
-            
+                android:hint="@string/com.skirrs.priceperseat"
+                style="@style/SkirrsEditText" />      
+                
              <!-- Horizontal divider -->
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@color/skirrs_divider_color"/>
+            <View style="@style/SkirrsDivider"/>
+            
+            <!--  Number of seats available text -->
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:text="@string/com.skirrs.num_seats_available"
+                android:textColor="@color/skirrs_textview_text_color"
+                android:layout_marginTop="16dp"/>
+            
+            <!-- Number of seats available -->
+            <EditText
+                android:id="@+id/numseatsavailable"
+                android:inputType="number"
+                android:hint="@string/com.skirrs.excludingdriver"
+                style="@style/SkirrsEditText"/>
+            
+            <!-- Horizontal divider -->
+            <View style="@style/SkirrsDivider"/>
+            
+            <!--  Comments text -->
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:text="@string/com.skirrs.comments"
+                android:textColor="@color/skirrs_textview_text_color"
+                android:layout_marginTop="16dp"/>
             
             <!-- Comments -->
             <EditText
-                android:layout_marginTop="16dp"
                 android:id="@+id/comments"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/com.skirrs.comments"
                 android:inputType="text"
-                android:maxLines="2"
-                android:singleLine="false" 
-                android:background="@null"/>
+                style="@style/SkirrsEditText"/>
             
             <!-- Horizontal divider -->
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@color/skirrs_divider_color"/>
+            <View style="@style/SkirrsDivider"/>
             
-            <!-- Number of seats offered -->
-            <EditText
-                android:layout_marginTop="16dp"
-                android:id="@+id/numseatsoffered"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/com.skirrs.num_seats_offered"
-                android:inputType="number"
-                android:maxLines="1"
-                android:singleLine="true" 
-                android:background="@null"/>
-            
-            <!-- Horizontal divider -->
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@color/skirrs_divider_color"/>
-            
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:layout_marginTop="42dp">
-                
-                <!-- Horizontal divider -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@color/skirrs_divider_color"
-                    android:layout_alignParentTop="true"/>
-                
-                <!-- Vertical divider between sign-in and register buttons -->
-                <View
-                    android:id="@+id/submitCancelDivider"
-                    android:layout_width="2dip"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="4dip"
-                    android:layout_marginTop="4dip"
-                    android:background="@color/skirrs_divider_color" 
-                    android:layout_centerHorizontal="true"/>
-                
-                <Button
-                    android:id="@+id/submit_ride_button"
-                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="@string/com.skirrs.submit_ride" 
-                    android:layout_alignParentBottom="true"
-                    android:layout_toLeftOf="@id/submitCancelDivider"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:onClick="submitRide"/>
-                
-                 <Button 
-                    android:id="@+id/cancel_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/com.skirrs.cancel"
-                    android:onClick="cancelActivity"
-                    android:layout_alignParentBottom="true"
-                    android:layout_toRightOf="@id/submitCancelDivider"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    />
+            <RelativeLayout 
+                 android:layout_width="fill_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="16dp">
                  
-                  <!-- Horizontal divider -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@color/skirrs_divider_color"
-                    android:layout_alignParentBottom="true"/>
-                
-                <!--  Rightmost vertical divider -->
-                <View
-                    android:layout_width="2dip"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="4dip"
-                    android:layout_marginTop="4dip"
-                    android:background="@color/skirrs_divider_color" 
-                    android:layout_alignParentRight="true"/>
-                
-                <!--  Leftmost vertical divider -->
-                <View
-                    android:layout_width="2dip"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="4dip"
-                    android:layout_marginTop="4dip"
-                    android:background="@color/skirrs_divider_color" 
-                    android:layout_alignParentLeft="true"/>
-    
-             </RelativeLayout>
+                <!-- Submit ride button -->
+	            <Button
+	                android:id="@+id/submit_ride_button"
+	                android:text="@string/com.skirrs.submit_ride" 
+	                android:onClick="getSrcDestLatLng"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_centerInParent="true"
+	                android:layout_alignParentLeft="true"
+	                android:layout_marginLeft="16dip"/>
+ 
+                <!--  Cancel button -->
+	             <Button
+	                android:id="@+id/cancel_button"
+	                android:text="@string/com.skirrs.cancel"
+	                android:onClick="cancelActivity"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentRight="true"
+	                android:layout_marginRight="24dip"/>
+	             
+            </RelativeLayout>
             
         </LinearLayout>
         

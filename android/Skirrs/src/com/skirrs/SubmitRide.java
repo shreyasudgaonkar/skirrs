@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -18,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -27,6 +29,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.Menu;
@@ -57,7 +60,7 @@ public class SubmitRide extends Activity {
     private String user_id;
     
     /*
-     * URL to get the latitute and longitude for a given adress
+     * URL to get the latitude and longitude for a given address
      */
     public static final String url_geocode = 
     				"http://maps.googleapis.com/maps/api/geocode/";
@@ -71,9 +74,20 @@ public class SubmitRide extends Activity {
 	public static final String url_submit_ride = 
 					"http://192.168.1.64/skirrs/lib/app/submit_ride_lib.php";
 	
+	private static String selectedDate;
+	private static String selectedTime;
+	
     public static TextView dateView;
     public static TextView timeView;
     
+    /*
+     * HashMaps to store the latitudes and longitudes of source and 
+     * destination addresses
+     * Keys are obtained by concatenating source with lat ot lng and
+     * destination with lat or lng
+     * sourcelat, sourcelng, destlat, destlng
+     */
+    public HashMap< String, Double > latLng;
     
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
@@ -81,28 +95,39 @@ public class SubmitRide extends Activity {
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_submit_ride );
 		
+		ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
+		
 		Intent intent = getIntent();
 		
+		/*
+		 * Get the user id via the intent ( HomeActivity provides it )
+		 */
 		user_id = intent.getExtras().getString( "user_id" );
 		
 		sourceAutoComplete = ( AutoCompleteTextView ) findViewById( R.id.source );
 		sourceAutoComplete.setAdapter( new AddressAutoCompleteAdapter( 
-								       this, R.layout.address_autocomplete_list_item ) );
+								       this, R.layout.address_autocomplete_list ) );
 		
-		
+		/*
+		 * Auto complete for the source address field
+		 */
 		sourceAutoComplete.setOnTouchListener(
 				new RightDrawableOnTouchListener( sourceAutoComplete ) {
 			        @Override
-			        public boolean onDrawableTouch(final MotionEvent event) {
+			        public boolean onDrawableTouch( final MotionEvent event ) {
 			        	sourceAutoComplete.setText("");
 			        	return false;
 			        }
 				}
 		);
 		
+		/*
+		 * Auto complete for the destination address field
+		 */
 		destinationAutoComplete = ( AutoCompleteTextView ) findViewById( R.id.destination );
 		destinationAutoComplete.setAdapter( new AddressAutoCompleteAdapter( 
-			       							this, R.layout.address_autocomplete_list_item ) );
+			       							this, R.layout.address_autocomplete_list ) );
 		
 		destinationAutoComplete.setOnTouchListener(
 				
@@ -111,7 +136,7 @@ public class SubmitRide extends Activity {
 			        @Override
 			        public boolean onDrawableTouch( final MotionEvent event ) {
 			        	
-			        	destinationAutoComplete.setText("");
+			        	destinationAutoComplete.setText( "" );
 			        	return false;
 			        }
 				}
@@ -145,6 +170,22 @@ public class SubmitRide extends Activity {
 	}
 	
 	
+	/*
+	 * First step towards posting the ride
+	 */
+	public void getSrcDestLatLng( View v )
+	{
+		
+		String source      = sourceAutoComplete.getText().toString();
+		GetLatLngTask getLatLngtask = new GetLatLngTask();
+		getLatLngtask.execute( source );
+		
+		String destination = destinationAutoComplete.getText().toString();
+		GetLatLngTask getDestLatLngtask = new GetLatLngTask();
+		getDestLatLngtask.execute( destination );
+			
+	}
+	
 	/**
 	 * 
 	 * @param v
@@ -152,27 +193,10 @@ public class SubmitRide extends Activity {
 	public void submitRide( View v )
 	{
 		try {
-			String source      = sourceAutoComplete.getText().toString();
-			System.out.println( "source: " + source );
 			
-			HashMap< String, String > srcLatLng = getLatLng( source );
-			
-			String destination = destinationAutoComplete.getText().toString();
-			System.out.println( "destination: " + destination );
-			
-			/*
-			 * Extract date from datepicker
-			 * Remove the day from the string
-			 */
-			int dateIndex = dateView.getText().toString().indexOf( '(' );
-			String date = dateView.getText().toString().substring( 0, dateIndex );		
-			System.out.println( "date: " + date );
-			
-			String time = timeView.getText().toString();
-			System.out.println( "time: " + time );
-			
+			System.out.println( "selectedDate: " + selectedDate );
 			SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.UK );
-			Date inputDate = fmt.parse( date + " " + time );
+			Date inputDate = fmt.parse( selectedDate + " " + selectedTime );
 			System.out.println( "inputDate: " + inputDate );
 			
 			String price = priceTextView.getText().toString();
@@ -184,7 +208,7 @@ public class SubmitRide extends Activity {
 			/*
 			 * Create an arraylist of all params
 			 */
-			List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
+			/*List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
 			
 	        httpParams.add( new BasicNameValuePair( "source", source ) );
 	        httpParams.add( new BasicNameValuePair( "destination", destination ) );
@@ -192,19 +216,99 @@ public class SubmitRide extends Activity {
 	        httpParams.add( new BasicNameValuePair( "price", price ) );
 	        httpParams.add( new BasicNameValuePair( "datetime", inputDate.toString() ) );
 	        httpParams.add( new BasicNameValuePair( "comments", comments ) );
-	        
+	        */
 		} catch ( ParseException p ) {
+			
 			System.out.println( " Exception when parsing date " + p );
+			
 		}
+		
 	}
 	
 	
-	private HashMap< String, String > getLatLng( String input )
-	{
-		String output = "json";	
-		String url = url_geocode + output;
+	/**
+	 * Represents an asynchronous login task used to authenticate
+	 * the user.
+	 */
+	public class GetLatLngTask extends AsyncTask< String, Void, Boolean > {
+
+		@Override
+		protected Boolean doInBackground( String... input ) {
+			
+			String address = input [ 0 ];
+
+			System.out.println( "address: " + address );
+			
+			String output = "json";
+			
+			String url = url_geocode + output;
+			
+			List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
+	        httpParams.add( new BasicNameValuePair( "address", address ) );
+	        httpParams.add( new BasicNameValuePair( "sensor", "false" ) );
+			
+			try {
+				
+				// getting JSON string from URL
+	        	JSONObject json = jParser.makeHttpRequest( url, 
+	        										   	   "GET",
+	        										   	   httpParams );
+
+	        	if ( json != null && json.length() > 0 ) {
+	        		
+	        		String status = json.getString( JSONParser.TAG_STATUS );
+	        		
+	        		if ( status.equals( "OK" ) ) {
+	        			
+	        			JSONObject location = json.getJSONArray("results").
+	        									   getJSONObject(0).
+	        									   getJSONObject("geometry").
+	        									   getJSONObject("location");
+	        			
+	        			double lat = location.getDouble("lat");
+	        			double lng = location.getDouble("lng");
+	        			
+	        			System.out.println( "lat: " + lat );
+	        			System.out.println( "lng: " + lng );
+	        			
+	        			latLng.put( address + "lat", lat );
+	        			latLng.put( address + "lng", lng );
+	        			
+	        		} else {
+	        			throw new SkirrsException( ErrorId.SKIRRS_JSON_SUCCESS_EXCEPTION );
+	        		}
+	        		
+	        	} else {
+	        		
+	        		throw new SkirrsException( ErrorId.SKIRRS_JSON_COMM_EXCEPTION );
+	        	}
+	        	
+			} catch ( JSONException j ) {
+				
+				System.out.println( "Exception when fetching lat, lng for " + address );
+				return false;
+				
+			} catch ( SkirrsException s ) {
+				
+				System.out.println( "Exception when fetching lat, lng for " + 
+									address +
+									"ErrorCode: " + s.getErrorCode() );
+				return false;
+			}
+			
+			
+			return true;
+		}
 		
-		return null;
+		@Override
+		protected void onPostExecute( final Boolean success ) {
+			
+			if ( success ) {
+				
+			}
+			
+		}
+		
 	}
 	
 	
@@ -238,7 +342,7 @@ public class SubmitRide extends Activity {
 		
         String url = url_address_autocomplete + output;
         
-     // Building Parameters
+        // Building Parameters
         List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
         httpParams.add( new BasicNameValuePair( "input", input ) );
         httpParams.add( new BasicNameValuePair( "types", types ) );
@@ -384,7 +488,7 @@ public class SubmitRide extends Activity {
 	    public String getItem(int index) {
 	        return autoCompleteList.get( index );
 	    }
-
+	    
 	    @Override
 	    public Filter getFilter() {
 	    	
@@ -463,7 +567,7 @@ public class SubmitRide extends Activity {
 			} else {
 				time = strHourOfDay + ":" + strMinute;
 			}
-		
+			selectedTime = time;
 			timeView.setText( time );
 		}
 		
@@ -493,30 +597,36 @@ public class SubmitRide extends Activity {
 		
 		public void onDateSet( DatePicker view, int year, int month, int day) {
 
+			month = month + 1;
+			
+			selectedDate = Integer.toString( day ) + "-" + 
+						   Integer.toString( month ) + "-" + 
+						   Integer.toString( year );
+			
 			String dayOfTheWeek = "";
-			GregorianCalendar calendar = new GregorianCalendar( year, month, day );
+			GregorianCalendar calendar = new GregorianCalendar( year, month - 1, day );
 			int i = calendar.get( Calendar.DAY_OF_WEEK );
 
 			    if(i == 2) {
-			        dayOfTheWeek = " (Monday)";           
+			        dayOfTheWeek = " Mon";           
 			    } else if (i==3){
-			        dayOfTheWeek = " (Tuesday)";
+			        dayOfTheWeek = " Tue";
 			    } else if (i==4){
-			        dayOfTheWeek = " (Wednesday)";
+			        dayOfTheWeek = " Wed";
 			    } else if (i==5){
-			        dayOfTheWeek = " (Thursday)";
+			        dayOfTheWeek = " Thu";
 			    } else if (i==6){
-			        dayOfTheWeek = " (Friday)";
+			        dayOfTheWeek = " Fri";
 			    } else if (i==7){
-			        dayOfTheWeek = " (Saturday)";
+			        dayOfTheWeek = " Sat";
 			    } else if (i==1){
-			        dayOfTheWeek = " (Sunday)";
+			        dayOfTheWeek = " Sun";
 			    }
 			
-			String date = Integer.toString( day ) + "-" +
+			String date = dayOfTheWeek + ", " +
+						  Integer.toString( day ) + "-" +
 						  Integer.toString( month ) + "-" +
-						  Integer.toString( year ) +
-						  dayOfTheWeek;
+						  Integer.toString( year );
 			
 			dateView.setText( date );
 			
