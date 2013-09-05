@@ -6,7 +6,8 @@
 
 <?php
 session_start();
-require('../lib/user_lib.php');
+require('session_constants.php');
+require($_SESSION['SKIRRS_HOME'] . 'lib/user_lib.php');
 ?>
 	<script type='text/javascript'>
 	</script>

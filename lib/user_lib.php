@@ -1,9 +1,8 @@
 <?php
-define('ROOT', '/Applications/MAMP/htdocs/skirrs/lib/');
 
-require_once( ROOT . 'mysql_dblib.php');
-require_once( ROOT . 'user_lib.php');
-require_once( ROOT . 'KLogger.php');
+require_once( $_SESSION['SKIRRS_HOME'] . 'lib/mysql_dblib.php');
+require_once( $_SESSION['SKIRRS_HOME'] . 'lib/user_lib.php');
+require_once( $_SESSION['SKIRRS_HOME'] . 'lib/KLogger.php');
 
 /* 
 This function will register the user in skirrs database
@@ -14,7 +13,7 @@ NOTE: This function receives json encoded array
 */
 function register_user($json_arr)
 {
-	require('password_handler_lib.php');
+	require($_SESSION['SKIRRS_HOME'] . 'lib/password_handler_lib.php');
 	$user_info = json_decode($json_arr, true);
 
 	
@@ -157,7 +156,7 @@ function clear_user_record_by_email($email_address)
 function get_userid_from_email($email_address)
 {
 
-	$log = new KLogger('/Users/Shreyas/Desktop', KLogger::INFO);
+	$log = new KLogger($_SESSION['LOG_DIR'], KLogger::INFO);
 	$log->logInfo( "Inside get_userid_from_email" );
 	
 	$query = "SELECT `user_id` FROM `users` WHERE `email_address`='".$email_address."'";
@@ -186,7 +185,7 @@ function get_encrypted_password_from_email($email_address)
 
 function get_user_details_from_email( $email_address )
 {
-	$log = new KLogger('/Users/Shreyas/Desktop', KLogger::INFO);
+	$log = new KLogger($_SESSION['LOG_DIR'], KLogger::INFO);
 	
 	$log->logInfo( "In get_user_details_from_email: $email_address" );
 	

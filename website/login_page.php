@@ -6,7 +6,9 @@
 
 <?php
 	session_start();
-	require('../lib/verify_lib.php');
+    require('session_constants.php');
+	
+	require($_SESSION['SKIRRS_HOME'] . 'lib/verify_lib.php');
 	$login_success = 0;
 	if(isset($_POST['email_address']) && isset($_POST['password']))
 	{

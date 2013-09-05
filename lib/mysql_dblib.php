@@ -1,15 +1,14 @@
 <?php
 
-define('ROOT', '/Applications/MAMP/htdocs/skirrs/lib/');
-
 /*
  * This function will be used to establish a connection with database
  */
 function connect() 
 {
-	require_once ROOT . '/db_config.php';
-	require_once ROOT . '/KLogger.php';
-	$log = new KLogger('/Users/Shreyas/Desktop', KLogger::INFO);
+	require_once $_SESSION['SKIRRS_HOME'] . 'lib/db_config.php';
+	require_once $_SESSION['SKIRRS_HOME'] . 'lib/KLogger.php';
+	
+	$log = new KLogger($_SESSION['LOG_DIR'], KLogger::INFO);
 	
 	$con=mysqli_connect( DB_SERVER , DB_USER, DB_PASSWORD, DB_DATABASE );
 	

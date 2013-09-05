@@ -5,7 +5,7 @@
 <body>
 <?php
 session_start();
-$_SESSION['views'] = 0;
+require('session_constants.php');
 ?>
 	<script type='text/javascript'>
 	</script>

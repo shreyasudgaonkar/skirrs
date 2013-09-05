@@ -1,11 +1,8 @@
 <?php
 
-define('ROOT', '/Applications/MAMP/htdocs/skirrs/lib/');
-
-require_once( ROOT .  'password_handler_lib.php');
-require_once( ROOT .  'KLogger.php');
-require_once( ROOT .  'user_lib.php');
-
+require_once( $_SESSION['SKIRRS_HOME'] .  'lib/password_handler_lib.php');
+require_once( $_SESSION['SKIRRS_HOME'] .  'lib/KLogger.php');
+require_once( $_SESSION['SKIRRS_HOME'] .  'lib/user_lib.php');
 
 /*
  * This function will verify the user's login credentials with the ones that are stored in database
@@ -14,7 +11,7 @@ require_once( ROOT .  'user_lib.php');
 function verify_login_credentials($json_arr)
 {	
 	
-	$log = new KLogger('/Users/Shreyas/Desktop', KLogger::INFO);
+	$log = new KLogger($_SESSION['LOG_DIR'] , KLogger::INFO);
 	
 	$log->logInfo( "Inside verify_login_credentials, request: $json_arr" );
 	
@@ -64,7 +61,7 @@ function verify_login_credentials($json_arr)
   */
 function verify_email_address($email_address)
 {
-	$log = new KLogger('/Users/Shreyas/Desktop', KLogger::INFO);
+	$log = new KLogger($_SESSION['LOG_DIR'], KLogger::INFO);
 	
 	$log->logInfo( "email_address: $email_address" );
 	
