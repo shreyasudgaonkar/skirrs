@@ -1,8 +1,7 @@
 <?php
 
-define('ROOT', '/Applications/MAMP/htdocs/skirrs/lib/');
 
-require_once( ROOT .  'KLogger.php');
+require_once( $_SESSION['SKIRRS_HOME'] .  'lib/KLogger.php');
 
 function submit_ride( $json_arr )
 {
@@ -10,7 +9,7 @@ function submit_ride( $json_arr )
 	$response = array();
 	$response['success'] = 0;
 	
-	$log = new KLogger('/Users/Shreyas/Desktop', KLogger::INFO);	
+	$log = new KLogger($_SESSION['LOG_DIR'], KLogger::INFO);	
 	$log->logInfo( "Inside submit_ride, request: $json_arr" );
 	
 	$ride_info = json_decode( $json_arr );
