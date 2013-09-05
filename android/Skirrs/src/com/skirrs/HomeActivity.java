@@ -121,7 +121,7 @@ public class HomeActivity extends Activity {
 			 * Redirect the user to the sign-in screen
 			 */
 			Intent submitRideIntent = new Intent( getApplicationContext(),
-					  							  SubmitRide.class );
+					  							  SubmitRideActivity.class );
 			
 			submitRideIntent.putExtra( "email_address", emailAddress );
 			submitRideIntent.putExtra( "first_name",    firstName );

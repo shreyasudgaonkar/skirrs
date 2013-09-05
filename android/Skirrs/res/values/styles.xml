@@ -17,9 +17,8 @@
     <style name="SkirrsTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         
-        <item name="android:windowBackground">@drawable/escher_bk_texture</item>
+        <item name="android:windowBackground">@drawable/geometry_bk_texture</item>
         <item name="android:textColorPrimary">@color/skirrs_text_color</item>
-        <item name="android:buttonStyle">@style/SkirrsButton</item>
         <item name="android:textSize">20sp</item>
         
     </style>
@@ -35,15 +34,13 @@
         <item name="android:layout_marginTop">16dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:background">@drawable/skirrs_button_blue</item>
-        <item name="android:height">36dp</item>      
-        <item name="android:textColor">@color/skirrs_button_text_color</item>
-	    <item name="android:textSize">20sp</item>
-	    <item name="android:textStyle">bold</item>
+        <item name="android:height">36dp</item>
 	    <item name="android:shadowColor">#000000</item>
+	    <item name="android:textColor">#FFFFFF</item>
 	    <item name="android:shadowDx">1</item>
 	    <item name="android:shadowDy">1</item>
 	    <item name="android:shadowRadius">2</item>
-	    <item name="android:padding">8dip</item>
+	    <item name="android:padding">4dip</item>
 	    <item name="android:gravity">center</item>
         
     </style>
@@ -52,20 +49,31 @@
         <item name="android:layout_marginTop">@dimen/activity_element_margin_top</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@null</item>
         <item name="android:lines">1</item>
         <item name="android:scrollHorizontally">false</item>
     </style>
 
     <style name="SkirrsDivider" parent="@android:style/Theme.Holo">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1.5dip</item>
+        <item name="android:layout_height">0.5dip</item>
         <item name="android:background">@color/skirrs_divider_color</item>
     </style>
     
     <style name="SkirrsActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">@color/skirrs_action_bar_bg_color</item>
-        <item name="android:textColor">@color/skirrs_button_text_color</item>     
+        <item name="android:background">@color/skirrs_action_bar_bg_color</item>    
     </style>
+    
+    <style name="SkirrsDateAndTimeButton" parent="@android:style/Holo.SegmentedButton">
+        <item name="android:textColor">@color/skirrs_button_text_color</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    
+    <style name="SkirrsCalendarView" parent="android:Widget.CalendarView">
+    <item name="android:focusedMonthDateColor">@color/skirrs_divider_color</item>
+    <item name="android:weekNumberColor">@color/skirrs_textview_text_color</item>
+    <item name="android:weekDayTextAppearance">?android:attr/textAppearanceMedium</item>
+    <item name="android:dateTextAppearance">?android:attr/textAppearanceMedium</item>
+</style>
     
 </resources>

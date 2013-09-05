@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center" 
+    android:id="@+id/searchAddressMap"
+    android:layout_gravity="fill_horizontal"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:focusable="true">
+    
+    <AutoCompleteTextView
+        android:id="@+id/searchAddressMapAutoComplete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:imeOptions="actionSearch"
+        android:inputType="textAutoComplete|textAutoCorrect"
+        android:textColor="#FFFFFF"
+        android:drawableLeft="@drawable/ic_action_search" >
+    </AutoCompleteTextView>
+
+</RelativeLayout>

@@ -2,6 +2,6 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/escher_bk_texture"
-    android:width="0dip">
+    android:background="@null"
+    android:textSize="15sp">
 </TextView>

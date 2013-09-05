@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="@dimen/activity_margin_left"
     android:layout_marginRight="@dimen/activity_margin_right"
-    tools:context=".SubmitRide" >
+    tools:context=".SubmitRideActivity" >
 
     <ScrollView
         android:id="@+id/submit_ride_form"
@@ -15,11 +15,9 @@
             style="@style/LoginFormContainer"
             android:layout_marginLeft="@dimen/activity_margin_left"
             android:layout_marginRight="@dimen/activity_margin_right"
-            android:orientation="vertical" >
+            android:orientation="vertical" 
+            android:background="@drawable/border">
 
-            <!-- Horizontal divider -->
-            <View style="@style/SkirrsDivider" />
-            
             <!--  From -->
             <TextView 
              android:layout_width="wrap_content"
@@ -37,7 +35,7 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:layout_marginTop="@dimen/activity_element_margin_top"
-               android:drawableRight="@drawable/ic_edittext_cancel"
+               android:drawableRight="@drawable/map_pin_1"
                android:maxLines="4"/>
 
             <!-- Horizontal divider -->
@@ -60,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_element_margin_top"
-                android:drawableRight="@drawable/ic_edittext_cancel"
+                android:drawableRight="@drawable/map_pin_1"
                 android:maxLines="4"/>
 
             <!-- Horizontal divider -->
@@ -71,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:text="@string/com.skirrs.dateandtime"
+                android:text="@string/com.skirrs.when"
                 android:textColor="@color/skirrs_textview_text_color"
                 android:layout_marginTop="16dp"/>
             
@@ -81,7 +79,7 @@
                 android:orientation="horizontal">
  
 	            <!-- Date -->
-	            <TextView 
+	            <Button 
 	                android:id="@+id/date"
 	                android:layout_marginTop="@dimen/activity_element_margin_top"
 	                android:layout_width="0dip"
@@ -89,11 +87,13 @@
 	                android:onClick="showDatePickerDialog"
 	                android:clickable="true"
 	                android:hint="@string/com.skirrs.date"
-	                android:layout_weight="1"
+	                android:layout_weight="2"
+	                android:padding="3dip"
+	                style="@style/SkirrsDateAndTimeButton"
 	                />
 	            
 	            <!-- Time -->
-	            <TextView 
+	            <Button 
 	                android:id="@+id/time"
 	                android:layout_marginTop="@dimen/activity_element_margin_top"
 	                android:layout_width="0dip"
@@ -102,6 +102,8 @@
 	                android:clickable="true"
 	                android:hint="@string/com.skirrs.time"
 	                android:layout_weight="1"
+	                android:padding="3dip"
+	                style="@style/SkirrsDateAndTimeButton"
 	                />
             </LinearLayout>
             
@@ -113,35 +115,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:text="@string/com.skirrs.price"
+                android:text="@string/com.skirrs.howmuch"
                 android:textColor="@color/skirrs_textview_text_color"
                 android:layout_marginTop="16dp"/>
             
-            <!-- Price -->
-            <EditText
-                android:id="@+id/price"
-                android:inputType="number"
-                android:hint="@string/com.skirrs.priceperseat"
-                style="@style/SkirrsEditText" />      
-                
-             <!-- Horizontal divider -->
-            <View style="@style/SkirrsDivider"/>
-            
-            <!--  Number of seats available text -->
-            <TextView 
-                android:layout_width="wrap_content"
+            <LinearLayout 
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:text="@string/com.skirrs.num_seats_available"
-                android:textColor="@color/skirrs_textview_text_color"
-                android:layout_marginTop="16dp"/>
+                android:orientation="horizontal">
             
-            <!-- Number of seats available -->
-            <EditText
-                android:id="@+id/numseatsavailable"
-                android:inputType="number"
-                android:hint="@string/com.skirrs.excludingdriver"
-                style="@style/SkirrsEditText"/>
+	            <!-- Price -->
+	            <EditText
+	                android:id="@+id/price"
+	                android:inputType="number"
+	                android:hint="@string/com.skirrs.priceperseat"
+	                style="@style/SkirrsEditText" 
+	                android:layout_weight="1"
+	                android:drawableEnd="@drawable/rupee"
+	                android:drawingCacheQuality="low"/>
+	            
+	            <!-- Number of seats available -->
+	            <EditText
+	                android:id="@+id/numseatsavailable"
+	                android:inputType="number"
+	                android:hint="@string/com.skirrs.num_seats_available"
+	                style="@style/SkirrsEditText"
+	                android:layout_weight="1"/>
+	            
+	        </LinearLayout>
             
             <!-- Horizontal divider -->
             <View style="@style/SkirrsDivider"/>
@@ -153,7 +154,7 @@
                 android:background="@null"
                 android:text="@string/com.skirrs.comments"
                 android:textColor="@color/skirrs_textview_text_color"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp" />
             
             <!-- Comments -->
             <EditText
@@ -164,33 +165,33 @@
             <!-- Horizontal divider -->
             <View style="@style/SkirrsDivider"/>
             
-            <RelativeLayout 
+            <LinearLayout 
                  android:layout_width="fill_parent"
                  android:layout_height="wrap_content"
-                 android:layout_marginTop="16dp">
+                 android:orientation="horizontal"
+                 style="?android:attr/buttonBarStyle">
                  
                 <!-- Submit ride button -->
 	            <Button
 	                android:id="@+id/submit_ride_button"
 	                android:text="@string/com.skirrs.submit_ride" 
-	                android:onClick="getSrcDestLatLng"
-	                android:layout_width="wrap_content"
+	                android:onClick="verifyUserInput"
+	                android:layout_width="0dip"
 	                android:layout_height="wrap_content"
-	                android:layout_centerInParent="true"
-	                android:layout_alignParentLeft="true"
-	                android:layout_marginLeft="16dip"/>
+	                style="@android:style/Holo.Light.SegmentedButton"
+	                android:layout_weight="1"/>
  
                 <!--  Cancel button -->
 	             <Button
 	                android:id="@+id/cancel_button"
 	                android:text="@string/com.skirrs.cancel"
 	                android:onClick="cancelActivity"
-	                android:layout_width="wrap_content"
+	                android:layout_width="0dip"
 	                android:layout_height="wrap_content"
-	                android:layout_alignParentRight="true"
-	                android:layout_marginRight="24dip"/>
+	                style="@android:style/Holo.Light.SegmentedButton"
+	                android:layout_weight="1"/>
 	             
-            </RelativeLayout>
+            </LinearLayout>
             
         </LinearLayout>
         
