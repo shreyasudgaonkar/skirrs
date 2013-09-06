@@ -12,6 +12,7 @@
 bin/
 gen/
 .DS_STORE
+logs/
 
 # Local configuration file (sdk path, etc)
 local.properties
