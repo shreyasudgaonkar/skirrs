@@ -1,11 +1,9 @@
 <?php
 
-
 require_once( $_SESSION['SKIRRS_HOME'] .  'lib/KLogger.php');
 
 function submit_ride( $json_arr )
 {
-	
 	$response = array();
 	$response['success'] = 0;
 	
@@ -53,8 +51,7 @@ function submit_ride( $json_arr )
 		
 	}
 		
-	return json_encode( $response );
-	
+	return json_encode( $response );	
 }
 
 ?>

@@ -124,7 +124,7 @@ public class AddressAutoCompleteAdapter extends ArrayAdapter<String>
         	// getting JSON string from URL
         	JSONObject json = jParser.makeHttpRequest( url, 
         										   	   "GET",
-        										   	   httpParams);
+        										   	   httpParams );
 
         	if ( json != null && json.length() > 0 ) {
 
