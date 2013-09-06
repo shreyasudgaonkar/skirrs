@@ -18,7 +18,7 @@
 		
 		$response = json_decode ( $result, true );
 	
-		if( $response[ 'success' ] == 1 )
+		if( $response[ 'status' ] == 1 )
 		{
 			echo 'Login Successful';
 			$login_success = 1;
