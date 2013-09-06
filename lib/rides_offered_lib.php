@@ -8,7 +8,7 @@ require_once( $_SESSION['SKIRRS_HOME'] . 'lib/mysql_dblib.php');
 function submit_ride( $json_arr )
 {
 	$response = array();
-	$response['success'] = 0;
+	$response['status'] = 0; # FAILURE
 	
 	$log = new KLogger($_SESSION['LOG_DIR'], KLogger::INFO);	
 	$log->logInfo( "Inside submit_ride, request: $json_arr" );
@@ -59,9 +59,9 @@ function submit_ride( $json_arr )
 		if( $insert_result == -1 )
 		{
 			$log->logInfo( "Failed to add the ride offer" );
-			$response['success'] = 0;
+			$response['status'] = 0; # Failure
 		} else {
-			$response['success'] = 1;
+			$response['status'] = 1; # Success
 		}
 	}
 		

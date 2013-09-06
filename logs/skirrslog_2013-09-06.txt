@@ -1,0 +1,46 @@
+2013-09-06 6:58:23 - INFO --> Response: 
+2013-09-06 6:59:06 - INFO --> Inside verify_login_credentials, request: {"email_address":"miteshmehta@gmail.com","password":"abcd"}
+2013-09-06 6:59:06 - INFO --> login_info:; array (
+  'email_address' => 'miteshmehta@gmail.com',
+  'password' => 'abcd',
+)
+2013-09-06 6:59:06 - INFO --> email_addr: miteshmehta@gmail.com
+2013-09-06 6:59:06 - INFO --> email_address: miteshmehta@gmail.com
+2013-09-06 6:59:06 - INFO --> Inside get_userid_from_email
+2013-09-06 6:59:06 - INFO --> Email address verification successful
+2013-09-06 6:59:06 - INFO --> email_addr_verified: 1
+2013-09-06 6:59:06 - INFO --> email verified
+2013-09-06 6:59:06 - INFO --> stored pass: ; '$2a$08$8r4FtnyiZ0f97pPMXY9gvOY8cXc0MGPWF93j0kvo0XXZUulb.ituO'
+2013-09-06 6:59:06 - INFO --> Password verified! Sign-in successful
+2013-09-06 6:59:06 - INFO --> Done in verify_credentials
+2013-09-06 6:59:06 - INFO --> Response: 
+2013-09-06 6:59:53 - INFO --> Inside verify_login_credentials, request: {"email_address":"miteshmehta@gmail.com","password":"abcd"}
+2013-09-06 6:59:53 - INFO --> login_info:; array (
+  'email_address' => 'miteshmehta@gmail.com',
+  'password' => 'abcd',
+)
+2013-09-06 6:59:53 - INFO --> email_addr: miteshmehta@gmail.com
+2013-09-06 6:59:53 - INFO --> email_address: miteshmehta@gmail.com
+2013-09-06 6:59:53 - INFO --> Inside get_userid_from_email
+2013-09-06 6:59:53 - INFO --> Email address verification successful
+2013-09-06 6:59:53 - INFO --> email_addr_verified: 1
+2013-09-06 6:59:53 - INFO --> email verified
+2013-09-06 6:59:53 - INFO --> stored pass: ; '$2a$08$8r4FtnyiZ0f97pPMXY9gvOY8cXc0MGPWF93j0kvo0XXZUulb.ituO'
+2013-09-06 6:59:53 - INFO --> Password verified! Sign-in successful
+2013-09-06 6:59:53 - INFO --> Done in verify_credentials
+2013-09-06 6:59:53 - INFO --> Response: {"success":1}
+2013-09-06 7:11:48 - INFO --> Inside verify_login_credentials, request: {"email_address":"miteshmehta@gmail.com","password":"abcd"}
+2013-09-06 7:11:48 - INFO --> login_info:; array (
+  'email_address' => 'miteshmehta@gmail.com',
+  'password' => 'abcd',
+)
+2013-09-06 7:11:48 - INFO --> email_addr: miteshmehta@gmail.com
+2013-09-06 7:11:48 - INFO --> email_address: miteshmehta@gmail.com
+2013-09-06 7:11:48 - INFO --> Inside get_userid_from_email
+2013-09-06 7:11:48 - INFO --> Email address verification successful
+2013-09-06 7:11:48 - INFO --> email_addr_verified: 1
+2013-09-06 7:11:48 - INFO --> email verified
+2013-09-06 7:11:48 - INFO --> stored pass: ; '$2a$08$8r4FtnyiZ0f97pPMXY9gvOY8cXc0MGPWF93j0kvo0XXZUulb.ituO'
+2013-09-06 7:11:48 - INFO --> Password verified! Sign-in successful
+2013-09-06 7:11:48 - INFO --> Done in verify_credentials
+2013-09-06 7:11:48 - INFO --> Response: {"status":1}

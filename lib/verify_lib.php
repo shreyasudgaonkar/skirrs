@@ -16,7 +16,7 @@ function verify_login_credentials($json_arr)
 	$log->logInfo( "Inside verify_login_credentials, request: $json_arr" );
 	
 	$response = array();
-	$response[ 'success' ] = 0;
+	$response[ 'status' ] = 0; # FAILURE
 	
 	$login_info_a = json_decode($json_arr, true);
 	
@@ -41,7 +41,7 @@ function verify_login_credentials($json_arr)
 		$match = verify_password($login_info_a['password'], $stored_password);
 		if($match)
 		{
-			$response[ 'success' ] = 1;
+			$response[ 'status' ] = 1; # Success
 			$log->logInfo( "Password verified! Sign-in successful" );
 		} else {
 			$log->logInfo( "Password incorrect! Sign-in unsuccessful" );
