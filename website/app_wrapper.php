@@ -25,17 +25,17 @@ $map_keyword = array(
 						"submit_ride" => array(
 									     		"lib"  => "rides_offered_lib.php",
 										    	"func" => "submit_ride"
-										      )
-						/* TODO:
+										      ),
+						
 						"user_details" => array(
 									        	  "lib"  => "user_lib.php",
-										    	  "func" => "******"
+										    	  "func" => "get_user_details_from_email"
 										       ),
 						"register" => array(
 											"lib"  => "user_lib.php",
 											"func" => "register_user"
 										   ),										       
-						*/
+						
 					);
 
 

@@ -185,19 +185,35 @@ function get_encrypted_password_from_email($email_address)
 
 function get_user_details_from_email( $email_address )
 {
-	$log = new KLogger($_SESSION['LOG_DIR'], KLogger::INFO);
+	$response = array();
+	$response[ 'status'] = 0;
+
+	if ( isset ( $_POST[ 'email_address' ] ) ) {
+
+		$email_address = $_POST[ 'email_address' ];
+
+		$log = new KLogger($_SESSION['LOG_DIR'], KLogger::INFO);
 	
-	$log->logInfo( "In get_user_details_from_email: $email_address" );
+		$log->logInfo( "In get_user_details_from_email: $email_address" );
 	
-	$query = "SELECT `user_id`, `first_name`, `last_name`, `phone_number` FROM `users` WHERE `email_address`='".$email_address."'";
-	$result = fetch($query, 'single_row');
-	if($result == false)
-	{
-		$log->logError( "Unable to get user details" );
-		return -1;
+		$query = "SELECT `user_id`, `first_name`, `last_name`, `phone_number` FROM `users` WHERE `email_address`='".$email_address."'";
+		$result = fetch($query, 'single_row');
+
+		if($result == false)
+		{
+			$log->logError( "Unable to get user details" );
+
+		} else {
+
+			$response['status'] = 1;
+			$response[ 'first_name' ]   = $result[ 'first_name' ];
+                	$response[ 'last_name' ]    = $result[ 'last_name' ];
+                	$response[ 'phone_number' ] = $result[ 'phone_number' ];
+                	$response[ 'user_id' ]      = $result[ 'user_id' ];
+		}
 	}
 	
-	return $result;
+	return json_encode( $response );
 }
 
 
