@@ -23,14 +23,14 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:background="@null"
-             android:text="@string/com.skirrs.from"
+             android:text="@string/com.skirrs.submitrideactivity.from"
              android:textColor="@color/skirrs_textview_text_color"
              android:layout_marginTop="16dp"/>
             
            <!-- Source -->
            <AutoCompleteTextView
                android:id="@+id/source"
-               android:hint="@string/com.skirrs.source"
+               android:hint="@string/com.skirrs.submitrideactivity.source"
                android:inputType="textMultiLine"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
@@ -46,14 +46,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:text="@string/com.skirrs.to"
+                android:text="@string/com.skirrs.submitrideactivity.to"
                 android:textColor="@color/skirrs_textview_text_color"
                 android:layout_marginTop="16dp"/>
         
             <!-- Destination -->
             <AutoCompleteTextView
                 android:id="@+id/destination"
-                android:hint="@string/com.skirrs.destination"
+                android:hint="@string/com.skirrs.submitrideactivity.destination"
                 android:inputType="textMultiLine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:text="@string/com.skirrs.when"
+                android:text="@string/com.skirrs.submitrideactivity.when"
                 android:textColor="@color/skirrs_textview_text_color"
                 android:layout_marginTop="16dp"/>
             
@@ -86,7 +86,7 @@
 	                android:layout_height="wrap_content"
 	                android:onClick="showDatePickerDialog"
 	                android:clickable="true"
-	                android:hint="@string/com.skirrs.date"
+	                android:hint="@string/com.skirrs.submitrideactivity.date"
 	                android:layout_weight="2"
 	                android:padding="3dip"
 	                style="@style/SkirrsDateAndTimeButton"
@@ -100,7 +100,7 @@
 	                android:layout_height="wrap_content"
 	                android:onClick="showTimePickerDialog"
 	                android:clickable="true"
-	                android:hint="@string/com.skirrs.time"
+	                android:hint="@string/com.skirrs.submitrideactivity.time"
 	                android:layout_weight="1"
 	                android:padding="3dip"
 	                style="@style/SkirrsDateAndTimeButton"
@@ -115,7 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:text="@string/com.skirrs.howmuch"
+                android:text="@string/com.skirrs.submitrideactivity.howmuch"
                 android:textColor="@color/skirrs_textview_text_color"
                 android:layout_marginTop="16dp"/>
             
@@ -128,7 +128,7 @@
 	            <EditText
 	                android:id="@+id/price"
 	                android:inputType="number"
-	                android:hint="@string/com.skirrs.priceperseat"
+	                android:hint="@string/com.skirrs.submitrideactivity.priceperseat"
 	                style="@style/SkirrsEditText" 
 	                android:layout_weight="1"
 	                android:drawableEnd="@drawable/rupee"
@@ -138,7 +138,7 @@
 	            <EditText
 	                android:id="@+id/numseatsavailable"
 	                android:inputType="number"
-	                android:hint="@string/com.skirrs.num_seats_available"
+	                android:hint="@string/com.skirrs.submitrideactivity.num_seats"
 	                style="@style/SkirrsEditText"
 	                android:layout_weight="1"/>
 	            
@@ -152,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:text="@string/com.skirrs.comments"
+                android:text="@string/com.skirrs.submitrideactivity.comments"
                 android:textColor="@color/skirrs_textview_text_color"
                 android:layout_marginTop="16dp" />
             
@@ -174,7 +174,7 @@
                 <!-- Submit ride button -->
 	            <Button
 	                android:id="@+id/submit_ride_button"
-	                android:text="@string/com.skirrs.submit_ride" 
+	                android:text="@string/com.skirrs.submitrideactivity.submit_ride" 
 	                android:onClick="verifyUserInput"
 	                android:layout_width="0dip"
 	                android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
                 <!--  Cancel button -->
 	             <Button
 	                android:id="@+id/cancel_button"
-	                android:text="@string/com.skirrs.cancel"
+	                android:text="@string/com.skirrs.submitrideactivity.cancel"
 	                android:onClick="cancelActivity"
 	                android:layout_width="0dip"
 	                android:layout_height="wrap_content"

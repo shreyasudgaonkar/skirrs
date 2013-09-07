@@ -4,31 +4,31 @@
     <item
           android:id="@+id/action_search"
           android:icon="@drawable/ic_action_search"
-          android:title="@string/com.skirrs.action_search"
+          android:title="@string/com.skirrs.homeactivity.action_search"
           android:showAsAction="always"/>
     
     <item 
           android:id="@+id/action_post_ride"
           android:icon="@drawable/ic_action_post_ride"
-          android:title="@string/com.skirrs.action_post_ride" 
+          android:title="@string/com.skirrs.homeactivity.action_post_ride" 
           android:showAsAction="always"/>
     
     <item 
           android:id="@+id/action_messages"
           android:icon="@drawable/ic_action_messages"
-          android:title="@string/com.skirrs.action_messages" 
+          android:title="@string/com.skirrs.homeactivity.action_messages" 
           android:showAsAction="always"/>
 
     <item 
           android:id="@+id/action_edit_profile"
           android:icon="@drawable/ic_action_edit"
-          android:title="@string/com.skirrs.action_edit_profile" 
+          android:title="@string/com.skirrs.homeactivity.action_edit_profile" 
           android:showAsAction="always"/>
     
     <item
           android:id="@+id/action_logout"
           android:icon="@drawable/ic_action_logout"
-          android:title="@string/com.skirrs.action_logout"
+          android:title="@string/com.skirrs.homeactivity.action_logout"
           android:showAsAction="always"/>
 
 </menu>

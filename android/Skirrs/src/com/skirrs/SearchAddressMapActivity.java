@@ -191,10 +191,10 @@ public class SearchAddressMapActivity extends Activity
 		System.out.println( "Placing marker at " + INPUT.toString() );
 		
 		CameraPosition cameraPosition = new CameraPosition.Builder()
-	    .target( INPUT )      // Sets the center of the map to Mountain View
-	    .zoom( 14 )             // Sets the zoom
+	    .target( INPUT )      // Sets the center of the map
+	    .zoom( 15 )           // Sets the zoom
 	    
-	    .build();            // Creates a CameraPosition from the builder
+	    .build();             // Creates a CameraPosition from the builder
 		
 		mGoogleMap.animateCamera( 
 					CameraUpdateFactory.newCameraPosition( cameraPosition ) );

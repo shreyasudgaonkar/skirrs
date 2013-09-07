@@ -123,8 +123,7 @@ public class GetLatLngTask extends AsyncTask< String, Void, Boolean > {
 	        			double lat = location.getDouble("lat");
 	        			double lng = location.getDouble("lng");
 	        			
-	        			System.out.println( "lat: " + lat );
-	        			System.out.println( "lng: " + lng );
+	        			System.out.println( "lat: " + lat + " lng: " + lng );
 	        			
 	        			latLng.put( address + LAT_SUFFIX, lat );
 	        			latLng.put( address + LNG_SUFFIX, lng );
@@ -137,8 +136,8 @@ public class GetLatLngTask extends AsyncTask< String, Void, Boolean > {
 	        			
 	        			formattedAddresses.put( address, formattedAddress.toString() );
 	        			
-	        			System.out.println( "formattedAddress: " + formattedAddress.toString() );
-	        			
+	        			System.out.println( "formattedAddress: " + formattedAddress );
+
 	        		} else {
 	        			throw new SkirrsException( ErrorId.SKIRRS_JSON_SUCCESS_EXCEPTION );
 	        		}

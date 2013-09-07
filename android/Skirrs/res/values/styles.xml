@@ -42,6 +42,7 @@
 	    <item name="android:shadowRadius">2</item>
 	    <item name="android:padding">4dip</item>
 	    <item name="android:gravity">center</item>
+	    <item name="android:textStyle">bold</item>
         
     </style>
     

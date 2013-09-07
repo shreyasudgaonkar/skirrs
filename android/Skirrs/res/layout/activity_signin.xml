@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="@string/com.skirrs.login_progress_signing_in"/>
+            android:text="@string/com.skirrs.signinactivity.login_progress_signing_in"/>
     </LinearLayout>
 
     <!-- Login form -->
@@ -43,7 +43,7 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/com.skirrs.email"
+                android:hint="@string/com.skirrs.signinactivity.email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true" 
@@ -62,7 +62,7 @@
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/com.skirrs.password"
+                android:hint="@string/com.skirrs.signinactivity.password"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -106,7 +106,7 @@
 	                android:id="@+id/sign_in_button"
 	                 android:layout_height="wrap_content"
 	                android:layout_width="wrap_content"
-	                android:text="@string/com.skirrs.signin" 
+	                android:text="@string/com.skirrs.signinactivity.signin" 
 	                android:layout_alignParentBottom="true"
 	                android:layout_toLeftOf="@id/signInRegisterDivider"
                     android:layout_alignParentLeft="true"
@@ -116,7 +116,7 @@
 	                android:id="@+id/link_to_register"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:text="@string/com.skirrs.register"
+	                android:text="@string/com.skirrs.signinactivity.register"
 	                android:onClick="launchRegisterActivity"
 	                android:layout_alignParentBottom="true"
                     android:layout_toRightOf="@id/signInRegisterDivider"

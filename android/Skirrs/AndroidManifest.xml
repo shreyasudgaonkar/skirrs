@@ -33,20 +33,20 @@
         <!-- Sign-in activity -->
         <activity
             android:name="com.skirrs.SignInActivity"
-            android:label="@string/com.skirrs.title_activity_signin"
+            android:label="@string/com.skirrs.signinactivity.signin"
             android:noHistory="true" >
         </activity>
 
         <!-- Register activity -->
         <activity
             android:name="com.skirrs.RegisterActivity"
-            android:label="@string/com.skirrs.title_activity_register" >
+            android:label="@string/com.skirrs.registeractivity.title_activity_register" >
         </activity>
 
         <!-- Home activity (Main Activity) -->
         <activity
             android:name="com.skirrs.HomeActivity"
-            android:label="@string/com.skirrs.title_activity_home"
+            android:label="@string/com.skirrs.homeactivity.title_activity_home"
             android:launchMode="singleTop"
             android:uiOptions="splitActionBarWhenNarrow" >
             <meta-data
@@ -73,7 +73,7 @@
             android:name="com.skirrs.SearchAddressMapActivity"
             android:label="@string/none"
             android:windowSoftInputMode="stateHidden" 
-            android:configChanges="orientation">
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

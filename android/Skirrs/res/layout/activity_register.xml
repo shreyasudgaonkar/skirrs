@@ -17,7 +17,7 @@
            android:singleLine="true"
            android:layout_marginTop="5dip"
            android:layout_marginBottom="20dip"
-           android:hint="@string/com.skirrs.full_name"/>
+           android:hint="@string/com.skirrs.registeractivity.full_name"/>
      
      <!--  Email -->
      <EditText android:id="@+id/reg_email"
@@ -27,7 +27,7 @@
            android:layout_marginTop="5dip"
            android:layout_marginBottom="20dip"
            android:inputType="textEmailAddress"
-           android:hint="@string/com.skirrs.email"/>
+           android:hint="@string/com.skirrs.registeractivity.email"/>
      
      <!-- Password -->
      <EditText android:id="@+id/reg_password"
@@ -37,13 +37,13 @@
            android:layout_marginTop="5dip"
           android:layout_marginBottom="20dip"
            android:inputType="textVisiblePassword"
-           android:hint="@string/com.skirrs.password"/>
+           android:hint="@string/com.skirrs.registeractivity.password"/>
      
      <!-- Register Button -->
      <Button android:id="@+id/btnRegister"
            android:layout_width="fill_parent"
            android:layout_height="wrap_content"
-           android:text="@string/com.skirrs.register"/>
+           android:text="@string/com.skirrs.registeractivity.registerbtn"/>
 
    </LinearLayout>
    <!-- Registration Form Ends -->

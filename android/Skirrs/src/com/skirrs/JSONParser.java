@@ -30,7 +30,6 @@ public class JSONParser {
     /*
      * JSON tags
      */
-    public static final String TAG_SUCCESS           = "success";
     public static final String TAG_STATUS            = "status";
     public static final String TAG_FIRST_NAME        = "first_name";
     public static final String TAG_LAST_NAME         = "last_name";
@@ -124,9 +123,9 @@ public class JSONParser {
          * try to parse the string into a JSON object
          */
         try {
-            jObj = new JSONObject( json);
+            jObj = new JSONObject( json );
         } catch ( JSONException e ) {
-            Log.e( "JSON Parser", "Error parsing data " + e.toString() );
+            Log.e( "JSON Parser", "Error parsing data " + e.toString() + " in json string: " + json );
         }
  
         /*

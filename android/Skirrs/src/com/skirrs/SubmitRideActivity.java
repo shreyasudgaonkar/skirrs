@@ -1,5 +1,6 @@
 package com.skirrs;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -35,7 +35,11 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-public class SubmitRideActivity extends Activity {
+/*
+ * 
+ */
+public class SubmitRideActivity extends Activity
+								implements LatLngClient {
 
 	// JSON Parser object
     JSONParser jParser = new JSONParser();
@@ -48,22 +52,7 @@ public class SubmitRideActivity extends Activity {
     private TextView numSeatsTextView;
     
     private String user_id;
-    
-    /*
-     * URL to get the latitude and longitude for a given address
-     */
-    public static final String url_geocode = 
-    				"http://maps.googleapis.com/maps/api/geocode/";
-    
-    /*
-     * URL to get autocomplete suggestions for a given (partial) address
-     */
-	public static final String url_address_autocomplete = 
-					"https://maps.googleapis.com/maps/api/place/autocomplete/";
-	
-	public static final String url_submit_ride = 
-					"http://192.168.1.64/skirrs/lib/app/submit_ride_lib.php";
-	
+
 	private static String selectedDate;
 	private static String selectedTime;
 	
@@ -80,19 +69,22 @@ public class SubmitRideActivity extends Activity {
      * destination with lat or lng
      * sourcelat, sourcelng, destlat, destlng
      */
-    public HashMap< String, Double > latLng;
+    public HashMap< String, Double > latLng = null;
     
     /*
      * HashMap to store the formatted address for the source and destination 
      * addresses provided by the user 
      */
-    public HashMap< String, String > formattedAddresses;
+    public HashMap< String, String > formattedAddresses = null;
     
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
 		
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_submit_ride );
+
+		latLng             = new HashMap<String, Double>();
+		formattedAddresses = new HashMap< String, String >();
 		
 		ActionBar actionBar = getActionBar();
 	    actionBar.setDisplayHomeAsUpEnabled(true);
@@ -135,15 +127,14 @@ public class SubmitRideActivity extends Activity {
 		        		sourceAutoComplete.getWidth() - 
 		        		sourceAutoComplete.getPaddingRight() - 
 		        		x.getIntrinsicWidth() ) {
-		            
-		        	System.out.println( "Launching map activity" );
-		        	
+	
 		        	Intent selectAddress = new Intent( getApplicationContext() ,
 		        									   SearchAddressMapActivity.class );
 		        	selectAddress.putExtra( "requestCode", SOURCE_ADDRESS );
 		        	startActivityForResult( selectAddress, SOURCE_ADDRESS );
 		        	
 		        }
+		        
 		        return false;
 		    }
 		});
@@ -173,8 +164,13 @@ public class SubmitRideActivity extends Activity {
 		        		destinationAutoComplete.getPaddingRight() - 
 		        		x.getIntrinsicWidth() ) {
 		            
+		        	/*
+		        	 * Start the map activity which will return the address
+		        	 * selected by the user
+		        	 */
 		        	Intent selectAddress = new Intent( getApplicationContext() ,
 		        									   SearchAddressMapActivity.class );
+		        	
 		        	selectAddress.putExtra( "requestCode", DEST_ADDRESS );
 		        	startActivityForResult( selectAddress, DEST_ADDRESS );
 		        	
@@ -253,7 +249,9 @@ public class SubmitRideActivity extends Activity {
 	 * @param desiredFormat
 	 * @return
 	 */
-	public static String getDateInDesiredFormat( String input, String sourceFormat, String desiredFormat )
+	public static String getDateInDesiredFormat( String input,
+												 String sourceFormat,
+												 String desiredFormat )
 	{
 		String date = "";
 		
@@ -273,6 +271,7 @@ public class SubmitRideActivity extends Activity {
 		
 		return date;
 	}
+	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -341,206 +340,16 @@ public class SubmitRideActivity extends Activity {
 			String source      = sourceAutoComplete.getText().toString();
 			String destination = destinationAutoComplete.getText().toString();
 	
-			GetLatLngTask getLatLngtask = new GetLatLngTask();
+			GetLatLngTask getLatLngtask = new GetLatLngTask( latLng,
+															 formattedAddresses,
+															 this );
 			getLatLngtask.execute( source, destination );
 			
+			System.out.println( "getLatLngTask kicked off for source and dest" );
+			
 		}
 			
 	}
-	
-	
-	/**
-	 * This task is used to get the formatted address, latitude and longitude 
-	 * for the given address(es)
-	 */
-	public class GetLatLngTask extends AsyncTask< String, Void, Boolean > {
-
-		
-		/**
-		 * 
-		 */
-		@Override
-		protected void onPreExecute() {
-			
-			/*
-			 * Show a dialog to indicate progress
-			 */
-		}
-		
-		
-		/**
-		 * 
-		 */
-		@Override
-		protected Boolean doInBackground( String... input ) {
-			
-			int inputLen = input.length;
-
-			latLng             = new HashMap<String, Double>();
-			formattedAddresses = new HashMap< String, String >();
-			
-			for ( int i = 0; i < inputLen; i++ ) {
-			
-				String address = input [ i ];
-	
-				String output = "json";
-				
-				String url = url_geocode + output;
-				
-				List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
-		        httpParams.add( new BasicNameValuePair( "address", address ) );
-		        httpParams.add( new BasicNameValuePair( "sensor", "false" ) );
-				
-				try {
-					
-					// getting JSON string from URL
-		        	JSONObject json = jParser.makeHttpRequest( url, 
-		        										   	   "GET",
-		        										   	   httpParams );
-	
-		        	if ( json != null && json.length() > 0 ) {
-		        		
-		        		String status = json.getString( JSONParser.TAG_STATUS );
-		        		
-		        		if ( status.equals( "OK" ) ) {
-		        			
-		        			JSONObject location = json.getJSONArray( JSONParser.TAG_RESULTS ).
-		        									   getJSONObject( 0 ).
-		        									   getJSONObject( JSONParser.TAG_GEOMETRY ).
-		        									   getJSONObject( JSONParser.TAG_LOCATION );
-		        			
-		        			double lat = location.getDouble("lat");
-		        			double lng = location.getDouble("lng");
-		        			
-		        			System.out.println( "lat: " + lat );
-		        			System.out.println( "lng: " + lng );
-		        			
-		        			latLng.put( address + "lat", lat );
-		        			latLng.put( address + "lng", lng );
-		        			
-		        			String formattedAddress = ( String ) 
-		        					json.getJSONArray( JSONParser.TAG_RESULTS ).
-										 getJSONObject( 0 ).
-										 get( JSONParser.TAG_FORMATTED_ADDRESS );
-														   
-		        			
-		        			formattedAddresses.put( address, formattedAddress.toString() );
-		        			
-		        			System.out.println( "formattedAddress: " + formattedAddress.toString() );
-		        			
-		        		} else {
-		        			throw new SkirrsException( ErrorId.SKIRRS_JSON_SUCCESS_EXCEPTION );
-		        		}
-		        		
-		        	} else {
-		        		
-		        		throw new SkirrsException( ErrorId.SKIRRS_JSON_COMM_EXCEPTION );
-		        	}
-		        	
-				} catch ( JSONException j ) {
-					
-					System.out.println( "Exception " + j + " when fetching lat, lng for " + address );
-					return false;
-					
-				} catch ( SkirrsException s ) {
-					
-					System.out.println( "Exception when fetching lat, lng for " + 
-										address +
-										"ErrorCode: " + s.getErrorCode() );
-					return false;
-				}
-				
-			}
-			
-			return true;
-		}
-		
-		@Override
-		protected void onPostExecute( final Boolean success ) {
-			
-			/*
-			 * If we have successfully fetched the formatted address, latitude 
-			 * and longitude for the source and destination addresses, then
-			 * we are ready to commit the ride to database 
-			 */
-			if ( success ) {
-				
-				try {
-					
-					/*
-					 * Date and time
-					 */
-					SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.UK );
-					Date inputDate = fmt.parse( selectedDate + " " + selectedTime );
-					System.out.println( "inputDate: " + inputDate );
-					
-					/*
-					 * Price per seat
-					 */
-					String price = priceTextView.getText().toString();
-					System.out.println( "price: " + price );
-					
-					/*
-					 * Number of seats
-					 */
-					String numSeats = numSeatsTextView.getText().toString();
-					System.out.println( "numSeats: " + numSeats );
-					
-					/*
-					 * Comments
-					 */
-					String comments = commentsTextView.getText().toString();
-					System.out.println( "comments: " + comments );
-					
-					/*
-					 * Source latitude, longitude and formatted address
-					 */
-					String source = sourceAutoComplete.getText().toString();
-					Double srcLat = latLng.get( source + "lat" );
-					Double srcLng = latLng.get( source + "lng" );
-					String srcFmtAddr = formattedAddresses.get( source );
-					
-					/*
-					 * Destination latitude, longitude and formatted address
-					 */
-					String dest = destinationAutoComplete.getText().toString();
-					Double destLat = latLng.get( dest + "lat" );
-					Double destLng = latLng.get( dest + "lng" );
-					String destFmtAddr = formattedAddresses.get( dest );
-					
-					/*
-					 * Create an arraylist of all params
-					 */					
-					List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
-					
-			        httpParams.add( new BasicNameValuePair( "source",      srcFmtAddr ) );
-			        httpParams.add( new BasicNameValuePair( "destination", destFmtAddr ) );
-			        httpParams.add( new BasicNameValuePair( "user_id",     user_id ) );
-			        httpParams.add( new BasicNameValuePair( "price",       price ) );
-			        httpParams.add( new BasicNameValuePair( "datetime",    inputDate.toString() ) );
-			        httpParams.add( new BasicNameValuePair( "comments",    comments ) );
-			        httpParams.add( new BasicNameValuePair( "num_seats",   numSeats ) );
-			        httpParams.add( new BasicNameValuePair( "srcLat",      srcLat.toString() ) );
-			        httpParams.add( new BasicNameValuePair( "srcLng",      srcLng.toString() ) );
-			        httpParams.add( new BasicNameValuePair( "destLat",     destLat.toString() ) );
-			        httpParams.add( new BasicNameValuePair( "destLng",     destLng.toString() ) );
-					
-				} catch ( ParseException p ) {
-					
-					System.out.println( " Exception when parsing date " + p );
-					
-				}
-				
-			}
-			
-			/*
-			 * Close the progress dialog
-			 */
-			
-		}
-		
-	}
-	
 	
 	
 	/**
@@ -564,51 +373,6 @@ public class SubmitRideActivity extends Activity {
 	    newFragment.show( getFragmentManager(), "datePicker" );
 	}
 	
-	/**
-	 * 
-	 * @author Shreyas
-	 *
-	 */
-	public abstract class RightDrawableOnTouchListener implements OnTouchListener {
-		
-	    Drawable drawable;
-	    private int fuzz = 10;
-
-	    /**
-	     * @param keyword
-	     */
-	    public RightDrawableOnTouchListener(TextView view) {
-	        super();
-	        final Drawable[] drawables = view.getCompoundDrawables();
-	        if ( drawables != null && drawables.length == 4 )
-	            this.drawable = drawables[2];
-	    }
-
-	    
-	    @Override
-	    public boolean onTouch( final View v, final MotionEvent event ) {
-	    	
-	        if ( event.getAction() == MotionEvent.ACTION_DOWN && drawable != null ) {
-	        	
-	            final int x = (int) event.getX();
-	            final int y = (int) event.getY();
-	            final Rect bounds = drawable.getBounds();
-	            
-	            if ( x >= ( v.getRight() - bounds.width() - fuzz ) && 
-	            	 x <= ( v.getRight() - v.getPaddingRight() + fuzz ) && 
-	            	 y >= ( v.getPaddingTop() - fuzz) && 
-	            	 y <= ( v.getHeight() - v.getPaddingBottom() ) + fuzz ) {
-	            	
-	                return onDrawableTouch(event);
-	            }
-	        }
-	        return false;
-	    }
-
-	    public abstract boolean onDrawableTouch( final MotionEvent event );
-
-	}
-	
 	
 	/**
 	 * 
@@ -624,7 +388,7 @@ public class SubmitRideActivity extends Activity {
 			
 		// Use the current time as the default values for the picker
 		final Calendar c = Calendar.getInstance();
-		int hour = c.get( Calendar.HOUR_OF_DAY );
+		int hour   = c.get( Calendar.HOUR_OF_DAY );
 		int minute = c.get( Calendar.MINUTE );
 		
 		// Create a new instance of TimePickerDialog and return it
@@ -672,9 +436,9 @@ public class SubmitRideActivity extends Activity {
 			
 			// Use the current date as the default date in the picker
 			final Calendar c = Calendar.getInstance();
-			int year = c.get(Calendar.YEAR);
-			int month = c.get(Calendar.MONTH);
-			int day = c.get(Calendar.DAY_OF_MONTH);
+			int year  = c.get( Calendar.YEAR );
+			int month = c.get( Calendar.MONTH );
+			int day   = c.get( Calendar.DAY_OF_MONTH );
 			
 			// Create a new instance of DatePickerDialog and return it
 			return new DatePickerDialog( getActivity(), this, year, month, day );
@@ -699,6 +463,167 @@ public class SubmitRideActivity extends Activity {
 			dateView.setText( date );
 			
 		}
+	}
+
+
+
+	@Override
+	public void postExecuteCallback( boolean success ) {
+		
+		/*
+		 * If we have successfully fetched the formatted address, latitude 
+		 * and longitude for the source and destination addresses, then
+		 * we are ready to commit the ride to database 
+		 */
+		if ( success && latLng != null && latLng.size() > 0 ) {
+			
+			SubmitRideTask submitRideTask = new SubmitRideTask();
+			submitRideTask.execute();
+			
+		}
+		
+	}
+
+	
+	/*
+	 * 
+	 */
+	public class SubmitRideTask extends AsyncTask<Void, Void, Boolean> {
+
+		@Override
+		protected Boolean doInBackground( Void... arg0 ) {
+			
+			try {
+				
+				/*
+				 * Date and time
+				 */
+				String sourceFormat  = "dd-MM-yyyy HH:mm:ss";
+				String desiredFormat = "yyyy-MM-dd HH:mm:ss";
+				String inputDate = getDateInDesiredFormat( selectedDate + " " + 
+														   selectedTime +":00", 
+														   sourceFormat, 
+														   desiredFormat);
+				
+				System.out.println( "inputDate: " + inputDate );
+				
+				/*
+				 * Price per seat
+				 */
+				String price = priceTextView.getText().toString();
+				System.out.println( "price: " + price );
+				
+				/*
+				 * Number of seats
+				 */
+				String numSeats = numSeatsTextView.getText().toString();
+				System.out.println( "numSeats: " + numSeats );
+				
+				/*
+				 * Comments
+				 */
+				String comments = commentsTextView.getText().toString();
+				System.out.println( "comments: " + comments );
+				
+				DecimalFormat sixDecimal = new DecimalFormat("#.######");
+				
+				/*
+				 * Source latitude, longitude and formatted address
+				 */
+				String source = sourceAutoComplete.getText().toString();
+				Double srcLat = latLng.get( source + "lat" );
+				Double srcLng = latLng.get( source + "lng" );
+				String srcFmtAddr = formattedAddresses.get( source );
+				System.out.println( "srcFmtAddr: " + srcFmtAddr );
+				
+				srcLat = Double.valueOf( sixDecimal.format( srcLat ) );
+				srcLng = Double.valueOf( sixDecimal.format( srcLng ) );
+				
+				/*
+				 * Destination latitude, longitude and formatted address
+				 */
+				
+				String dest = destinationAutoComplete.getText().toString();
+				Double destLat = latLng.get( dest + "lat" );
+				Double destLng = latLng.get( dest + "lng" );
+				String destFmtAddr = formattedAddresses.get( dest );
+				System.out.println( "destFmtAddr: " + destFmtAddr );
+				
+		        destLat = Double.valueOf( sixDecimal.format( destLat ) );
+				destLng = Double.valueOf( sixDecimal.format( destLng ) );
+		        
+				/*
+				 * Create an arraylist of all params
+				 */					
+				List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
+				
+				httpParams.add( new BasicNameValuePair( "user_id",             user_id ) );
+		        httpParams.add( new BasicNameValuePair( "source",              srcFmtAddr ) );
+		        httpParams.add( new BasicNameValuePair( "destination",         destFmtAddr ) );
+		        httpParams.add( new BasicNameValuePair( "departure_date_time", inputDate.toString() ) );
+		        httpParams.add( new BasicNameValuePair( "seats_offered",       numSeats ) );
+		        httpParams.add( new BasicNameValuePair( "price",               price ) );
+		        httpParams.add( new BasicNameValuePair( "pick_up_offered",     "0" ) );
+		        httpParams.add( new BasicNameValuePair( "share_contact_info",  "0" ) );
+		        httpParams.add( new BasicNameValuePair( "srclat",              srcLat.toString() ) );
+		        httpParams.add( new BasicNameValuePair( "srclng",              srcLng.toString() ) );
+		        httpParams.add( new BasicNameValuePair( "destlat",             destLat.toString() ) );
+		        httpParams.add( new BasicNameValuePair( "destlng",             destLng.toString() ) );
+		        httpParams.add( new BasicNameValuePair( "comments",            comments ) );
+		        httpParams.add( new BasicNameValuePair( "keyword",             "submit_ride" ) );
+		        
+		    
+            	// getting JSON string from URL
+            	JSONObject json = jParser.makeHttpRequest( Util.url, 
+            										   	   "POST",
+            										   	   httpParams );
+            	
+            	if ( json != null && json.length() > 0 ) {
+                    
+                	System.out.println( "json: " + json );
+                	
+	            	int status = json.getInt( JSONParser.TAG_STATUS );
+	            	
+	            	if ( status == 1 ) {
+	            		
+	            		System.out.println( "Ride successfully submitted" );
+	            		
+	            	} else {
+	            		
+	            		return false;
+	            	}
+	            	
+                } else {
+                	System.out.println( "Failed to get user details" );
+                	return false;
+                } 
+            	
+            } catch ( JSONException j ) {
+            	System.out.println( "JSONException: " + j );
+            	return false;
+            }
+            
+            return true;
+		}
+		
+		
+		@Override
+		protected void onPostExecute( final Boolean success ) {
+		
+			if ( success ) {
+				
+			}
+			
+		}
+		
+		
+	}
+	
+
+	@Override
+	public void preExecuteCallback() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

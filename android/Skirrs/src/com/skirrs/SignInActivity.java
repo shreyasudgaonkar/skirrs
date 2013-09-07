@@ -47,14 +47,6 @@ public class SignInActivity extends Activity {
 	// JSON Parser object
     JSONParser jParser = new JSONParser();
     
-    // URL to sign in
-    /*private static String url_sign_in = 
-    		"http://ec2-50-16-7-194.compute-1.amazonaws.com/skirrs/lib/app/sign_in.php";
-    */
-    
-    private static String url_sign_in = 
-    		"http://192.168.1.64/skirrs/lib/app/sign_in.php";
-   
     /*
      * Managing sessions and user sign-ins
      */
@@ -143,13 +135,17 @@ public class SignInActivity extends Activity {
 		// Check for a valid password.
 		if ( TextUtils.isEmpty( mPassword ) ) {
 			
-			mPasswordView.setError( getString( R.string.com_skirrs_error_field_required ) );
+			mPasswordView.setError( getString( 
+					R.string.com_skirrs_signinactivity_error_field_required ) );
+			
 			focusView = mPasswordView;
 			cancel = true;
 			
 		} else if ( mPassword.length() < 4 ) {
 			
-			mPasswordView.setError( getString( R.string.com_skirrs_error_invalid_password ) );
+			mPasswordView.setError( getString( 
+					R.string.com_skirrs_signinactivity_error_invalid_password ) );
+			
 			focusView = mPasswordView;
 			cancel = true;
 			
@@ -158,13 +154,17 @@ public class SignInActivity extends Activity {
 		// Check for a valid email address.
 		if ( TextUtils.isEmpty( mEmail ) ) {
 			
-			mEmailView.setError( getString( R.string.com_skirrs_error_field_required ) );
+			mEmailView.setError( getString( 
+					R.string.com_skirrs_signinactivity_error_field_required ) );
+			
 			focusView = mEmailView;
 			cancel = true;
 			
 		} else if ( !mEmail.contains( "@" ) ) {
 			
-			mEmailView.setError( getString( R.string.com_skirrs_error_invalid_email ) );
+			mEmailView.setError( getString( 
+					R.string.com_skirrs_signinactivity_error_invalid_email ) );
+			
 			focusView = mEmailView;
 			cancel = true;
 			
@@ -180,7 +180,9 @@ public class SignInActivity extends Activity {
 			
 			// Show a progress spinner, and kick off a background task to
 			// perform the user login attempt.
-			mLoginStatusMessageView.setText( R.string.com_skirrs_login_progress_signing_in );
+			mLoginStatusMessageView.setText( 
+					R.string.com_skirrs_signinactivity_login_progress_signing_in );
+			
 			showProgress( true );
 			mAuthTask = new UserLoginTask();
 			mAuthTask.execute( ( Void ) null );
@@ -246,13 +248,14 @@ public class SignInActivity extends Activity {
             List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
             httpParams.add( new BasicNameValuePair( "email_address", mEmail ) );
             httpParams.add( new BasicNameValuePair( "password", mPassword ) );
+            httpParams.add( new BasicNameValuePair( "keyword", "sign_in" ) );
             
             boolean signin = false;
 
             try {
             	
             	// getting JSON string from URL
-                JSONObject json = jParser.makeHttpRequest( url_sign_in, 
+                JSONObject json = jParser.makeHttpRequest( Util.url_sign_in, 
                 										   "POST",
                 										   httpParams);
             	
@@ -260,9 +263,9 @@ public class SignInActivity extends Activity {
                 
                 	System.out.println( "json: " + json );
                 	
-	            	int success = json.getInt( JSONParser.TAG_SUCCESS );
+	            	int status = json.getInt( JSONParser.TAG_STATUS );
 	            	
-	            	if ( success == 1 ) {
+	            	if ( status == 1 ) {
 	            		
 	            		/*
 	            		 * Sign-in successful
@@ -315,7 +318,7 @@ public class SignInActivity extends Activity {
 			} else {
 				
 				mPasswordView.setError( getString( 
-								R.string.com_skirrs_error_incorrect_password ) );
+				R.string.com_skirrs_signinactivity_error_incorrect_password ) );
 				
 				mPasswordView.requestFocus();
 				

@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/address_search_using_map"
-          android:title="@string/com.skirrs.search"
+          android:title="@string/com.skirrs.searchaddrmap.search"
           android:icon="@drawable/ic_action_search"
           android:showAsAction="always"
           android:actionViewClass="android.widget.SearchView" />

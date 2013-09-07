@@ -36,14 +36,6 @@ public class HomeActivity extends Activity {
 	// JSON Parser object
     JSONParser jParser = new JSONParser();
     
-    // URL to get user details
-    /*private static String url_sign_in = 
-    		"http://ec2-50-16-7-194.compute-1.amazonaws.com/skirrs/lib/app/user_details_lib.php";
-    */
-    
-    private static String url_user_details = 
-    		"http://192.168.1.64/skirrs/lib/app/user_details_lib.php";
-    
     private UserDetailsTask userDetailsTask;
 	
 	@Override
@@ -172,11 +164,12 @@ public class HomeActivity extends Activity {
 			// Building Parameters
             List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
             httpParams.add( new BasicNameValuePair( "email_address", emailAddress ) );
+            httpParams.add( new BasicNameValuePair( "keyword", "user_details" ) );
             
             try {
             
             	// getting JSON string from URL
-            	JSONObject json = jParser.makeHttpRequest( url_user_details, 
+            	JSONObject json = jParser.makeHttpRequest( Util.url_user_details, 
             										   	   "POST",
             										   	   httpParams);
             	
@@ -184,9 +177,9 @@ public class HomeActivity extends Activity {
                     
                 	System.out.println( "json: " + json );
                 	
-	            	int success = json.getInt( JSONParser.TAG_SUCCESS );
+	            	int status = json.getInt( JSONParser.TAG_STATUS );
 	            	
-	            	if ( success == 1 ) {
+	            	if ( status == 1 ) {
 	            		
 	            		firstName   = json.getString( JSONParser.TAG_FIRST_NAME );
 	            		lastName    = json.getString( JSONParser.TAG_LAST_NAME );
@@ -232,7 +225,7 @@ public class HomeActivity extends Activity {
         		
         		welcomeMessage.setVisibility( TextView.INVISIBLE );
         		upcomingRidesMessage.setVisibility( TextView.INVISIBLE );
-;			}
+			}
 			
 		}
 		
