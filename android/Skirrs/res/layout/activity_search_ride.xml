@@ -44,17 +44,17 @@
                android:layout_height="wrap_content"
                android:orientation="horizontal">
 
-	            <TextView
-	                android:layout_width="0dip"
-	                android:layout_weight="3"
-	                android:layout_height="wrap_content"/>
-	            
-	            <TextView
-	                android:layout_width="0dip" 
-	                android:id="@+id/sourceAutoCompleteShowAll"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="1"
-	                android:text="@string/none"/>
+                <TextView
+                    android:layout_width="0dip"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"/>
+                
+                <TextView
+                    android:layout_width="0dip" 
+                    android:id="@+id/sourceAutoCompleteShowAll"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/none"/>
 
            </LinearLayout>
            
@@ -114,84 +114,35 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
  
-	            <!-- Date -->
-	            <Button 
-	                android:id="@+id/date"
-	                android:layout_marginTop="@dimen/activity_element_margin_top"
-	                android:layout_width="0dip"
-	                android:layout_height="wrap_content"
-	                android:onClick="showDatePickerDialog"
-	                android:clickable="true"
-	                android:hint="@string/com.skirrs.submitrideactivity.date"
-	                android:layout_weight="2"
-	                android:padding="3dip"
-	                style="@style/SkirrsDateAndTimeButton"
-	                />
-	            
-	            <!-- Time -->
-	            <Button 
-	                android:id="@+id/time"
-	                android:layout_marginTop="@dimen/activity_element_margin_top"
-	                android:layout_width="0dip"
-	                android:layout_height="wrap_content"
-	                android:onClick="showTimePickerDialog"
-	                android:clickable="true"
-	                android:hint="@string/com.skirrs.submitrideactivity.time"
-	                android:layout_weight="1"
-	                android:padding="3dip"
-	                style="@style/SkirrsDateAndTimeButton"
-	                />
+                <!-- Date -->
+                <Button 
+                    android:id="@+id/date"
+                    android:layout_marginTop="@dimen/activity_element_margin_top"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:onClick="showDatePickerDialog"
+                    android:clickable="true"
+                    android:hint="@string/com.skirrs.submitrideactivity.date"
+                    android:layout_weight="2"
+                    android:padding="3dip"
+                    style="@style/SkirrsDateAndTimeButton"
+                    />
+                
+                <!-- Time -->
+                <Button 
+                    android:id="@+id/time"
+                    android:layout_marginTop="@dimen/activity_element_margin_top"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:onClick="showTimePickerDialog"
+                    android:clickable="true"
+                    android:hint="@string/com.skirrs.submitrideactivity.time"
+                    android:layout_weight="1"
+                    android:padding="3dip"
+                    style="@style/SkirrsDateAndTimeButton"
+                    />
             </LinearLayout>
 
-            <!--  Price text -->
-            <TextView 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:text="@string/com.skirrs.submitrideactivity.howmuch"
-                android:textColor="@color/skirrs_textview_text_color"
-                android:layout_marginTop="@dimen/activity_element_margin_top"/>
-            
-            <LinearLayout 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-            
-	            <!-- Price -->
-	            <EditText
-	                android:id="@+id/price"
-	                android:inputType="number"
-	                android:hint="@string/com.skirrs.submitrideactivity.priceperseat"
-	                style="@style/SkirrsEditText" 
-	                android:layout_weight="1"
-	                android:drawableEnd="@drawable/rupee"
-	                android:drawingCacheQuality="low"/>
-	            
-	            <!-- Number of seats available -->
-	            <EditText
-	                android:id="@+id/numseatsavailable"
-	                android:inputType="number"
-	                android:hint="@string/com.skirrs.submitrideactivity.num_seats"
-	                style="@style/SkirrsEditText"
-	                android:layout_weight="1"/>
-	            
-	        </LinearLayout>
-            
-            <!--  Comments text -->
-            <TextView 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:text="@string/com.skirrs.submitrideactivity.comments"
-                android:textColor="@color/skirrs_textview_text_color"
-                android:layout_marginTop="@dimen/activity_element_margin_top" />
-            
-            <!-- Comments -->
-            <EditText
-                android:id="@+id/comments"
-                android:inputType="text"
-                style="@style/SkirrsEditText"/>
-            
             <View style="@style/SkirrsDivider"/>
             
             <LinearLayout 
@@ -199,28 +150,28 @@
                  android:layout_height="wrap_content"
                  android:orientation="horizontal"
                  style="?android:attr/buttonBarStyle"
-                 android:layout_marginTop="@dimen/activity_element_margin_top"  >
-
+                 android:layout_marginTop="@dimen/activity_element_margin_top" >
+                 
                 <!-- Submit ride button -->
-	            <Button
-	                android:id="@+id/submit_ride_button"
-	                android:text="@string/com.skirrs.submitrideactivity.submit_ride" 
-	                android:onClick="verifyUserInput"
-	                android:layout_width="0dip"
-	                android:layout_height="wrap_content"
-	                style="@android:style/Holo.Light.SegmentedButton"
-	                android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/submit_ride_button"
+                    android:text="@string/com.skirrs.searchrideactivity.search" 
+                    android:onClick="verifyUserInput"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    style="@android:style/Holo.Light.SegmentedButton"
+                    android:layout_weight="1"/>
  
                 <!--  Cancel button -->
-	             <Button
-	                android:id="@+id/cancel_button"
-	                android:text="@string/com.skirrs.submitrideactivity.cancel"
-	                android:onClick="cancelActivity"
-	                android:layout_width="0dip"
-	                android:layout_height="wrap_content"
-	                style="@android:style/Holo.Light.SegmentedButton"
-	                android:layout_weight="1"/>
-	             
+                 <Button
+                    android:id="@+id/cancel_button"
+                    android:text="@string/com.skirrs.submitrideactivity.cancel"
+                    android:onClick="cancelActivity"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    style="@android:style/Holo.Light.SegmentedButton"
+                    android:layout_weight="1"/>
+                 
             </LinearLayout>
             
         </LinearLayout>

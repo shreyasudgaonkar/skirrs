@@ -48,12 +48,20 @@
     <string name="com.skirrs.submitrideactivity.time">Time</string>
     <string name="com.skirrs.submitrideactivity.from">From</string>
     <string name="com.skirrs.submitrideactivity.to">To</string>
-    <string name="com.skirrs.submitrideactivity.when">When?</string>
+    <string name="com.skirrs.submitrideactivity.depart">Depart</string>
     <string name="com.skirrs.submitrideactivity.howmuch">How much?</string>
-    
-    <!--  Search Address using map -->
+    <string name="com.skirrs.submitrideactivity.more">More</string>
+
+    <!-- Search Address using map -->
     <string name="title_activity_select_address_map">Address</string>
     <string name="com.skirrs.searchaddrmap.search">Search</string>
     <string name="com.skirrs.searchaddrmap.useThisLocation">Set this location</string>
 
+    <!-- Search rides -->
+    <string name="title_activity_search_ride">Search Ride</string>
+    <string name="com.skirrs.searchrideactivity.source">Source</string>
+    <string name="com.skirrs.searchrideactivity.destination">Destination</string>
+    <string name="com.skirrs.searchrideactivity.search">Search</string>
+    <string name="com.skirrs.searchrideactivity.cancel">Cancel</string>
+    
 </resources>

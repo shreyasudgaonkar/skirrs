@@ -41,7 +41,7 @@ import android.widget.TimePicker;
 /*
  * 
  */
-public class SubmitRideActivity extends Activity
+public class SearchRideActivity extends Activity
 								implements LatLngClient {
 
 	// JSON Parser object
@@ -54,10 +54,6 @@ public class SubmitRideActivity extends Activity
     private AutoCompleteTextView destinationAutoComplete;
     private TextView destAutoCompleteShowAll;
     private boolean  destShowAllOpen = false;
-
-    private TextView priceTextView;
-    private TextView commentsTextView;
-    private TextView numSeatsTextView;
     
     private String user_id;
 
@@ -89,7 +85,7 @@ public class SubmitRideActivity extends Activity
 	protected void onCreate( Bundle savedInstanceState ) {
 		
 		super.onCreate( savedInstanceState );
-		setContentView( R.layout.activity_submit_ride );
+		setContentView( R.layout.activity_search_ride );
 
 	    initialize();
 	    
@@ -384,10 +380,6 @@ public class SubmitRideActivity extends Activity
 		timeView = ( TextView ) findViewById( R.id.time );
 		timeView.setHint( time.toString() );
 
-		numSeatsTextView = ( TextView ) findViewById( R.id.numseatsavailable );
-		
-		priceTextView    = ( TextView ) findViewById( R.id.price );
-		commentsTextView = ( TextView ) findViewById( R.id.comments );
 	}
 	
 	
@@ -478,21 +470,6 @@ public class SubmitRideActivity extends Activity
 		
 		if ( selectedTime == null || selectedTime.length() < 1 ) {
 			timeView.setError( "Required" );
-			ok = false;
-		}
-		
-		if ( priceTextView.getText().toString().length() < 1 ) {
-			priceTextView.setError( "Required" );
-			ok = false;
-		}
-		
-		if ( commentsTextView.getText().toString().length() < 1 ) {
-			commentsTextView.setError( "Required" );
-			ok = false;
-		}
-		
-		if ( numSeatsTextView.getText().toString().length() < 1 ) {
-			numSeatsTextView.setError( "Required" );
 			ok = false;
 		}
 		
@@ -678,24 +655,6 @@ public class SubmitRideActivity extends Activity
 				
 				System.out.println( "inputDate: " + inputDate );
 				
-				/*
-				 * Price per seat
-				 */
-				String price = priceTextView.getText().toString();
-				System.out.println( "price: " + price );
-				
-				/*
-				 * Number of seats
-				 */
-				String numSeats = numSeatsTextView.getText().toString();
-				System.out.println( "numSeats: " + numSeats );
-				
-				/*
-				 * Comments
-				 */
-				String comments = commentsTextView.getText().toString();
-				System.out.println( "comments: " + comments );
-				
 				DecimalFormat sixDecimal = new DecimalFormat("#.######");
 				
 				/*
@@ -732,18 +691,12 @@ public class SubmitRideActivity extends Activity
 		        httpParams.add( new BasicNameValuePair( "source",              srcFmtAddr ) );
 		        httpParams.add( new BasicNameValuePair( "destination",         destFmtAddr ) );
 		        httpParams.add( new BasicNameValuePair( "departure_date_time", inputDate.toString() ) );
-		        httpParams.add( new BasicNameValuePair( "seats_offered",       numSeats ) );
-		        httpParams.add( new BasicNameValuePair( "price",               price ) );
-		        httpParams.add( new BasicNameValuePair( "pick_up_offered",     "0" ) );
-		        httpParams.add( new BasicNameValuePair( "share_contact_info",  "0" ) );
 		        httpParams.add( new BasicNameValuePair( "srclat",              srcLat.toString() ) );
 		        httpParams.add( new BasicNameValuePair( "srclng",              srcLng.toString() ) );
 		        httpParams.add( new BasicNameValuePair( "destlat",             destLat.toString() ) );
 		        httpParams.add( new BasicNameValuePair( "destlng",             destLng.toString() ) );
-		        httpParams.add( new BasicNameValuePair( "comments",            comments ) );
-		        httpParams.add( new BasicNameValuePair( "keyword",             "submit_ride" ) );
-		        
-		    
+		        httpParams.add( new BasicNameValuePair( "keyword",             "search_ride" ) );
+		        		    
             	// getting JSON string from URL
             	JSONObject json = jParser.makeHttpRequest( Util.url, 
             										   	   "POST",
@@ -757,7 +710,7 @@ public class SubmitRideActivity extends Activity
 	            	
 	            	if ( status == 1 ) {
 	            		
-	            		System.out.println( "Ride successfully submitted" );
+	            		System.out.println( "Search ride successful" );
 	            		
 	            	} else {
 	            		
@@ -765,7 +718,7 @@ public class SubmitRideActivity extends Activity
 	            	}
 	            	
                 } else {
-                	System.out.println( "Failed to submit ride" );
+                	System.out.println( "Failed to search rides" );
                 	return false;
                 } 
             	

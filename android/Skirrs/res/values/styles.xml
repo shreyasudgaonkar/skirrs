@@ -19,7 +19,7 @@
         
         <item name="android:windowBackground">@drawable/geometry_bk_texture</item>
         <item name="android:textColorPrimary">@color/skirrs_text_color</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         
     </style>
 
@@ -58,6 +58,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5dip</item>
         <item name="android:background">@color/skirrs_divider_color</item>
+        <item name="android:layout_marginTop">@dimen/activity_element_margin_top</item>
     </style>
     
     <style name="SkirrsActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
