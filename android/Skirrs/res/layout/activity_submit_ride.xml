@@ -33,12 +33,12 @@
                android:id="@+id/source"
                android:hint="@string/com.skirrs.submitrideactivity.source"
                android:inputType="textMultiLine"
-               android:layout_width="match_parent"
+               android:layout_width="fill_parent"
                android:layout_height="wrap_content"
                android:layout_marginTop="@dimen/activity_element_margin_top"
-               android:drawableRight="@drawable/map_pin_3"
-               android:maxLines="1"/>
-           
+               android:maxLines="1"
+               android:drawablePadding="4dip"/>
+   
            <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
@@ -75,8 +75,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_element_margin_top"
-                android:drawableRight="@drawable/map_pin_3"
-                android:maxLines="1"/>
+                android:maxLines="1"
+               android:drawablePadding="4dip"/>
             
              <LinearLayout
                android:layout_width="match_parent"
@@ -98,7 +98,6 @@
            </LinearLayout>
 
             <!-- Horizontal divider -->
-            <!--<View style="@style/SkirrsDivider"/> -->
 
             <!--  Date and time -->
             <TextView 
@@ -164,8 +163,7 @@
 	                android:hint="@string/com.skirrs.submitrideactivity.priceperseat"
 	                style="@style/SkirrsEditText" 
 	                android:layout_weight="1"
-	                android:drawableEnd="@drawable/rupee"
-	                android:drawingCacheQuality="low"/>
+                    android:drawableRight="@drawable/rupee_2"/>
 	            
 	            <!-- Number of seats available -->
 	            <EditText
@@ -208,7 +206,7 @@
 	                android:onClick="verifyUserInput"
 	                android:layout_width="0dip"
 	                android:layout_height="wrap_content"
-	                style="@android:style/Holo.Light.SegmentedButton"
+	                style="@style/SkirrsButton"
 	                android:layout_weight="1"/>
  
                 <!--  Cancel button -->
@@ -218,7 +216,7 @@
 	                android:onClick="cancelActivity"
 	                android:layout_width="0dip"
 	                android:layout_height="wrap_content"
-	                style="@android:style/Holo.Light.SegmentedButton"
+	                style="@style/SkirrsButton"
 	                android:layout_weight="1"/>
 	             
             </LinearLayout>

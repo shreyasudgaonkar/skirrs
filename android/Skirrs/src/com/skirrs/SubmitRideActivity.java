@@ -121,12 +121,29 @@ public class SubmitRideActivity extends Activity
 		/*
 		 * Auto complete for the source address field
 		 */
-		final Drawable map_pin = getResources().getDrawable( R.drawable.map_pin_3 );
-		map_pin.setBounds( 0, 0, map_pin.getIntrinsicWidth(), map_pin.getIntrinsicHeight() );
+		final Drawable map_pin_src = 
+						getResources().getDrawable( R.drawable.map_pin_src );
 		
-		sourceAutoComplete.setCompoundDrawables( null, 
+		map_pin_src.setBounds( 0, 
+							   0,
+							   map_pin_src.getIntrinsicWidth(),
+							   map_pin_src.getIntrinsicHeight() );
+		
+		final Drawable remove_text = 
+				getResources().getDrawable( R.drawable.remove_text_1 );
+
+		remove_text.setBounds( 0, 
+							   0,
+							   remove_text.getIntrinsicWidth(),
+							   remove_text.getIntrinsicHeight() );
+		
+		/*
+		 * Don't set remove_text drawable during init()
+		 * It will be set when text changes using the onTextChangedListener
+		 */
+		sourceAutoComplete.setCompoundDrawables( map_pin_src, 
 												 null, 
-												 map_pin,
+												 null,
 												 null );
 		
 		/*
@@ -137,27 +154,36 @@ public class SubmitRideActivity extends Activity
 		    @Override
 		    public boolean onTouch(View v, MotionEvent event) {
 		    	
-		        if ( sourceAutoComplete.getCompoundDrawables()[2] == null ) {
+		        if ( sourceAutoComplete.getCompoundDrawables()[0] == null ) {
 		            return false;
 		        }
 		        
 		        if ( event.getAction() != MotionEvent.ACTION_UP ) {
 		            return false;
 		        }
-		        if ( event.getX() > 
-		        		sourceAutoComplete.getWidth() - 
-		        		sourceAutoComplete.getPaddingRight() - 
-		        		map_pin.getIntrinsicWidth() ) {
+		        if ( event.getX() <
+		        		sourceAutoComplete.getLeft() + 
+		        		sourceAutoComplete.getPaddingLeft() + 
+		        		map_pin_src.getIntrinsicWidth() ) {
 	
 		        	Intent selectAddress = new Intent( getApplicationContext() ,
 		        									   SearchAddressMapActivity.class );
 		        	selectAddress.putExtra( "requestCode", SOURCE_ADDRESS );
 		        	startActivityForResult( selectAddress, SOURCE_ADDRESS );
 		        	
+		        } else if ( event.getX() >
+		        			sourceAutoComplete.getWidth() - 
+		        			sourceAutoComplete.getPaddingRight() - 
+		        			remove_text.getIntrinsicWidth() ) {
+	
+		        	sourceAutoComplete.setText( "" );
+		        	
 		        }
 		        
 		        return false;
+		        
 		    }
+		    
 		});
 		
 		
@@ -172,18 +198,40 @@ public class SubmitRideActivity extends Activity
 		 * inside the source autocompletetextview
 		 */
 		sourceAutoComplete.addTextChangedListener( new TextWatcher() {
+			
 		    @Override
 		    public void onTextChanged(CharSequence s, int start, int before, int count) {
 		    	
-		    	final Drawable downArrow = getResources().getDrawable( R.drawable.down_arrow );
-				downArrow.setBounds( 0, 0, downArrow.getIntrinsicWidth(), downArrow.getIntrinsicHeight() );
+		    	final Drawable downArrow = 
+		    				getResources().getDrawable( R.drawable.down_arrow );
+		    	
+				downArrow.setBounds( 0,
+									 0,
+									 downArrow.getIntrinsicWidth(),
+									 downArrow.getIntrinsicHeight() );
+				
+				final Drawable remove_text = 
+						getResources().getDrawable( R.drawable.remove_text_1 );
+
+				remove_text.setBounds( 0, 
+									   0,
+									   remove_text.getIntrinsicWidth(),
+									   remove_text.getIntrinsicHeight() );
 				
 		        if( sourceAutoComplete.getText().toString().equals("") ) {
+		        	
 		        	/*
 		        	 * Empty text. Remove the 'expand' arrow
 		        	 */
 		        	sourceAutoCompleteShowAll.setCompoundDrawables( null, null, null, null );
 		        	sourceAutoCompleteShowAll.setVisibility( View.INVISIBLE );
+		        	
+		        	Drawable[] drawables = sourceAutoComplete.getCompoundDrawables();
+		            
+		            sourceAutoComplete.setCompoundDrawables( drawables[ 0 ], 
+		            										 drawables[ 1 ], 
+		            										 null, 
+		            										 drawables[ 3 ] );
 		            
 		        } else {
 		    		
@@ -192,6 +240,18 @@ public class SubmitRideActivity extends Activity
 		        	 */
 		            sourceAutoCompleteShowAll.setCompoundDrawables( null, null, downArrow, null );
 		            sourceAutoCompleteShowAll.setVisibility( View.VISIBLE );
+		            
+		            if ( sourceAutoComplete.getError() != null ) {
+		            	sourceAutoComplete.setError( null );
+		            }
+		            
+		            Drawable[] drawables = sourceAutoComplete.getCompoundDrawables();
+		            
+		            sourceAutoComplete.setCompoundDrawables( drawables[ 0 ], 
+		            										 drawables[ 1 ], 
+		            										 remove_text, 
+		            										 drawables[ 3 ] );
+		            
 		        }
 		        
 		    }
@@ -243,9 +303,17 @@ public class SubmitRideActivity extends Activity
 		destinationAutoComplete.setAdapter( new AddressAutoCompleteAdapter( 
 			       							this, R.layout.address_autocomplete_list ) );
 
-		destinationAutoComplete.setCompoundDrawables( null, 
+		final Drawable map_pin_dest = 
+				getResources().getDrawable( R.drawable.map_pin_dest );
+
+		map_pin_dest.setBounds( 0, 
+							    0,
+							    map_pin_dest.getIntrinsicWidth(),
+							    map_pin_dest.getIntrinsicHeight() );
+		
+		destinationAutoComplete.setCompoundDrawables( map_pin_dest, 
 													  null, 
-													  map_pin,
+													  null,
 													  null );
 		
 		destinationAutoComplete.setOnTouchListener( new OnTouchListener() {
@@ -253,17 +321,17 @@ public class SubmitRideActivity extends Activity
 		    @Override
 		    public boolean onTouch(View v, MotionEvent event) {
 		    	
-		        if ( destinationAutoComplete.getCompoundDrawables()[2] == null ) {
+		        if ( destinationAutoComplete.getCompoundDrawables()[ 0 ] == null ) {
 		            return false;
 		        }
 		        
 		        if ( event.getAction() != MotionEvent.ACTION_UP ) {
 		            return false;
 		        }
-		        if ( event.getX() > 
-		        		destinationAutoComplete.getWidth() - 
-		        		destinationAutoComplete.getPaddingRight() - 
-		        		map_pin.getIntrinsicWidth() ) {
+		        if ( event.getX() <
+		        		destinationAutoComplete.getLeft() + 
+		        		destinationAutoComplete.getPaddingLeft() + 
+		        		map_pin_dest.getIntrinsicWidth() ) {
 		            
 		        	/*
 		        	 * Start the map activity which will return the address
@@ -291,15 +359,36 @@ public class SubmitRideActivity extends Activity
 		    @Override
 		    public void onTextChanged(CharSequence s, int start, int before, int count) {
 		    	
-		    	final Drawable downArrow = getResources().getDrawable( R.drawable.down_arrow );
-				downArrow.setBounds( 0, 0, downArrow.getIntrinsicWidth(), downArrow.getIntrinsicHeight() );
+		    	final Drawable downArrow = 
+		    				getResources().getDrawable( R.drawable.down_arrow );
+		    	
+				downArrow.setBounds( 0,
+									 0,
+									 downArrow.getIntrinsicWidth(),
+									 downArrow.getIntrinsicHeight() );
+				
+				final Drawable remove_text = 
+						getResources().getDrawable( R.drawable.remove_text_1 );
+
+				remove_text.setBounds( 0, 
+									   0,
+									   remove_text.getIntrinsicWidth(),
+									   remove_text.getIntrinsicHeight() );
 				
 		        if( destinationAutoComplete.getText().toString().equals("") ) {
+		        	
 		        	/*
 		        	 * Empty text. Remove the 'expand' arrow
 		        	 */
 		        	destAutoCompleteShowAll.setCompoundDrawables( null, null, null, null );
 		        	destAutoCompleteShowAll.setVisibility( View.INVISIBLE );
+		        	
+		        	Drawable[] drawables = destinationAutoComplete.getCompoundDrawables();
+		            
+		        	destinationAutoComplete.setCompoundDrawables( drawables[ 0 ],
+		        												  drawables[ 1 ], 
+		        												  null, 
+		        												  drawables[ 3 ] );
 		            
 		        } else {
 		    		
@@ -308,6 +397,17 @@ public class SubmitRideActivity extends Activity
 		        	 */
 		        	destAutoCompleteShowAll.setCompoundDrawables( null, null, downArrow, null );
 		        	destAutoCompleteShowAll.setVisibility( View.VISIBLE );
+		        	
+		        	if ( destinationAutoComplete.getError() != null ) {
+		        		destinationAutoComplete.setError( null );
+		        	}
+		        	
+		        	Drawable[] drawables = destinationAutoComplete.getCompoundDrawables();
+		            
+		        	destinationAutoComplete.setCompoundDrawables( drawables[ 0 ],
+		        												  drawables[ 1 ], 
+		        												  remove_text, 
+		        												  drawables[ 3 ] );
 		        }
 		        
 		    }
@@ -343,7 +443,7 @@ public class SubmitRideActivity extends Activity
             		
             		destShowAllOpen = false;
             		final Drawable x = getResources().getDrawable( R.drawable.down_arrow );
-	                x.setBounds( 0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight() );       
+	                x.setBounds( 0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight() );
 	                destAutoCompleteShowAll.setCompoundDrawables( null, null, x, null );             
 	                destinationAutoComplete.setMaxLines( 1 );
             	}
