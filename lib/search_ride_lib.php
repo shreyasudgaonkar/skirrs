@@ -1,8 +1,5 @@
 <?php
 
-if (!isset($_SESSION))
-	session_start();
-
 include( $_SESSION['SKIRRS_HOME'] .  'lib/KLogger.php');
 include( $_SESSION['SKIRRS_HOME'] . 'lib/mysql_dblib.php');
 
