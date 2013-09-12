@@ -26,18 +26,28 @@ function connect()
  */
 function execute($query)
 {
-	$con=connect();
-	if (!$con) {
-		return -1;
-	}
-	if (!mysqli_query($con, $query))
+	$log = new KLogger($_SESSION['LOG_DIR'], KLogger::INFO);
+	try
 	{
-		$log = new KLogger($_SESSION['LOG_DIR'], KLogger::INFO);
-		$log->logError( "Failed to execute query :" .mysqli_error($con) );
-		echo 'Error: '.mysqli_error($con);
+		$con=connect();
+		if (!$con) 
+		{
+			return -1;
+		}
+		$result = mysqli_query($con, $query);
+		if ($result === false)
+		{
+			$log->logError( "Failed to execute query :" .mysqli_error($con) );
+			#echo 'Error: '.mysqli_error($con);
+			return -1;
+		}
+		close($con);
+    }
+	catch (Exception $e)
+	{
+		$log->logError( "Encountered exception: " . $e->getMessage());
 		return -1;
-	}
-	close($con);
+	}	
 	return 1;
 
 }

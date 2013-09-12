@@ -3,11 +3,14 @@ session_start();
 require('session_constants.php');
 require($_SESSION['SKIRRS_HOME'] . 'lib/location_lib.php');
 require($_SESSION['SKIRRS_HOME'] . 'lib/rides_offered_lib.php');
+require($_SESSION['SKIRRS_HOME'] . 'lib/html_page_lib.php');
 
 if(!empty($_POST))
 {
+
 	# Get source lattitude and longitude
 	echo '<br><br>';
+	$_POST['departure_date_time'] = $_POST['date'] . ' ' . $_POST['time'];
 	$src_arr = array("address" => $_POST['source'],);
 	$src_request_json = json_encode($src_arr);
 	$src_response = json_decode(get_lat_lng_from_address($src_request_json), true);
@@ -31,24 +34,50 @@ if(!empty($_POST))
 		#print_r($_POST);
 	}
 
+    # Reload the same form if source/destination not found.
+    $src_not_found = $dest_not_found = $page_reload = false;
+
 	if( !isset($_POST['srclat']) || !isset($_POST['srclng']) )  
 	{
-		die('Could not determine accurate source address');
+		$display_msg = 'Could not determine accurate source address';
+        $src_not_found = true;
+        $page_reload = true;
 	}	
 	if ( !isset($_POST['destlat']) || !isset($_POST['destlng']) )   
 	{
-		die('Could not determine accurate destination address');
+		$display_msg = 'Could not determine accurate destination address';
+        $dest_not_found = true;
+        $page_reload = true;
 	}
-    $_POST['departure_date_time'] = $_POST['date'] . ' ' . $_POST['time'];
 
+	if($dest_not_found === true && $src_not_found === true)
+	{
+		$display_msg = 'Could not determine accurate source and destination address .. Please try again';
+
+	}
+
+	if($page_reload === true)
+	{
+		$reload_page_url = $_SERVER['HTTP_REFERER'];
+		page_reload_without_post_data($reload_page_url, $display_msg);
+	}
+
+    # If source and destination found successfully,
     # Convert the $_POST array to json and pass it to submit_ride() in rides_offered_lib.php
     $submit_resp_json = submit_ride( json_encode($_POST) );
-    $submit_resp = json_decode($submit_resp_json);
-
-    print_r($submit_resp);
-
+    $submit_resp = json_decode($submit_resp_json, true);
+    if($submit_resp['status'] === 1)
+    {
+    	echo 'Ride submitted successfully.';
+        # TODO: redirect to home page or provide a link to home page
+    }
+    else {  
+    		# If submit ride fails (for some reason), reload the page
+    		$reload_page_url = $_SERVER['HTTP_REFERER'];
+    		$display_msg = 'Ride not submitted successfully .. please try again ... ';
+    	    page_reload_without_post_data($reload_page_url, $display_msg);
+    	 }
 }
-
 
 
 else {
@@ -73,6 +102,15 @@ else {
 
 
 <body>
+    <?php
+    	if(isset ($_SESSION['reload']) && ($_SESSION['reload'] === true)  && (isset($_SESSION['reload_msg']))) 
+       	{
+    		echo '<b>'. $_SESSION['reload_msg'] . '</b><br>'; 
+    		$_SESSION['reload'] = false;
+    		$_SESSION['reload_msg'] = '';
+    	} 
+    ?>
+    		 
 
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
     <script>
