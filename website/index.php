@@ -1,3 +1,8 @@
+<?php
+	session_start();
+	require('session_constants.php');
+?>
+
 <!DOCTYPE html> 
 <html>
 <head>
