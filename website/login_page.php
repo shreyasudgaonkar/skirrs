@@ -22,7 +22,7 @@
 		{
 			echo 'Login Successful';
 			$login_success = 1;
-			print_r($_SESSION);
+			#print_r($_SESSION);
 			# redirect to home page
 		}
 		else

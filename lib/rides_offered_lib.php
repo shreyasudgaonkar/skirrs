@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 require_once( $_SESSION['SKIRRS_HOME'] .  'lib/KLogger.php');
 require_once( $_SESSION['SKIRRS_HOME'] . 'lib/mysql_dblib.php');
 
