@@ -10,6 +10,7 @@ if(!empty($_POST))
 
 	# Get source lattitude and longitude
 	echo '<br><br>';
+	$_POST['user_id'] = $_SESSION['user_id'];
 	$_POST['departure_date_time'] = $_POST['date'] . ' ' . $_POST['time'];
 	$src_arr = array("address" => $_POST['source'],);
 	$src_request_json = json_encode($src_arr);
@@ -42,7 +43,8 @@ if(!empty($_POST))
 		$display_msg = 'Could not determine accurate source address';
         $src_not_found = true;
         $page_reload = true;
-	}	
+	}
+
 	if ( !isset($_POST['destlat']) || !isset($_POST['destlng']) )   
 	{
 		$display_msg = 'Could not determine accurate destination address';
@@ -80,7 +82,15 @@ if(!empty($_POST))
 }
 
 
-else {
+else 
+{
+	# if user not logged in .. redirect to login page first and then come back to this page
+	if(!isset($_SESSION['user_id']))
+	{
+		$_SESSION['page_after_login'] = 'ride_offer_page.php';
+		header('Location: login_page.php', true, 303);
+		exit;
+	}
 
 ?>
 <DOCTYPE html> 
@@ -139,10 +149,6 @@ else {
 
 	<form name="submit_ride_form" action="<?php $_PHP_SELF?>" method="POST">
 		<table border="0">
-			<tr>
-				<td>User ID: </td>
-				<td><input type='text' name='user_id'></td>
-			</tr>
 			<tr>
 				<td>From: </td>
 				<td><input type='text' id='source' name='source' size="50" maxlength="128"></td>

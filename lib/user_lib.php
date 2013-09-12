@@ -206,10 +206,11 @@ function get_user_details_from_email( $email_address )
 		} else {
 
 			$response['status'] = 1;
-			$response[ 'first_name' ]   = $result[ 'first_name' ];
-                	$response[ 'last_name' ]    = $result[ 'last_name' ];
-                	$response[ 'phone_number' ] = $result[ 'phone_number' ];
-                	$response[ 'user_id' ]      = $result[ 'user_id' ];
+			$response[ 'first_name' ]    = $result[ 'first_name' ];
+            $response[ 'last_name' ]     = $result[ 'last_name' ];
+            $response[ 'phone_number' ]  = $result[ 'phone_number' ];
+            $response[ 'user_id' ]       = $result[ 'user_id' ];
+            $response[ 'email_address' ] = $email_address;
 		}
 	}
 	
