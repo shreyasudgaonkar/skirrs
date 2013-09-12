@@ -110,7 +110,7 @@ public class HomeActivity extends Activity {
 	    case R.id.action_post_ride:
 	    	
 	    	/*
-			 * Redirect the user to the sign-in screen
+			 * Open the submit ride activity
 			 */
 			Intent submitRideIntent = new Intent( getApplicationContext(),
 					  							  SubmitRideActivity.class );
@@ -126,6 +126,16 @@ public class HomeActivity extends Activity {
 	    	return true;
 	    	
 	    case R.id.action_search:
+	    	
+	    	/*
+			 * Open the submit ride activity
+			 */
+			/*Intent searchRideIntent = new Intent( getApplicationContext(),
+					  							  SearchRideActivity.class );
+			
+			searchRideIntent.putExtra( "user_id",       userId );
+			startActivity( searchRideIntent );
+			*/
 	    	return true;
 
 	    default:
@@ -169,7 +179,7 @@ public class HomeActivity extends Activity {
             try {
             
             	// getting JSON string from URL
-            	JSONObject json = jParser.makeHttpRequest( Util.url_user_details, 
+            	JSONObject json = jParser.makeHttpRequest( Util.url, 
             										   	   "POST",
             										   	   httpParams);
             	

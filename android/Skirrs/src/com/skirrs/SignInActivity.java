@@ -255,7 +255,7 @@ public class SignInActivity extends Activity {
             try {
             	
             	// getting JSON string from URL
-                JSONObject json = jParser.makeHttpRequest( Util.url_sign_in, 
+                JSONObject json = jParser.makeHttpRequest( Util.url, 
                 										   "POST",
                 										   httpParams);
             	

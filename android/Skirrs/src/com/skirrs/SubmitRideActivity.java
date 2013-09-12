@@ -25,10 +25,13 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
@@ -45,7 +48,12 @@ public class SubmitRideActivity extends Activity
     JSONParser jParser = new JSONParser();
 	      
     private AutoCompleteTextView sourceAutoComplete;
+    private TextView sourceAutoCompleteShowAll;
+    private boolean  sourceShowAllOpen = false;
+    
     private AutoCompleteTextView destinationAutoComplete;
+    private TextView destAutoCompleteShowAll;
+    private boolean  destShowAllOpen = false;
 
     private TextView priceTextView;
     private TextView commentsTextView;
@@ -83,17 +91,27 @@ public class SubmitRideActivity extends Activity
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_submit_ride );
 
+	    initialize();
+	    
+	}
+
+	
+	/**
+	 * 
+	 */
+	private void initialize()
+	{
+		
 		latLng             = new HashMap<String, Double>();
 		formattedAddresses = new HashMap< String, String >();
 		
 		ActionBar actionBar = getActionBar();
 	    actionBar.setDisplayHomeAsUpEnabled(true);
 		
-		Intent intent = getIntent();
-		
 		/*
 		 * Get the user id via the intent ( HomeActivity provides it )
 		 */
+		Intent intent = getIntent();
 		user_id = intent.getExtras().getString( "user_id" );
 		
 		sourceAutoComplete = ( AutoCompleteTextView ) findViewById( R.id.source );
@@ -103,41 +121,179 @@ public class SubmitRideActivity extends Activity
 		/*
 		 * Auto complete for the source address field
 		 */
-		final Drawable x = getResources().getDrawable( R.drawable.map_pin_1 );
-		x.setBounds( 0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight() );
+		final Drawable map_pin_src = 
+						getResources().getDrawable( R.drawable.map_pin_src );
 		
-		sourceAutoComplete.setCompoundDrawables( null, 
+		map_pin_src.setBounds( 0, 
+							   0,
+							   map_pin_src.getIntrinsicWidth(),
+							   map_pin_src.getIntrinsicHeight() );
+		
+		final Drawable remove_text = 
+				getResources().getDrawable( R.drawable.remove_text_1 );
+
+		remove_text.setBounds( 0, 
+							   0,
+							   remove_text.getIntrinsicWidth(),
+							   remove_text.getIntrinsicHeight() );
+		
+		/*
+		 * Don't set remove_text drawable during init()
+		 * It will be set when text changes using the onTextChangedListener
+		 */
+		sourceAutoComplete.setCompoundDrawables( map_pin_src, 
 												 null, 
-												 x,
+												 null,
 												 null );
 		
+		/*
+		 * Set an onTouchListener to detect the touch on the drawables
+		 */
 		sourceAutoComplete.setOnTouchListener( new OnTouchListener() {
 			
 		    @Override
 		    public boolean onTouch(View v, MotionEvent event) {
 		    	
-		        if ( sourceAutoComplete.getCompoundDrawables()[2] == null ) {
+		        if ( sourceAutoComplete.getCompoundDrawables()[0] == null ) {
 		            return false;
 		        }
 		        
 		        if ( event.getAction() != MotionEvent.ACTION_UP ) {
 		            return false;
 		        }
-		        if ( event.getX() > 
-		        		sourceAutoComplete.getWidth() - 
-		        		sourceAutoComplete.getPaddingRight() - 
-		        		x.getIntrinsicWidth() ) {
+		        if ( event.getX() <
+		        		sourceAutoComplete.getLeft() + 
+		        		sourceAutoComplete.getPaddingLeft() + 
+		        		map_pin_src.getIntrinsicWidth() ) {
 	
 		        	Intent selectAddress = new Intent( getApplicationContext() ,
 		        									   SearchAddressMapActivity.class );
 		        	selectAddress.putExtra( "requestCode", SOURCE_ADDRESS );
 		        	startActivityForResult( selectAddress, SOURCE_ADDRESS );
 		        	
+		        } else if ( event.getX() >
+		        			sourceAutoComplete.getWidth() - 
+		        			sourceAutoComplete.getPaddingRight() - 
+		        			remove_text.getIntrinsicWidth() ) {
+	
+		        	sourceAutoComplete.setText( "" );
+		        	
 		        }
 		        
 		        return false;
+		        
 		    }
+		    
 		});
+		
+		
+		/*
+		 * Use a textview to enable compress and expand of the autocompleteview
+		 */
+		sourceAutoCompleteShowAll = ( TextView ) findViewById( R.id.sourceAutoCompleteShowAll );
+		sourceAutoCompleteShowAll.setVisibility( View.GONE );
+		
+		/*
+		 * Make the compress/expand textview visible only if there is text
+		 * inside the source autocompletetextview
+		 */
+		sourceAutoComplete.addTextChangedListener( new TextWatcher() {
+			
+		    @Override
+		    public void onTextChanged(CharSequence s, int start, int before, int count) {
+		    	
+		    	final Drawable downArrow = 
+		    				getResources().getDrawable( R.drawable.down_arrow );
+		    	
+				downArrow.setBounds( 0,
+									 0,
+									 downArrow.getIntrinsicWidth(),
+									 downArrow.getIntrinsicHeight() );
+				
+				final Drawable remove_text = 
+						getResources().getDrawable( R.drawable.remove_text_1 );
+
+				remove_text.setBounds( 0, 
+									   0,
+									   remove_text.getIntrinsicWidth(),
+									   remove_text.getIntrinsicHeight() );
+				
+		        if( sourceAutoComplete.getText().toString().equals("") ) {
+		        	
+		        	/*
+		        	 * Empty text. Remove the 'expand' arrow
+		        	 */
+		        	sourceAutoCompleteShowAll.setCompoundDrawables( null, null, null, null );
+		        	sourceAutoCompleteShowAll.setVisibility( View.INVISIBLE );
+		        	
+		        	Drawable[] drawables = sourceAutoComplete.getCompoundDrawables();
+		            
+		            sourceAutoComplete.setCompoundDrawables( drawables[ 0 ], 
+		            										 drawables[ 1 ], 
+		            										 null, 
+		            										 drawables[ 3 ] );
+		            
+		        } else {
+		    		
+		        	/*
+		        	 * Show the expand arrow
+		        	 */
+		            sourceAutoCompleteShowAll.setCompoundDrawables( null, null, downArrow, null );
+		            sourceAutoCompleteShowAll.setVisibility( View.VISIBLE );
+		            
+		            if ( sourceAutoComplete.getError() != null ) {
+		            	sourceAutoComplete.setError( null );
+		            }
+		            
+		            Drawable[] drawables = sourceAutoComplete.getCompoundDrawables();
+		            
+		            sourceAutoComplete.setCompoundDrawables( drawables[ 0 ], 
+		            										 drawables[ 1 ], 
+		            										 remove_text, 
+		            										 drawables[ 3 ] );
+		            
+		        }
+		        
+		    }
+
+		    @Override
+		    public void afterTextChanged(Editable arg0) {
+		    }
+
+		    @Override
+		    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		    }
+		    
+		});
+
+		/*
+		 * OnClickListener to determine when to expand or compress the textview
+		 */
+        sourceAutoCompleteShowAll.setOnClickListener( new OnClickListener() {
+        	
+            @Override
+            public void onClick( View v ) {
+            	
+            	if ( sourceShowAllOpen == false ) {
+            	
+            		sourceShowAllOpen = true;
+            		
+	                final Drawable x = getResources().getDrawable( R.drawable.up_arrow );
+	                x.setBounds( 0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight() );                
+	                sourceAutoCompleteShowAll.setCompoundDrawables( null, null, x, null );	                
+	                sourceAutoComplete.setMaxLines( 5 );
+	                
+            	} else {
+            		
+            		sourceShowAllOpen = false;
+            		final Drawable x = getResources().getDrawable( R.drawable.down_arrow );
+	                x.setBounds( 0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight() );       
+	                sourceAutoCompleteShowAll.setCompoundDrawables( null, null, x, null );             
+	                sourceAutoComplete.setMaxLines( 1 );
+            	}
+
+            }
+        });
 				
 		
 		/*
@@ -146,23 +302,36 @@ public class SubmitRideActivity extends Activity
 		destinationAutoComplete = ( AutoCompleteTextView ) findViewById( R.id.destination );
 		destinationAutoComplete.setAdapter( new AddressAutoCompleteAdapter( 
 			       							this, R.layout.address_autocomplete_list ) );
+
+		final Drawable map_pin_dest = 
+				getResources().getDrawable( R.drawable.map_pin_dest );
+
+		map_pin_dest.setBounds( 0, 
+							    0,
+							    map_pin_dest.getIntrinsicWidth(),
+							    map_pin_dest.getIntrinsicHeight() );
+		
+		destinationAutoComplete.setCompoundDrawables( map_pin_dest, 
+													  null, 
+													  null,
+													  null );
 		
 		destinationAutoComplete.setOnTouchListener( new OnTouchListener() {
 			
 		    @Override
 		    public boolean onTouch(View v, MotionEvent event) {
 		    	
-		        if ( destinationAutoComplete.getCompoundDrawables()[2] == null ) {
+		        if ( destinationAutoComplete.getCompoundDrawables()[ 0 ] == null ) {
 		            return false;
 		        }
 		        
 		        if ( event.getAction() != MotionEvent.ACTION_UP ) {
 		            return false;
 		        }
-		        if ( event.getX() > 
-		        		destinationAutoComplete.getWidth() - 
-		        		destinationAutoComplete.getPaddingRight() - 
-		        		x.getIntrinsicWidth() ) {
+		        if ( event.getX() <
+		        		destinationAutoComplete.getLeft() + 
+		        		destinationAutoComplete.getPaddingLeft() + 
+		        		map_pin_dest.getIntrinsicWidth() ) {
 		            
 		        	/*
 		        	 * Start the map activity which will return the address
@@ -178,6 +347,109 @@ public class SubmitRideActivity extends Activity
 		        return false;
 		    }
 		});
+		
+		destAutoCompleteShowAll = ( TextView ) findViewById( R.id.destAutoCompleteShowAll );
+		destAutoCompleteShowAll.setVisibility( View.GONE );
+		
+		/*
+		 * Make the compress/expand textview visible only if there is text
+		 * inside the dest autocompletetextview
+		 */
+		destinationAutoComplete.addTextChangedListener( new TextWatcher() {
+		    @Override
+		    public void onTextChanged(CharSequence s, int start, int before, int count) {
+		    	
+		    	final Drawable downArrow = 
+		    				getResources().getDrawable( R.drawable.down_arrow );
+		    	
+				downArrow.setBounds( 0,
+									 0,
+									 downArrow.getIntrinsicWidth(),
+									 downArrow.getIntrinsicHeight() );
+				
+				final Drawable remove_text = 
+						getResources().getDrawable( R.drawable.remove_text_1 );
+
+				remove_text.setBounds( 0, 
+									   0,
+									   remove_text.getIntrinsicWidth(),
+									   remove_text.getIntrinsicHeight() );
+				
+		        if( destinationAutoComplete.getText().toString().equals("") ) {
+		        	
+		        	/*
+		        	 * Empty text. Remove the 'expand' arrow
+		        	 */
+		        	destAutoCompleteShowAll.setCompoundDrawables( null, null, null, null );
+		        	destAutoCompleteShowAll.setVisibility( View.INVISIBLE );
+		        	
+		        	Drawable[] drawables = destinationAutoComplete.getCompoundDrawables();
+		            
+		        	destinationAutoComplete.setCompoundDrawables( drawables[ 0 ],
+		        												  drawables[ 1 ], 
+		        												  null, 
+		        												  drawables[ 3 ] );
+		            
+		        } else {
+		    		
+		        	/*
+		        	 * Show the expand arrow
+		        	 */
+		        	destAutoCompleteShowAll.setCompoundDrawables( null, null, downArrow, null );
+		        	destAutoCompleteShowAll.setVisibility( View.VISIBLE );
+		        	
+		        	if ( destinationAutoComplete.getError() != null ) {
+		        		destinationAutoComplete.setError( null );
+		        	}
+		        	
+		        	Drawable[] drawables = destinationAutoComplete.getCompoundDrawables();
+		            
+		        	destinationAutoComplete.setCompoundDrawables( drawables[ 0 ],
+		        												  drawables[ 1 ], 
+		        												  remove_text, 
+		        												  drawables[ 3 ] );
+		        }
+		        
+		    }
+
+		    @Override
+		    public void afterTextChanged(Editable arg0) {
+		    }
+
+		    @Override
+		    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		    }
+		    
+		});
+		
+		/*
+		 * 
+		 */
+		destAutoCompleteShowAll.setOnClickListener( new OnClickListener() {
+        	
+            @Override
+            public void onClick( View v ) {
+            	
+            	if ( destShowAllOpen == false ) {
+            	
+            		destShowAllOpen = true;
+            		
+	                final Drawable x = getResources().getDrawable( R.drawable.up_arrow );
+	                x.setBounds( 0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight() );                
+	                destAutoCompleteShowAll.setCompoundDrawables( null, null, x, null );	                
+	                destinationAutoComplete.setMaxLines( 5 );
+	                
+            	} else {
+            		
+            		destShowAllOpen = false;
+            		final Drawable x = getResources().getDrawable( R.drawable.down_arrow );
+	                x.setBounds( 0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight() );
+	                destAutoCompleteShowAll.setCompoundDrawables( null, null, x, null );             
+	                destinationAutoComplete.setMaxLines( 1 );
+            	}
+
+            }
+        });
 	
 		/*
 		 * Use the calendar to set current date and time
@@ -195,7 +467,7 @@ public class SubmitRideActivity extends Activity
 		String date = getDateInDesiredFormat( input, sourceFormat, desiredFormat );
 		
 		dateView = ( TextView ) findViewById( R.id.date );
-		dateView.setText( date.toString() );
+		dateView.setHint( date.toString() );
 		
 		int hour   = c.get( Calendar.HOUR_OF_DAY );
 		int minute = c.get( Calendar.MINUTE );
@@ -210,15 +482,14 @@ public class SubmitRideActivity extends Activity
 		String time = strHour + ":" + strMinute;
 	
 		timeView = ( TextView ) findViewById( R.id.time );
-		timeView.setText( time.toString() );
+		timeView.setHint( time.toString() );
 
 		numSeatsTextView = ( TextView ) findViewById( R.id.numseatsavailable );
 		
 		priceTextView    = ( TextView ) findViewById( R.id.price );
 		commentsTextView = ( TextView ) findViewById( R.id.comments );
-		
 	}
-
+	
 	
 	@Override
 	protected void onActivityResult( int requestCode, 
@@ -594,7 +865,7 @@ public class SubmitRideActivity extends Activity
 	            	}
 	            	
                 } else {
-                	System.out.println( "Failed to get user details" );
+                	System.out.println( "Failed to submit ride" );
                 	return false;
                 } 
             	

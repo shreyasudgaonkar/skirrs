@@ -19,7 +19,7 @@
         
         <item name="android:windowBackground">@drawable/geometry_bk_texture</item>
         <item name="android:textColorPrimary">@color/skirrs_text_color</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         
     </style>
 
@@ -29,21 +29,10 @@
         <item name="android:padding">16dp</item>
     </style>
     
-    <style name="SkirrsButton"  parent="android:style/Widget.Button">
-
-        <item name="android:layout_marginTop">16dp</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:background">@drawable/skirrs_button_blue</item>
-        <item name="android:height">36dp</item>
-	    <item name="android:shadowColor">#000000</item>
-	    <item name="android:textColor">#FFFFFF</item>
-	    <item name="android:shadowDx">1</item>
-	    <item name="android:shadowDy">1</item>
-	    <item name="android:shadowRadius">2</item>
-	    <item name="android:padding">4dip</item>
-	    <item name="android:gravity">center</item>
-	    <item name="android:textStyle">bold</item>
-        
+    <style name="SkirrsButton"  parent="android:style/Holo.Light.SegmentedButton">
+        <item name="android:background">@drawable/skirrs_button</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:layout_margin">4dip</item>
     </style>
     
     <style name="SkirrsEditText" parent="@android:style/Widget.Holo.EditText">
@@ -58,6 +47,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5dip</item>
         <item name="android:background">@color/skirrs_divider_color</item>
+        <item name="android:layout_marginTop">@dimen/activity_element_margin_top</item>
     </style>
     
     <style name="SkirrsActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">

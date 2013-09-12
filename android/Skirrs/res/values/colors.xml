@@ -4,7 +4,8 @@
     <color name="skirrs_action_bar_bg_color">#2f6699</color>
     <color name="skirrs_text_color">#000000</color>
     <color name="skirrs_divider_color">#297A29</color>
-    <color name="skirrs_button_bg_color">#70B8FF</color>
+    <color name="skirrs_button_bg_color">#803389C1</color>
     <color name="skirrs_button_text_color">#000000</color>
     <color name="skirrs_textview_text_color">#006BB2</color>
+    <color name="skirrs_border_color">#008A2E</color>
 </resources>
