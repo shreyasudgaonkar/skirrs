@@ -14,8 +14,9 @@ function submit_ride( $json_arr )
 	$log->logInfo( "Inside submit_ride, request: $json_arr" );
 	
 	$ride_info = json_decode( $json_arr, true );
+	$ride_info_str = serialize($ride_info);
 
-	$log->logInfo( "ride_info: $ride_info" );
+	$log->logInfo( "ride_info: $ride_info_str" );
 
 	/*
 	 * Make sure all required parameters are set
@@ -30,32 +31,30 @@ function submit_ride( $json_arr )
 		 isset( $ride_info[ 'srclng' ] ) &&
 		 isset( $ride_info[ 'destlat' ] ) &&
 		 isset( $ride_info[ 'destlng' ] ) && 
-		 isset( $ride_info[ 'comments' ] ) ) {
-		
-		$mysqldate = date( );
-		
+		 isset( $ride_info[ 'comments' ] ) ) 
+	{		
 		// make an entry in rides_offered table
-		$submit_ride = "INSERT INTO `rides_offered` ".
-			       "( `ride_id`, `user_id`, `source`, `destination`, `departure_date_time`, `seats_offered`,`price`,".
-			       " `pick_up_offered`, `share_contact_info`, `srclat`, `srclng`, `destlat`, `destlng`,  `comments`)".
-			       " VALUES ".
-					"( DEFAULT, "
-					   .$ride_info['user_id'].", '"
-					   .$ride_info['source']."', '"
-					   .$ride_info['destination']."', '"
-					   .$ride_info['departure_date_time']."', "
-					   .$ride_info['seats_offered'].", "
-					   .$ride_info['price'].", "
-					   .$ride_info['pick_up_offered'].", "
-					   .$ride_info['share_contact_info'].", "
-					   .$ride_info['srclat'].", "
-					   .$ride_info['srclng'].", "
-					   .$ride_info['destlat'].", "
-					   .$ride_info['destlng'].", '"
-					   .$ride_info['comments']."')";
+		$submit_ride_query = "INSERT INTO `rides_offered` ".
+			                 "( `ride_id`, `user_id`, `source`, `destination`, `departure_date_time`, `seats_offered`,`price`,".
+			                 " `pick_up_offered`, `share_contact_info`, `srclat`, `srclng`, `destlat`, `destlng`,  `comments`)".
+			                 " VALUES ".
+					         "( DEFAULT, "
+					         .$ride_info['user_id'].", '"
+							 .$ride_info['source']."', '"
+							 .$ride_info['destination']."', '"
+							 .$ride_info['departure_date_time']."', "
+							 .$ride_info['seats_offered'].", "
+							 .$ride_info['price'].", "
+							 .$ride_info['pick_up_offered'].", "
+							 .$ride_info['share_contact_info'].", "
+							 .$ride_info['srclat'].", "
+							 .$ride_info['srclng'].", "
+							 .$ride_info['destlat'].", "
+							 .$ride_info['destlng'].", '"
+							 .$ride_info['comments']."')";
 		
-		$log->logInfo( "Query: ". $submit_ride );
-		$insert_result = execute( $submit_ride );
+		$log->logInfo( "Query: ". $submit_ride_query );
+		$insert_result = execute( $submit_ride_query );
 		
 		if( $insert_result == -1 )
 		{

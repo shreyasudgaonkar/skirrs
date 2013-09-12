@@ -6,8 +6,7 @@
 function connect() 
 {
 	require_once $_SESSION['SKIRRS_HOME'] . 'lib/db_config.php';
-	require_once $_SESSION['SKIRRS_HOME'] . 'lib/KLogger.php';
-	
+	require_once $_SESSION['SKIRRS_HOME'] . 'lib/KLogger.php';	
 	$log = new KLogger($_SESSION['LOG_DIR'], KLogger::INFO);
 	
 	$con=mysqli_connect( DB_SERVER , DB_USER, DB_PASSWORD, DB_DATABASE );
@@ -33,6 +32,7 @@ function execute($query)
 	}
 	if (!mysqli_query($con, $query))
 	{
+		$log = new KLogger($_SESSION['LOG_DIR'], KLogger::INFO);
 		$log->logError( "Failed to execute query :" .mysqli_error($con) );
 		echo 'Error: '.mysqli_error($con);
 		return -1;
