@@ -17,10 +17,15 @@
     <style name="SkirrsTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         
-        <item name="android:windowBackground">@drawable/geometry_bk_texture</item>
+        <item name="android:windowBackground">@color/skirrs_bg_color</item>
         <item name="android:textColorPrimary">@color/skirrs_text_color</item>
         <item name="android:textSize">18sp</item>
-        
+        <item name="android:divider">@color/skirrs_border_color</item>
+        <item name="android:shadowColor">#000000</item>
+	    <item name="android:shadowDx">0.5</item>
+	    <item name="android:shadowDy">0.5</item>
+	    <item name="android:shadowRadius">0.01</item>
+    
     </style>
 
     <style name="LoginFormContainer">
@@ -32,7 +37,7 @@
     <style name="SkirrsButton"  parent="android:style/Holo.Light.SegmentedButton">
         <item name="android:background">@drawable/skirrs_button</item>
         <item name="android:textSize">19sp</item>
-        <item name="android:layout_margin">4dip</item>
+        <item name="android:textColor">@color/skirrs_button_text_color</item>
     </style>
     
     <style name="SkirrsEditText" parent="@android:style/Widget.Holo.EditText">
@@ -54,10 +59,11 @@
         <item name="android:background">@color/skirrs_action_bar_bg_color</item>    
     </style>
     
-    <style name="SkirrsDateAndTimeButton" parent="@android:style/Holo.SegmentedButton">
-        <item name="android:textColor">@color/skirrs_button_text_color</item>
+    <style name="SkirrsSelectionButton" parent="@android:style/Holo.SegmentedButton">
+        <item name="android:textColor">@color/skirrs_text_color</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:background">@drawable/border</item>
     </style>
     
     <style name="SkirrsCalendarView" parent="android:Widget.CalendarView">

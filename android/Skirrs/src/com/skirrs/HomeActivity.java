@@ -130,12 +130,12 @@ public class HomeActivity extends Activity {
 	    	/*
 			 * Open the submit ride activity
 			 */
-			/*Intent searchRideIntent = new Intent( getApplicationContext(),
-					  							  SearchRideActivity.class );
+			Intent searchRideIntent = new Intent( getApplicationContext(),
+					  							  SearchRidesActivity.class );
 			
-			searchRideIntent.putExtra( "user_id",       userId );
+			searchRideIntent.putExtra( "user_id", userId );
 			startActivity( searchRideIntent );
-			*/
+			
 	    	return true;
 
 	    default:

@@ -35,33 +35,32 @@
     <string name="com.skirrs.homeactivity.action_logout">Logout</string>
 
     <!-- Submit a ride screen -->
-    <string name="title_activity_submit_ride">Ride</string>
-    <string name="com.skirrs.submitrideactivity.source">Source</string>
-    <string name="com.skirrs.submitrideactivity.destination">Destination</string>
-    <string name="com.skirrs.submitrideactivity.num_seats"># of seats</string>
+    <string name="title_activity_submit_ride">Submit a new ride</string>
+    <string name="com.skirrs.submitrideactivity.num_seats">Seats</string>
     <string name="com.skirrs.submitrideactivity.submit_ride">Submit Ride</string>
     <string name="com.skirrs.submitrideactivity.cancel">Cancel</string>
     <string name="com.skirrs.submitrideactivity.price">Price</string>
-    <string name="com.skirrs.submitrideactivity.priceperseat">Per seat</string>
+    <string name="com.skirrs.submitrideactivity.price_per_seat">Per seat</string>
     <string name="com.skirrs.submitrideactivity.comments">Comments</string>
     <string name="com.skirrs.submitrideactivity.date">Date</string>
     <string name="com.skirrs.submitrideactivity.time">Time</string>
     <string name="com.skirrs.submitrideactivity.from">From</string>
     <string name="com.skirrs.submitrideactivity.to">To</string>
-    <string name="com.skirrs.submitrideactivity.depart">Depart</string>
-    <string name="com.skirrs.submitrideactivity.howmuch">How much?</string>
-    <string name="com.skirrs.submitrideactivity.more">More</string>
+    <string name="com.skirrs.submitrideactivity.vehicle_info">Edit vehicle info</string>
 
     <!-- Search Address using map -->
     <string name="title_activity_select_address_map">Address</string>
     <string name="com.skirrs.searchaddrmap.search">Search</string>
-    <string name="com.skirrs.searchaddrmap.useThisLocation">Set this location</string>
+    <string name="com.skirrs.searchaddrmap.use_this_location">Set this location</string>
 
     <!-- Search rides -->
     <string name="title_activity_search_ride">Search Ride</string>
-    <string name="com.skirrs.searchrideactivity.source">Source</string>
-    <string name="com.skirrs.searchrideactivity.destination">Destination</string>
+    <string name="com.skirrs.searchrideactivity.from">From</string>
+    <string name="com.skirrs.searchrideactivity.to">To</string>
     <string name="com.skirrs.searchrideactivity.search">Search</string>
+    <string name="com.skirrs.searchrideactivity.date">Date</string>
+    <string name="com.skirrs.searchrideactivity.time">Time</string>
     <string name="com.skirrs.searchrideactivity.cancel">Cancel</string>
+    <string name="title_activity_search_rides">Search rides</string>
     
 </resources>

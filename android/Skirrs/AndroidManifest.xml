@@ -59,8 +59,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <!--  Submit ride activity -->
+
+        <!-- Submit ride activity -->
         <activity
             android:name="com.skirrs.SubmitRideActivity"
             android:label="@string/title_activity_submit_ride"
@@ -71,21 +71,20 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBieMMbVaNUstfNEIMtpJJ0CvDrj-RtzIE" />
 
-        <!--  Select an address using the map activity -->
+        <!-- Select an address using the map activity -->
         <activity
             android:name="com.skirrs.SearchAddressMapActivity"
             android:label="@string/none"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        
-        <!--  Search ride activity -->
+
+        <!-- Search rides activity -->
         <activity
-            android:name="com.skirrs.SearchRideActivity"
-            android:label="@string/title_activity_search_ride" >
+            android:name="com.skirrs.SearchRidesActivity"
+            android:label="@string/title_activity_search_rides" 
+            android:windowSoftInputMode="stateHidden">
         </activity>
-        
     </application>
 
 </manifest>
-

@@ -41,8 +41,8 @@ import android.widget.TimePicker;
 /*
  * 
  */
-public class SubmitRideActivity extends Activity
-								implements LatLngClient {
+public class SearchRidesActivity extends Activity
+								 implements LatLngClient {
 
 	// JSON Parser object
     JSONParser jParser = new JSONParser();
@@ -56,9 +56,7 @@ public class SubmitRideActivity extends Activity
     private boolean  sourceShowAllOpen = false;
     private boolean  destShowAllOpen = false;
 
-    private TextView priceTextView;
     private TextView commentsTextView;
-    private TextView numSeatsTextView;
     
     private String user_id;
 
@@ -90,7 +88,7 @@ public class SubmitRideActivity extends Activity
 	protected void onCreate( Bundle savedInstanceState ) {
 		
 		super.onCreate( savedInstanceState );
-		setContentView( R.layout.activity_submit_ride );
+		setContentView( R.layout.activity_search_rides );
 
 	    initialize();
 	    
@@ -162,11 +160,16 @@ public class SubmitRideActivity extends Activity
 		        if ( event.getAction() != MotionEvent.ACTION_UP ) {
 		            return false;
 		        }
+		        
 		        if ( event.getX() <
 		        		sourceAutoComplete.getLeft() + 
 		        		sourceAutoComplete.getPaddingLeft() + 
 		        		map_pin_src.getIntrinsicWidth() ) {
 	
+		        	/*
+		        	 * Start the map activity to let the user select the address
+		        	 * using the map
+		        	 */
 		        	Intent selectAddress = 
 		        				new Intent( getApplicationContext() ,
 		        							SearchAddressMapActivity.class );
@@ -179,6 +182,9 @@ public class SubmitRideActivity extends Activity
 		        			sourceAutoComplete.getPaddingRight() - 
 		        			remove_text.getIntrinsicWidth() ) {
 	
+		        	/*
+		        	 * Clear the text
+		        	 */
 		        	sourceAutoComplete.setText( "" );
 		        	
 		        }
@@ -324,7 +330,9 @@ public class SubmitRideActivity extends Activity
 		/*
 		 * Auto complete for the destination address field
 		 */
-		destinationAutoComplete = ( AutoCompleteTextView ) findViewById( R.id.destination );
+		destinationAutoComplete =
+					( AutoCompleteTextView ) findViewById( R.id.destination );
+		
 		destinationAutoComplete.setAdapter( new AddressAutoCompleteAdapter( 
 			       							this, R.layout.address_autocomplete_list ) );
 
@@ -362,8 +370,9 @@ public class SubmitRideActivity extends Activity
 		        	 * Start the map activity which will return the address
 		        	 * selected by the user
 		        	 */
-		        	Intent selectAddress = new Intent( getApplicationContext() ,
-		        									   SearchAddressMapActivity.class );
+		        	Intent selectAddress =
+		        			new Intent( getApplicationContext() ,
+		        						SearchAddressMapActivity.class );
 		        	
 		        	selectAddress.putExtra( "requestCode", DEST_ADDRESS );
 		        	startActivityForResult( selectAddress, DEST_ADDRESS );
@@ -380,7 +389,9 @@ public class SubmitRideActivity extends Activity
 		    }
 		});
 		
-		destAutoCompleteShowAll = ( TextView ) findViewById( R.id.destAutoCompleteShowAll );
+		destAutoCompleteShowAll = 
+					( TextView ) findViewById( R.id.destAutoCompleteShowAll );
+		
 		destAutoCompleteShowAll.setVisibility( View.GONE );
 		
 		/*
@@ -389,7 +400,10 @@ public class SubmitRideActivity extends Activity
 		 */
 		destinationAutoComplete.addTextChangedListener( new TextWatcher() {
 		    @Override
-		    public void onTextChanged(CharSequence s, int start, int before, int count) {
+		    public void onTextChanged( CharSequence s,
+		    						   int start,
+		    						   int before,
+		    						   int count) {
 		    	
 		    	final Drawable downArrow = 
 		    				getResources().getDrawable( R.drawable.down_arrow );
@@ -412,7 +426,11 @@ public class SubmitRideActivity extends Activity
 		        	/*
 		        	 * Empty text. Remove the 'expand' arrow
 		        	 */
-		        	destAutoCompleteShowAll.setCompoundDrawables( null, null, null, null );
+		        	destAutoCompleteShowAll.setCompoundDrawables( null,
+		        												  null,
+		        												  null,
+		        												  null );
+		        	
 		        	destAutoCompleteShowAll.setVisibility( View.INVISIBLE );
 		        	
 		        	Drawable[] drawables = destinationAutoComplete.getCompoundDrawables();
@@ -427,14 +445,19 @@ public class SubmitRideActivity extends Activity
 		        	/*
 		        	 * Show the expand arrow
 		        	 */
-		        	destAutoCompleteShowAll.setCompoundDrawables( null, null, downArrow, null );
+		        	destAutoCompleteShowAll.setCompoundDrawables( null,
+		        												  null,
+		        												  downArrow,
+		        												  null );
+		        	
 		        	destAutoCompleteShowAll.setVisibility( View.VISIBLE );
 		        	
 		        	if ( destinationAutoComplete.getError() != null ) {
 		        		destinationAutoComplete.setError( null );
 		        	}
 		        	
-		        	Drawable[] drawables = destinationAutoComplete.getCompoundDrawables();
+		        	Drawable[] drawables =
+		        				destinationAutoComplete.getCompoundDrawables();
 		            
 		        	destinationAutoComplete.setCompoundDrawables( drawables[ 0 ],
 		        												  drawables[ 1 ], 
@@ -445,11 +468,14 @@ public class SubmitRideActivity extends Activity
 		    }
 
 		    @Override
-		    public void afterTextChanged(Editable arg0) {
+		    public void afterTextChanged( Editable arg0 ) {
 		    }
 
 		    @Override
-		    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		    public void beforeTextChanged( CharSequence s,
+		    							   int start,
+		    							   int count,
+		    							   int after ) {
 		    }
 		    
 		});
@@ -466,17 +492,29 @@ public class SubmitRideActivity extends Activity
             	
             		destShowAllOpen = true;
             		
-	                final Drawable x = getResources().getDrawable( R.drawable.up_arrow );
-	                x.setBounds( 0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight() );                
-	                destAutoCompleteShowAll.setCompoundDrawables( null, null, x, null );	                
+	                final Drawable x =
+	                		getResources().getDrawable( R.drawable.up_arrow );
+	                
+	                x.setBounds( 0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight() ); 
+	                
+	                destAutoCompleteShowAll.setCompoundDrawables( null,
+	                											  null,
+	                											  x,
+	                											  null );	                
 	                destinationAutoComplete.setMaxLines( 5 );
 	                
             	} else {
             		
             		destShowAllOpen = false;
-            		final Drawable x = getResources().getDrawable( R.drawable.down_arrow );
+            		final Drawable x =
+            				getResources().getDrawable( R.drawable.down_arrow );
+            		
 	                x.setBounds( 0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight() );
-	                destAutoCompleteShowAll.setCompoundDrawables( null, null, x, null );             
+	                
+	                destAutoCompleteShowAll.setCompoundDrawables( null,
+	                											  null,
+	                											  x,
+	                											  null );             
 	                destinationAutoComplete.setMaxLines( 1 );
             	}
 
@@ -496,7 +534,9 @@ public class SubmitRideActivity extends Activity
 		String sourceFormat  = "dd-MM-yyyy";
 		String desiredFormat = "EE, MMM, dd yyyy";
 		
-		String date = getDateInDesiredFormat( input, sourceFormat, desiredFormat );
+		String date = getDateInDesiredFormat( input,
+											  sourceFormat,
+											  desiredFormat );
 		
 		dateView = ( TextView ) findViewById( R.id.date );
 		dateView.setHint( date.toString() );
@@ -516,9 +556,6 @@ public class SubmitRideActivity extends Activity
 		timeView = ( TextView ) findViewById( R.id.time );
 		timeView.setHint( time.toString() );
 
-		numSeatsTextView = ( TextView ) findViewById( R.id.numseatsavailable );
-		
-		priceTextView    = ( TextView ) findViewById( R.id.price );
 		commentsTextView = ( TextView ) findViewById( R.id.comments );
 	}
 	
@@ -560,8 +597,11 @@ public class SubmitRideActivity extends Activity
 		
 		try {
 			
-			SimpleDateFormat source  = new SimpleDateFormat( sourceFormat, Locale.UK );
-			SimpleDateFormat desired = new SimpleDateFormat( desiredFormat, Locale.UK );
+			SimpleDateFormat source  = new SimpleDateFormat( sourceFormat,
+															 Locale.UK );
+			
+			SimpleDateFormat desired = new SimpleDateFormat( desiredFormat,
+															 Locale.UK );
 			
 			Date dt = source.parse( input );
 			
@@ -616,21 +656,10 @@ public class SubmitRideActivity extends Activity
 		} else {
 			System.out.println( "selectedTime: " + selectedTime );
 		}
-		
-		if ( priceTextView.getText().toString().length() < 1 ) {
-			priceTextView.setError( "Required" );
-			ok = false;
-		} else {
-			System.out.println( "priceTextView: " + priceTextView );
-		}
+
 		
 		if ( commentsTextView.getText().toString().length() < 1 ) {
 			commentsTextView.setError( "Required" );
-			ok = false;
-		}
-		
-		if ( numSeatsTextView.getText().toString().length() < 1 ) {
-			numSeatsTextView.setError( "Required" );
 			ok = false;
 		}
 		
@@ -767,7 +796,10 @@ public class SubmitRideActivity extends Activity
 			String sourceFormat  = "dd-MM-yyyy";
 			String desiredFormat = "EE, MMM dd, yyyy";
 			
-			date = getDateInDesiredFormat( selectedDate, sourceFormat, desiredFormat );
+			date = getDateInDesiredFormat( selectedDate,
+										   sourceFormat,
+										   desiredFormat );
+			
 			System.out.println( "date: " + date );
 		
 			dateView.setText( date );
@@ -788,8 +820,7 @@ public class SubmitRideActivity extends Activity
 		 */
 		if ( success && latLng != null && latLng.size() > 0 ) {
 			
-			SubmitRideTask submitRideTask = new SubmitRideTask();
-			submitRideTask.execute();
+			
 			
 		}
 		
@@ -799,7 +830,7 @@ public class SubmitRideActivity extends Activity
 	/*
 	 * 
 	 */
-	public class SubmitRideTask extends AsyncTask<Void, Void, Boolean> {
+	public class SearchRidesTask extends AsyncTask<Void, Void, Boolean> {
 
 		@Override
 		protected Boolean doInBackground( Void... arg0 ) {
@@ -817,18 +848,6 @@ public class SubmitRideActivity extends Activity
 														   desiredFormat);
 				
 				System.out.println( "inputDate: " + inputDate );
-				
-				/*
-				 * Price per seat
-				 */
-				String price = priceTextView.getText().toString();
-				System.out.println( "price: " + price );
-				
-				/*
-				 * Number of seats
-				 */
-				String numSeats = numSeatsTextView.getText().toString();
-				System.out.println( "numSeats: " + numSeats );
 				
 				/*
 				 * Comments
@@ -869,7 +888,7 @@ public class SubmitRideActivity extends Activity
 				List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
 				
 				httpParams.add( new BasicNameValuePair( "user_id",
-														user_id ) );
+														 user_id ) );
 				
 		        httpParams.add( new BasicNameValuePair( "source",
 		        										srcFmtAddr ) );
@@ -879,12 +898,6 @@ public class SubmitRideActivity extends Activity
 		        
 		        httpParams.add( new BasicNameValuePair( "departure_date_time",
 		        										inputDate.toString() ) );
-		        
-		        httpParams.add( new BasicNameValuePair( "seats_offered",
-		        										numSeats ) );
-		        
-		        httpParams.add( new BasicNameValuePair( "price",
-		        										price ) );
 		        
 		        httpParams.add( new BasicNameValuePair( "pick_up_offered",
 		        										"0" ) );
@@ -908,7 +921,7 @@ public class SubmitRideActivity extends Activity
 		        										comments ) );
 		        
 		        httpParams.add( new BasicNameValuePair( "keyword",
-		        										Util.KEYWORD_SUBMIT_RIDE ) );
+		        										Util.KEYWORD_SEARCH_RIDES ) );
 		        
 		    
             	// getting JSON string from URL
@@ -924,7 +937,7 @@ public class SubmitRideActivity extends Activity
 	            	
 	            	if ( status == 1 ) {
 	            		
-	            		System.out.println( "Ride successfully submitted" );
+	            		System.out.println( "Ride search successful" );
 	            		
 	            	} else {
 	            		
@@ -932,7 +945,7 @@ public class SubmitRideActivity extends Activity
 	            	}
 	            	
                 } else {
-                	System.out.println( "Failed to submit ride" );
+                	System.out.println( "Failed to search rides" );
                 	return false;
                 } 
             	

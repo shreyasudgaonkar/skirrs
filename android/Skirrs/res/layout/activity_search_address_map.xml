@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/useThisLocationBtn"
-        android:text="@string/com.skirrs.searchaddrmap.useThisLocation"
+        android:text="@string/com.skirrs.searchaddrmap.use_this_location"
         android:layout_weight="1"
         android:layout_gravity="center_horizontal"
         android:onClick="returnResult">   

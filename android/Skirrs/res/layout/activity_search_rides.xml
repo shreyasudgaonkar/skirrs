@@ -23,7 +23,7 @@
            <!-- Source -->
            <AutoCompleteTextView
                android:id="@+id/source"
-               android:hint="@string/com.skirrs.submitrideactivity.from"
+               android:hint="@string/com.skirrs.searchrideactivity.from"
                android:inputType="textMultiLine"
                android:layout_width="fill_parent"
                android:layout_height="wrap_content"
@@ -36,24 +36,24 @@
                android:layout_height="wrap_content"
                android:orientation="horizontal">
 
-	            <TextView
-	                android:layout_width="0dip"
-	                android:layout_weight="3"
-	                android:layout_height="wrap_content"/>
-	            
-	            <TextView
-	                android:layout_width="0dip" 
-	                android:id="@+id/sourceAutoCompleteShowAll"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="1"
-	                android:text="@string/none"/>
+                <TextView
+                    android:layout_width="0dip"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"/>
+                
+                <TextView
+                    android:layout_width="0dip" 
+                    android:id="@+id/sourceAutoCompleteShowAll"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/none"/>
 
            </LinearLayout>
            
             <!-- Destination -->
             <AutoCompleteTextView
                 android:id="@+id/destination"
-                android:hint="@string/com.skirrs.submitrideactivity.to"
+                android:hint="@string/com.skirrs.searchrideactivity.to"
                 android:inputType="textMultiLine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,68 +86,37 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
  
-	            <!-- Date -->
-	            <Button 
-	                android:id="@+id/date"
-	                android:layout_marginTop="@dimen/activity_element_margin_top"
-	                android:layout_width="0dip"
-	                android:layout_height="wrap_content"
-	                android:onClick="showDatePickerDialog"
-	                android:hint="@string/com.skirrs.submitrideactivity.date"
-	                android:layout_weight="2"
-	                style="@style/SkirrsSelectionButton"
-	                android:drawableLeft="@drawable/date_3"
+                <!-- Date -->
+                <Button 
+                    android:id="@+id/date"
+                    android:layout_marginTop="@dimen/activity_element_margin_top"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:onClick="showDatePickerDialog"
+                    android:hint="@string/com.skirrs.searchrideactivity.date"
+                    android:layout_weight="2"
+                    style="@style/SkirrsSelectionButton"
+                    android:drawableLeft="@drawable/date_3"
                     android:paddingLeft="6dip"
                     android:drawablePadding="2dip"
                     android:layout_marginRight="2dip"/>
-	            
-	            <!-- Time -->
-	            <Button 
-	                android:id="@+id/time"
-	                android:layout_marginTop="@dimen/activity_element_margin_top"
-	                android:layout_width="0dip"
-	                android:layout_height="wrap_content"
-	                android:onClick="showTimePickerDialog"
-	                android:hint="@string/com.skirrs.submitrideactivity.time"
-	                android:layout_weight="1"
-	                style="@style/SkirrsSelectionButton"
+                
+                <!-- Time -->
+                <Button 
+                    android:id="@+id/time"
+                    android:layout_marginTop="@dimen/activity_element_margin_top"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:onClick="showTimePickerDialog"
+                    android:hint="@string/com.skirrs.searchrideactivity.time"
+                    android:layout_weight="1"
+                    style="@style/SkirrsSelectionButton"
                     android:drawableLeft="@drawable/time_3"
                     android:paddingLeft="6dip"
                     android:drawablePadding="2dip"
-	                android:layout_marginLeft="2dip"/>
+                    android:layout_marginLeft="2dip"/>
             </LinearLayout>
 
-            <LinearLayout 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/activity_element_margin_top" >
-            
-	            <!-- Price -->
-	            <EditText
-	                android:id="@+id/price"
-	                android:inputType="number"
-	                android:hint="@string/com.skirrs.submitrideactivity.price_per_seat"
-	                android:layout_width="0dip"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="2"
-                    android:drawableLeft="@drawable/rupee_2"
-                    android:drawablePadding="4dip"
-                    />
-	            
-	            <!-- Number of seats available -->
-	            <EditText
-	                android:id="@+id/numseatsavailable"
-	                android:inputType="number"
-	                android:hint="@string/com.skirrs.submitrideactivity.num_seats"
-	                android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-	                android:layout_weight="1"
-	                android:drawableLeft="@drawable/seats_3"
-                    android:drawablePadding="6dip"/>
-	            
-	        </LinearLayout>
-            
             <!-- Comments -->
             <EditText
                 android:id="@+id/comments"
@@ -184,27 +153,27 @@
                  android:layout_marginTop="@dimen/activity_element_margin_top"  >
 
                 <!-- Submit ride button -->
-	            <Button
-	                android:id="@+id/submit_ride_button"
-	                android:text="@string/com.skirrs.submitrideactivity.submit_ride" 
-	                android:onClick="verifyUserInput"
-	                android:layout_width="0dip"
-	                android:layout_height="wrap_content"
-	                style="@style/SkirrsButton"
-	                android:layout_weight="1"
-	                android:layout_marginRight="2dip"/>
+                <Button
+                    android:id="@+id/submit_ride_button"
+                    android:text="@string/com.skirrs.searchrideactivity.search" 
+                    android:onClick="verifyUserInput"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    style="@style/SkirrsButton"
+                    android:layout_weight="1"
+                    android:layout_marginRight="2dip"/>
  
                 <!--  Cancel button -->
-	             <Button
-	                android:id="@+id/cancel_button"
-	                android:text="@string/com.skirrs.submitrideactivity.cancel"
-	                android:onClick="cancelActivity"
-	                android:layout_width="0dip"
-	                android:layout_height="wrap_content"
-	                style="@style/SkirrsButton"
-	                android:layout_weight="1"
-	                android:layout_marginLeft="2dip"/>
-	             
+                 <Button
+                    android:id="@+id/cancel_button"
+                    android:text="@string/com.skirrs.searchrideactivity.cancel"
+                    android:onClick="cancelActivity"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    style="@style/SkirrsButton"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="2dip"/>
+                 
             </LinearLayout>
             
         </LinearLayout>

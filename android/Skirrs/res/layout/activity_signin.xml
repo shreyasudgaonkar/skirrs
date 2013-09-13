@@ -10,20 +10,20 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/activity_element_margin_top">
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/login_status_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/com.skirrs.signinactivity.login_progress_signing_in"/>
+            android:text="@string/com.skirrs.signinactivity.login_progress_signing_in"
+            android:layout_marginTop="@dimen/activity_element_margin_top"/>
     </LinearLayout>
 
     <!-- Login form -->
@@ -31,13 +31,15 @@
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="fill_parent"
+        android:layout_marginTop="@dimen/activity_element_margin_top">
 
         <LinearLayout
             style="@style/LoginFormContainer"
             android:layout_marginLeft="@dimen/activity_margin_left"
             android:layout_marginRight="@dimen/activity_margin_right"
-            android:orientation="vertical" >
+            android:orientation="vertical" 
+            android:background="@drawable/border">
 
             <EditText
                 android:id="@+id/email"
@@ -46,17 +48,8 @@
                 android:hint="@string/com.skirrs.signinactivity.email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:singleLine="true" 
-                android:background="@null"/>
-            
-            <!-- Horizontal divider -->
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@color/skirrs_divider_color"/>
-
+                android:singleLine="true" />
+        
             <EditText
                 android:layout_marginTop="16dp"
                 android:id="@+id/password"
@@ -65,97 +58,32 @@
                 android:hint="@string/com.skirrs.signinactivity.password"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:singleLine="true"
-                android:background="@null" />
+                android:singleLine="true"/>
             
-            <!-- Horizontal divider -->
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@color/skirrs_divider_color"/>
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
-                android:layout_marginTop="42dp">
+                android:layout_marginTop="42dp"
+                android:orientation="horizontal">
                 
-                <!-- Horizontal divider -->
-                <View
-		            android:layout_width="match_parent"
-		            android:layout_height="2dip"
-		            android:layout_marginLeft="4dip"
-		            android:layout_marginRight="4dip"
-		            android:background="@color/skirrs_divider_color"
-		            android:layout_alignParentTop="true"/>
-                
-                <!-- Vertical divider between sign-in and register buttons -->
-		        <View
-		            android:id="@+id/signInRegisterDivider"
-		            android:layout_width="2dip"
-		            android:layout_height="wrap_content"
-		            android:layout_alignParentTop="true"
-		            android:layout_alignParentBottom="true"
-		            android:layout_marginBottom="4dip"
-		            android:layout_marginTop="4dip"
-		            android:background="@color/skirrs_divider_color" 
-		            android:layout_centerHorizontal="true"/>
-		        
 	            <Button
 	                android:id="@+id/sign_in_button"
 	                 android:layout_height="wrap_content"
-	                android:layout_width="wrap_content"
-	                android:text="@string/com.skirrs.signinactivity.signin" 
-	                android:layout_alignParentBottom="true"
-	                android:layout_toLeftOf="@id/signInRegisterDivider"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"/>
+	                android:layout_width="0dip"
+	                android:text="@string/com.skirrs.signinactivity.signin"
+	                style="@style/SkirrsButton"
+	                android:layout_weight="1"/>
 	            
 	             <Button 
 	                android:id="@+id/link_to_register"
-	                android:layout_width="wrap_content"
+	                android:layout_width="0dip"
 	                android:layout_height="wrap_content"
 	                android:text="@string/com.skirrs.signinactivity.register"
 	                android:onClick="launchRegisterActivity"
-	                android:layout_alignParentBottom="true"
-                    android:layout_toRightOf="@id/signInRegisterDivider"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    />
-	             
-	              <!-- Horizontal divider -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@color/skirrs_divider_color"
-                    android:layout_alignParentBottom="true"/>
-                
-                <!--  Rightmost vertical divider -->
-                <View
-                    android:layout_width="2dip"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="4dip"
-                    android:layout_marginTop="4dip"
-                    android:background="@color/skirrs_divider_color" 
-                    android:layout_alignParentRight="true"/>
-                
-                <!--  Leftmost vertical divider -->
-                <View
-                    android:layout_width="2dip"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="4dip"
-                    android:layout_marginTop="4dip"
-                    android:background="@color/skirrs_divider_color" 
-                    android:layout_alignParentLeft="true"/>
+	                style="@style/SkirrsButton"
+	                android:layout_weight="1"/>
 	
-             </RelativeLayout>
+             </LinearLayout>
             
         </LinearLayout>
         
