@@ -181,7 +181,7 @@
                  android:layout_height="wrap_content"
                  android:orientation="horizontal"
                  style="?android:attr/buttonBarStyle"
-                 android:layout_marginTop="@dimen/activity_element_margin_top"  >
+                 android:layout_marginTop="@dimen/activity_element_margin_top" >
 
                 <!-- Submit ride button -->
 	            <Button

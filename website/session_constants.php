@@ -17,5 +17,9 @@ if (! isset($_SESSION['LOG_DIR'])) {
 	$_SESSION['LOG_DIR'] = $_SESSION['SKIRRS_HOME'] . 'logs/';
 }
 
+if (! isset($_SESSION['DISTANCE_THRESHOLD'])) {
+	$_SESSION['DISTANCE_THRESHOLD'] = 3;
+}
+
 
 ?>

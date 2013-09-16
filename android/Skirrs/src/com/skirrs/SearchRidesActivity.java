@@ -113,13 +113,13 @@ public class SearchRidesActivity extends Activity
 		Intent intent = getIntent();
 		user_id = intent.getExtras().getString( "user_id" );
 		
+		/*
+		 * Auto complete for the source address field
+		 */
 		sourceAutoComplete = ( AutoCompleteTextView ) findViewById( R.id.source );
 		sourceAutoComplete.setAdapter( new AddressAutoCompleteAdapter( 
 								       this, R.layout.address_autocomplete_list ) );
 		
-		/*
-		 * Auto complete for the source address field
-		 */
 		final Drawable map_pin_src = 
 						getResources().getDrawable( R.drawable.map_pin_src_3 );
 		
@@ -565,7 +565,7 @@ public class SearchRidesActivity extends Activity
 									 int resultCode, 
 									 Intent data ) {
 		
-		if ( resultCode == RESULT_OK ){
+		if ( resultCode == RESULT_OK ) {
 			
 			if ( requestCode == SOURCE_ADDRESS ) {
 				
@@ -646,15 +646,11 @@ public class SearchRidesActivity extends Activity
 		if ( selectedDate == null || selectedDate.length() < 1 ) {
 			dateView.setError( "Required" );
 			ok = false;
-		} else {
-			System.out.println( "selectedDate: " + selectedDate );
 		}
 		
 		if ( selectedTime == null || selectedTime.length() < 1 ) {
 			timeView.setError( "Required" );
 			ok = false;
-		} else {
-			System.out.println( "selectedTime: " + selectedTime );
 		}
 
 		
@@ -682,9 +678,7 @@ public class SearchRidesActivity extends Activity
 															 formattedAddresses,
 															 this );
 			getLatLngtask.execute( source, destination );
-			
-			System.out.println( "getLatLngTask kicked off for source and dest" );
-			
+
 		}
 			
 	}
@@ -694,7 +688,7 @@ public class SearchRidesActivity extends Activity
 	 * 
 	 * @param v
 	 */
-	public void showTimePickerDialog(View v) {
+	public void showTimePickerDialog( View v ) {
 		
 	    DialogFragment newFragment = new TimePickerFragment();
 	    newFragment.show( getFragmentManager(), "timePicker" );
@@ -706,7 +700,7 @@ public class SearchRidesActivity extends Activity
 	 * 
 	 * @param v
 	 */
-	public void showDatePickerDialog(View v) {
+	public void showDatePickerDialog( View v ) {
 	    DialogFragment newFragment = new DatePickerFragment();
 	    newFragment.show( getFragmentManager(), "datePicker" );
 	}
@@ -726,6 +720,7 @@ public class SearchRidesActivity extends Activity
 			
 		// Use the current time as the default values for the picker
 		final Calendar c = Calendar.getInstance();
+		
 		int hour   = c.get( Calendar.HOUR_OF_DAY );
 		int minute = c.get( Calendar.MINUTE );
 		
@@ -775,6 +770,7 @@ public class SearchRidesActivity extends Activity
 			
 			// Use the current date as the default date in the picker
 			final Calendar c = Calendar.getInstance();
+			
 			int year  = c.get( Calendar.YEAR );
 			int month = c.get( Calendar.MONTH );
 			int day   = c.get( Calendar.DAY_OF_MONTH );
@@ -816,7 +812,7 @@ public class SearchRidesActivity extends Activity
 		/*
 		 * If we have successfully fetched the formatted address, latitude 
 		 * and longitude for the source and destination addresses, then
-		 * we are ready to commit the ride to database 
+		 * we are ready to search rides in the database
 		 */
 		if ( success && latLng != null && latLng.size() > 0 ) {
 			
@@ -898,12 +894,6 @@ public class SearchRidesActivity extends Activity
 		        
 		        httpParams.add( new BasicNameValuePair( "departure_date_time",
 		        										inputDate.toString() ) );
-		        
-		        httpParams.add( new BasicNameValuePair( "pick_up_offered",
-		        										"0" ) );
-		        
-		        httpParams.add( new BasicNameValuePair( "share_contact_info",
-		        										"0" ) );
 		        
 		        httpParams.add( new BasicNameValuePair( "srclat",
 		        										srcLat.toString() ) );

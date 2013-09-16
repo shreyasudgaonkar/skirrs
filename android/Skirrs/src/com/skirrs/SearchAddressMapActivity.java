@@ -25,7 +25,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class SearchAddressMapActivity extends Activity
 									  implements LatLngClient {
 
-	GoogleMap mGoogleMap;
+	GoogleMap     mGoogleMap;
+	MarkerOptions marker;
 	
 	String input;
 
@@ -52,6 +53,18 @@ public class SearchAddressMapActivity extends Activity
 		MapFragment mapFragment = ( MapFragment ) getFragmentManager().findFragmentById( R.id.map );
         mGoogleMap = mapFragment.getMap();
         
+        
+        mGoogleMap.setOnMapClickListener( new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick( LatLng point ) {
+            	
+            	//mGoogleMap.clear();
+            	//marker = new MarkerOptions().position( point );
+                //mGoogleMap.addMarker( marker );
+            }
+        });
+        
         /*
          * requestCode is used for returning the result of the activity
          */
@@ -61,7 +74,7 @@ public class SearchAddressMapActivity extends Activity
          * Initialize the HashMaps
          */
         latLng             = new HashMap< String, Double >();
-	   	formattedAddresses = new HashMap< String, String>();
+	   	formattedAddresses = new HashMap< String, String >();
         
         /*
          * Get the action bar and enable custom view
@@ -73,9 +86,9 @@ public class SearchAddressMapActivity extends Activity
         /*
          * Add the autocompletetextview to the action bar as a custom view
          */
-        LayoutInflater inflator = (LayoutInflater) this
+        LayoutInflater inflator = ( LayoutInflater ) this
                 .getSystemService( Context.LAYOUT_INFLATER_SERVICE) ;
-        View v = inflator.inflate( R.layout.search_address_map_layout, null);
+        View v = inflator.inflate( R.layout.search_address_map_layout, null );
 
         actionBar.setCustomView( v );
         
@@ -103,7 +116,7 @@ public class SearchAddressMapActivity extends Activity
             	 String input = searchAddrMapAuto.getText().toString();
             	 System.out.println( "Selected: " + input );
             	 hideSoftKeyboard();
-                 getLatLng( input ); 
+                 getLatLng( input );
             }
         });
 
@@ -143,7 +156,7 @@ public class SearchAddressMapActivity extends Activity
 				getApplicationContext().getSystemService( Context.INPUT_METHOD_SERVICE );
 		
   		inputManager.hideSoftInputFromWindow( this.getCurrentFocus().getWindowToken(),      
-      		    							  InputMethodManager.HIDE_NOT_ALWAYS);
+      		    							  InputMethodManager.HIDE_NOT_ALWAYS );
 	}
 	
 	
@@ -160,11 +173,11 @@ public class SearchAddressMapActivity extends Activity
 		System.out.println( "Invoking GetLatLngTask with input: " + input );
 		
 		this.input = input;
-	   	GetLatLngTask getlatLng = new GetLatLngTask( latLng,
+	   	GetLatLngTask getLatLng = new GetLatLngTask( latLng,
 	   												 formattedAddresses,
 	   												 this );
 	   	
-	   	getlatLng.execute( input );
+	   	getLatLng.execute( input );
 	}
 	
 
@@ -191,17 +204,18 @@ public class SearchAddressMapActivity extends Activity
 		System.out.println( "Placing marker at " + INPUT.toString() );
 		
 		CameraPosition cameraPosition = new CameraPosition.Builder()
-	    .target( INPUT )      // Sets the center of the map
-	    .zoom( 15 )           // Sets the zoom
-	    
-	    .build();             // Creates a CameraPosition from the builder
+			    .target( INPUT )  // Sets the center of the map
+			    .zoom( 15 )       // Sets the zoom
+			    
+			    .build();         // Creates a CameraPosition from the builder
 		
 		mGoogleMap.animateCamera( 
 					CameraUpdateFactory.newCameraPosition( cameraPosition ) );
 		
 		mGoogleMap.addMarker( new MarkerOptions()
 							        .position( INPUT )
-							        .title( "Select this location: " + input ) );
+							        .title( "Select this location: " + input )
+							        .draggable( false ) );
 		
 	}
 

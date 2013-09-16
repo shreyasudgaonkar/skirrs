@@ -4,7 +4,7 @@ include( $_SESSION['SKIRRS_HOME'] .  'lib/KLogger.php');
 include( $_SESSION['SKIRRS_HOME'] . 'lib/mysql_dblib.php');
 
 /* This file is responsible for searching for ride information in the db */
-function search_ride( $json_arr )
+function search_rides( $json_arr )
 {
 	$response = array();
 	$response['status'] = 0; # FAILURE
@@ -19,25 +19,17 @@ function search_ride( $json_arr )
 
 
 	// collect all input params for searching
-	$srcLat 		= $ride_info['srcLat'];
-	$srcLng 		= $ride_info['srcLng'];
-	$dstLat 		= $ride_info['dstLat'];
-	$dstLng 		= $ride_info['dstLng'];
+	$srclat 		    = $ride_info['srclat'];
+	$srclng 		= $ride_info['srclng'];
+	$destlat 		= $ride_info['destlat'];
+	$destlng 		= $ride_info['destlng'];
 
-	if (!isset($srcLat) || !isset($srcLng) || !isset($dstLat) || !isset($dstLng)) {
-		$log->logError("Source and / or is not set correctly.");
+	if (!isset($srclat) || !isset($srclng) || !isset($destlat) || !isset($destlng)) {
+		$log->logError("Source and / or dest is not set correctly.");
 		return json_encode($response);
 	}
 
-	$date 			= $ride_info['date'];
-	$time 			= $ride_info['time'];
-
-	$datetime = null;
-	if (isset($date))
-		$datetime 	= $date;
-	if (isset($time))
-		$datetime .= " " . $time; // something like 2012-04-04 12:14:43:453 
-
+	$datetime = $ride_info['departure_date_time'];
 	$seatsOffered 	= $ride_info['seats_offered'];
 	$price			= $ride_info['price'];
 	$pickUpOffered	= $ride_info['pick_up_offered'];
@@ -45,9 +37,7 @@ function search_ride( $json_arr )
 	// get data out of the db based on the params specified except for lat long params
 	$sqlStr = "Select * from `rides_offered` where ";
 	if (isset($datetime))
-		$sqlStr .= " `departure_date_time` > '".$date."'";
-	if (isset($seatsOffered))
-		$sqlStr .= " AND `seats_offered` >= $seatsOffered";
+		$sqlStr .= " `departure_date_time` > '".$datetime."'";
 	if (isset($price))
 		$sqlStr .= " AND `price` <= $price";
 	if (isset($pickUpOffered))
@@ -63,8 +53,8 @@ function search_ride( $json_arr )
 	// iterate over results and keep relevant results around
 	foreach($res as $row) {
 		// if the source and destination are within 3 miles from the entries in the db show them in the ui
-		if ((getDistance($row['srcLat'], $get['srcLng'], $srcLat, $srcLng, "K") < $_SESSION['DISTANCE_THRESHOLD'])
-			&& (getDistance($row['dstLat'], $get['dstLng'], $dstLat, $dstLng, "K") < $_SESSION['DISTANCE_THRESHOLD'])) {
+		if ((getDistance($row['srcLat'], $get['srcLng'], $srclat, $srclng, "K") < $_SESSION['DISTANCE_THRESHOLD'])
+			&& (getDistance($row['dstLat'], $get['dstLng'], $destlat, $destlng, "K") < $_SESSION['DISTANCE_THRESHOLD'])) {
 			array_push($finalRows, $row);
 		}
 	}

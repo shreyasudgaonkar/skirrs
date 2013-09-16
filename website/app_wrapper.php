@@ -34,8 +34,11 @@ $map_keyword = array(
 						"register" => array(
 											"lib"  => "user_lib.php",
 											"func" => "register_user"
-										   ),										       
-						
+										   ),								       
+						"search_rides" => array(
+								"lib"  => "search_ride_lib.php",
+								"func" => "search_rides"
+						),
 					);
 
 

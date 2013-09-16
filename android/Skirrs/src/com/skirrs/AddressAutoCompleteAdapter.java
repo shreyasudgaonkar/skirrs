@@ -32,7 +32,7 @@ public class AddressAutoCompleteAdapter extends ArrayAdapter<String>
     private ArrayList<String> autoCompleteList = null;
 	
 	public AddressAutoCompleteAdapter( Context context, int textViewResourceId ) {
-		super(context, textViewResourceId);
+		super( context, textViewResourceId );
 	}
 
 	@Override
@@ -41,8 +41,8 @@ public class AddressAutoCompleteAdapter extends ArrayAdapter<String>
 	}
 
 	@Override
-	public String getItem(int index) {
-		return autoCompleteList.get(index);
+	public String getItem( int index ) {
+		return autoCompleteList.get( index );
 	}
 
 	@Override
@@ -50,10 +50,10 @@ public class AddressAutoCompleteAdapter extends ArrayAdapter<String>
 
 		Filter filter = new Filter() {
 			@Override
-			protected FilterResults performFiltering(CharSequence constraint) {
+			protected FilterResults performFiltering( CharSequence constraint ) {
 				FilterResults filterResults = new FilterResults();
 
-				if (constraint != null) {
+				if ( constraint != null ) {
 
 					addressAutoComplete( constraint.toString() );
 
@@ -140,7 +140,7 @@ public class AddressAutoCompleteAdapter extends ArrayAdapter<String>
                     autoCompleteList = new ArrayList<String>( predsJsonArray.length() );
                     for (int i = 0; i < predsJsonArray.length(); i++) {
                     	autoCompleteList.add( predsJsonArray.
-                        					getJSONObject(i).
+                        						getJSONObject(i).
                         						getString( "description" ) );
                         
                     }
@@ -151,7 +151,7 @@ public class AddressAutoCompleteAdapter extends ArrayAdapter<String>
             	}
             	
             } else {
-            	System.out.println( "Failed to get user details" );
+            	System.out.println( "Failed to get auto complete suggestions" );
             	return null;
             }
         	

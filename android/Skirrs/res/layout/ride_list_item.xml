@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--  From                        Image
+         To                            X thumbsup
+         Date, price, seats      Y thumbsdown 
+         -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:baselineAligned="false" >
+    
+    <!-- From
+            To
+            Date, Price, Seats -->
+    <LinearLayout 
+        
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:orientation="vertical">
+        
+        <!--  From -->
+        <TextView 
+            android:id="@+id/from"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:text="@string/none"/>
+        
+        <!-- To -->
+        <TextView 
+            android:id="@+id/to"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:text="@string/none"/>
+        
+        <!--  Date, Price , Seats -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            
+            <!--  Date -->
+            <TextView 
+                android:id="@+id/datetime"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"/>
+            
+            <!--  Price -->
+            <TextView 
+                android:id="@+id/price"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            
+            <!--  Seats -->
+            <TextView 
+                android:id="@+id/seats"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"/>
+            
+        </LinearLayout>
+        
+    </LinearLayout>
+
+    <!--  Photo
+             X thumbsups
+             Y thumbsdowns -->
+    <LinearLayout 
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        
+        <ImageView 
+            android:id="@+id/photo"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/none"/>
+        
+    </LinearLayout>
+    
+    
+</LinearLayout>

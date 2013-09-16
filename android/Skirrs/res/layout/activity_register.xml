@@ -8,42 +8,66 @@
    <!-- Registration Form -->
    <LinearLayout
      style="@style/LoginFormContainer"
-     android:orientation="vertical">
+     android:orientation="vertical"
+     android:layout_marginTop="@dimen/activity_element_margin_top"
+     android:background="@drawable/border">
            
      <!-- Full Name -->
-     <EditText android:id="@+id/reg_fullname"
+     <EditText android:id="@+id/fullname"
            android:layout_width="fill_parent"
            android:layout_height="wrap_content"
            android:singleLine="true"
-           android:layout_marginTop="5dip"
-           android:layout_marginBottom="20dip"
+           android:layout_marginTop="@dimen/activity_element_margin_top"
            android:hint="@string/com.skirrs.registeractivity.full_name"/>
      
      <!--  Email -->
-     <EditText android:id="@+id/reg_email"
+     <EditText android:id="@+id/email"
            android:layout_width="fill_parent"
            android:layout_height="wrap_content"
            android:singleLine="true"
-           android:layout_marginTop="5dip"
-           android:layout_marginBottom="20dip"
+           android:layout_marginTop="@dimen/activity_element_margin_top"
            android:inputType="textEmailAddress"
            android:hint="@string/com.skirrs.registeractivity.email"/>
      
      <!-- Password -->
-     <EditText android:id="@+id/reg_password"
+     <EditText android:id="@+id/password"
            android:layout_width="fill_parent"
            android:layout_height="wrap_content"
            android:singleLine="true"
-           android:layout_marginTop="5dip"
-          android:layout_marginBottom="20dip"
+           android:layout_marginTop="@dimen/activity_element_margin_top"
            android:inputType="textVisiblePassword"
            android:hint="@string/com.skirrs.registeractivity.password"/>
      
-     <!-- Register Button -->
-     <Button android:id="@+id/btnRegister"
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:text="@string/com.skirrs.registeractivity.registerbtn"/>
+     <LinearLayout 
+                 android:layout_width="fill_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal"
+                 style="?android:attr/buttonBarStyle"
+                 android:layout_marginTop="@dimen/activity_element_margin_top"  >
+
+                <!-- Register button -->
+                <Button
+                    android:id="@+id/register_button"
+                    android:text="@string/com.skirrs.submitrideactivity.submit_ride" 
+                    android:onClick="verifyUserInput"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    style="@style/SkirrsButton"
+                    android:layout_weight="1"
+                    android:layout_marginRight="2dip"/>
+ 
+                <!--  Cancel button -->
+                 <Button
+                    android:id="@+id/cancel_button"
+                    android:text="@string/com.skirrs.submitrideactivity.cancel"
+                    android:onClick="cancelActivity"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    style="@style/SkirrsButton"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="2dip"/>
+                 
+            </LinearLayout>
 
    </LinearLayout>
    <!-- Registration Form Ends -->
