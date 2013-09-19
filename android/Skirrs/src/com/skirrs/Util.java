@@ -1,5 +1,10 @@
 package com.skirrs;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class Util {
 
 	/*
@@ -21,5 +26,38 @@ public class Util {
     public static final String KEYWORD_SEARCH_RIDES  = "search_rides";
     public static final String KEYWORD_VIEW_MESSAGES = "view_messages";
     
+    
+    /**
+	 * 
+	 * @param input
+	 * @param sourceFormat
+	 * @param desiredFormat
+	 * @return
+	 */
+	public static String getDateInDesiredFormat( String input,
+												 String sourceFormat,
+												 String desiredFormat )
+	{
+		String date = "";
+		
+		try {
+			
+			SimpleDateFormat source  = new SimpleDateFormat( sourceFormat,
+															 Locale.UK );
+			
+			SimpleDateFormat desired = new SimpleDateFormat( desiredFormat,
+															 Locale.UK );
+			
+			Date dt = source.parse( input );
+			
+			date = desired.format( dt );
+			
+		} catch ( ParseException p ) {
+			
+			System.out.println( "Exception " + p + " when parsing date" );
+		}
+		
+		return date;
+	}
 	
 }

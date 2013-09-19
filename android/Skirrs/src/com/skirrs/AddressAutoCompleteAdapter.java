@@ -31,8 +31,12 @@ public class AddressAutoCompleteAdapter extends ArrayAdapter<String>
 	  
     private ArrayList<String> autoCompleteList = null;
 	
-	public AddressAutoCompleteAdapter( Context context, int textViewResourceId ) {
-		super( context, textViewResourceId );
+	public AddressAutoCompleteAdapter( Context context,
+									   int resource,
+									   int textViewResourceId ) {
+		
+		super( context, resource, textViewResourceId );
+		
 	}
 
 	@Override

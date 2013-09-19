@@ -30,15 +30,20 @@ public class JSONParser {
     /*
      * JSON tags
      */
-    public static final String TAG_STATUS            = "status";
-    public static final String TAG_FIRST_NAME        = "first_name";
-    public static final String TAG_LAST_NAME         = "last_name";
-    public static final String TAG_PHONE_NUM         = "phone_number";
-    public static final String TAG_USER_ID           = "user_id";
-    public static final String TAG_RESULTS           = "results";
-    public static final String TAG_GEOMETRY          = "geometry";
-    public static final String TAG_LOCATION          = "location";
-    public static final String TAG_FORMATTED_ADDRESS = "formatted_address";
+    public static final String TAG_STATUS              = "status";
+    public static final String TAG_FIRST_NAME          = "first_name";
+    public static final String TAG_LAST_NAME           = "last_name";
+    public static final String TAG_PHONE_NUM           = "phone_number";
+    public static final String TAG_USER_ID             = "user_id";
+    public static final String TAG_RESULTS             = "results";
+    public static final String TAG_GEOMETRY            = "geometry";
+    public static final String TAG_LOCATION            = "location";
+    public static final String TAG_FORMATTED_ADDRESS   = "formatted_address";
+    public static final String TAG_SOURCE              = "source";
+    public static final String TAG_DESTINATION         = "destination";
+    public static final String TAG_DEPARTURE_DATE_TIME = "departure_date_time";
+    public static final String TAG_SEATS               = "seats_offered";
+    public static final String TAG_PRICE               = "price";
  
     /**
      * 
@@ -112,9 +117,7 @@ public class JSONParser {
             
             is.close();
             json = sb.toString();
-            
-            //System.out.println( "json: " + json );
-            
+
         } catch ( Exception e ) {
             Log.e( "Buffer Error", "Error converting result " + e.toString() );
         }
@@ -123,6 +126,7 @@ public class JSONParser {
          * try to parse the string into a JSON object
          */
         try {
+        	jObj = null;
             jObj = new JSONObject( json );
         } catch ( JSONException e ) {
             Log.e( "JSON Parser", "Error parsing data " + e.toString() + " in json string: " + json );

@@ -12,6 +12,7 @@ import java.util.Locale;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,6 +38,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.skirrs.Ride.RideItem;
 
 /*
  * 
@@ -66,6 +69,9 @@ public class SearchRidesActivity extends Activity
     public static TextView dateView;
     public static TextView timeView;
     
+    public static Drawable upArrow;
+    public static Drawable downArrow;
+    
     public static final int SOURCE_ADDRESS = 1;
     public static final int DEST_ADDRESS   = 2;
     
@@ -83,6 +89,11 @@ public class SearchRidesActivity extends Activity
      * addresses provided by the user 
      */
     public HashMap< String, String > formattedAddresses = null;
+    
+    /*
+     * Spinning progress dialog when searching for rides
+     */
+    SkirrsProgressDialog searchProgress;
     
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
@@ -106,6 +117,18 @@ public class SearchRidesActivity extends Activity
 		
 		ActionBar actionBar = getActionBar();
 	    actionBar.setDisplayHomeAsUpEnabled(true);
+	    
+	    downArrow = getResources().getDrawable( R.drawable.down_arrow );  	
+		downArrow.setBounds( 0,
+							 0,
+							 downArrow.getIntrinsicWidth(),
+							 downArrow.getIntrinsicHeight() );
+		
+	    upArrow   = getResources().getDrawable( R.drawable.up_arrow );	    
+	    upArrow.setBounds( 0,
+						   0,
+						   upArrow.getIntrinsicWidth(),
+						   upArrow.getIntrinsicHeight() );
 		
 		/*
 		 * Get the user id via the intent ( HomeActivity provides it )
@@ -118,7 +141,9 @@ public class SearchRidesActivity extends Activity
 		 */
 		sourceAutoComplete = ( AutoCompleteTextView ) findViewById( R.id.source );
 		sourceAutoComplete.setAdapter( new AddressAutoCompleteAdapter( 
-								       this, R.layout.address_autocomplete_list ) );
+								       		this,
+								       		R.layout.address_autocomplete_list,
+								       		R.id.autocomplete_list_item ) );
 		
 		final Drawable map_pin_src = 
 						getResources().getDrawable( R.drawable.map_pin_src_3 );
@@ -216,8 +241,7 @@ public class SearchRidesActivity extends Activity
 		    						   int          before,
 		    						   int          count ) {
 		    	
-		    	final Drawable downArrow = 
-		    				getResources().getDrawable( R.drawable.down_arrow );
+		    	
 		    	
 				downArrow.setBounds( 0,
 									 0,
@@ -252,10 +276,10 @@ public class SearchRidesActivity extends Activity
 		        } else {
 		    		
 		        	/*
-		        	 * Show the expand arrow
+		        	 * Show the up arrow
 		        	 */
 		            sourceAutoCompleteShowAll.
-		            		setCompoundDrawables( null, null, downArrow, null );
+		            		setCompoundDrawables( null, null, upArrow, null );
 		            
 		            sourceAutoCompleteShowAll.setVisibility( View.VISIBLE );
 		            
@@ -269,6 +293,10 @@ public class SearchRidesActivity extends Activity
 		            										 drawables[ 1 ], 
 		            										 remove_text, 
 		            										 drawables[ 3 ] );
+		            
+		            sourceAutoComplete.setMaxLines( 5 );
+		            
+		            sourceShowAllOpen = true;
 		            
 		        }
 		        
@@ -312,13 +340,10 @@ public class SearchRidesActivity extends Activity
             	} else {
             		
             		sourceShowAllOpen = false;
-            		final Drawable x = 
-            				getResources().getDrawable( R.drawable.down_arrow );
-            		
-	                x.setBounds( 0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight() );
-	                
-	                sourceAutoCompleteShowAll.
-	                				setCompoundDrawables( null, null, x, null );
+	                sourceAutoCompleteShowAll.setCompoundDrawables( null,
+	                												null,
+	                												downArrow,
+	                												null );
 	                
 	                sourceAutoComplete.setMaxLines( 1 );
             	}
@@ -334,7 +359,9 @@ public class SearchRidesActivity extends Activity
 					( AutoCompleteTextView ) findViewById( R.id.destination );
 		
 		destinationAutoComplete.setAdapter( new AddressAutoCompleteAdapter( 
-			       							this, R.layout.address_autocomplete_list ) );
+			       								this,
+			       								R.layout.address_autocomplete_list,
+			       								R.id.autocomplete_list_item ) );
 
 		final Drawable map_pin_dest = 
 				getResources().getDrawable( R.drawable.map_pin_dest_3 );
@@ -404,15 +431,7 @@ public class SearchRidesActivity extends Activity
 		    						   int start,
 		    						   int before,
 		    						   int count) {
-		    	
-		    	final Drawable downArrow = 
-		    				getResources().getDrawable( R.drawable.down_arrow );
-		    	
-				downArrow.setBounds( 0,
-									 0,
-									 downArrow.getIntrinsicWidth(),
-									 downArrow.getIntrinsicHeight() );
-				
+
 				final Drawable remove_text = 
 						getResources().getDrawable( R.drawable.remove_text_1 );
 
@@ -443,11 +462,11 @@ public class SearchRidesActivity extends Activity
 		        } else {
 		    		
 		        	/*
-		        	 * Show the expand arrow
+		        	 * Show the up arrow
 		        	 */
 		        	destAutoCompleteShowAll.setCompoundDrawables( null,
 		        												  null,
-		        												  downArrow,
+		        												  upArrow,
 		        												  null );
 		        	
 		        	destAutoCompleteShowAll.setVisibility( View.VISIBLE );
@@ -463,6 +482,9 @@ public class SearchRidesActivity extends Activity
 		        												  drawables[ 1 ], 
 		        												  remove_text, 
 		        												  drawables[ 3 ] );
+		        	
+		        	destinationAutoComplete.setMaxLines( 5 );
+		        	destShowAllOpen = true;
 		        }
 		        
 		    }
@@ -491,29 +513,20 @@ public class SearchRidesActivity extends Activity
             	if ( destShowAllOpen == false ) {
             	
             		destShowAllOpen = true;
-            		
-	                final Drawable x =
-	                		getResources().getDrawable( R.drawable.up_arrow );
-	                
-	                x.setBounds( 0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight() ); 
-	                
+
 	                destAutoCompleteShowAll.setCompoundDrawables( null,
 	                											  null,
-	                											  x,
+	                											  upArrow,
 	                											  null );	                
 	                destinationAutoComplete.setMaxLines( 5 );
 	                
             	} else {
             		
             		destShowAllOpen = false;
-            		final Drawable x =
-            				getResources().getDrawable( R.drawable.down_arrow );
-            		
-	                x.setBounds( 0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight() );
-	                
+
 	                destAutoCompleteShowAll.setCompoundDrawables( null,
 	                											  null,
-	                											  x,
+	                											  downArrow,
 	                											  null );             
 	                destinationAutoComplete.setMaxLines( 1 );
             	}
@@ -654,11 +667,6 @@ public class SearchRidesActivity extends Activity
 		}
 
 		
-		if ( commentsTextView.getText().toString().length() < 1 ) {
-			commentsTextView.setError( "Required" );
-			ok = false;
-		}
-		
 		if ( sourceAutoComplete.getText().toString().length() < 1 ) {
 			sourceAutoComplete.setError( "Required" );
 			ok = false;
@@ -677,6 +685,12 @@ public class SearchRidesActivity extends Activity
 			GetLatLngTask getLatLngtask = new GetLatLngTask( latLng,
 															 formattedAddresses,
 															 this );
+			
+			searchProgress = SkirrsProgressDialog.show( this,
+														"",
+														"",
+														true );
+			
 			getLatLngtask.execute( source, destination );
 
 		}
@@ -816,7 +830,8 @@ public class SearchRidesActivity extends Activity
 		 */
 		if ( success && latLng != null && latLng.size() > 0 ) {
 			
-			
+			SearchRidesTask searchRidesTask = new SearchRidesTask();
+			searchRidesTask.execute();
 			
 		}
 		
@@ -914,7 +929,10 @@ public class SearchRidesActivity extends Activity
 		        										Util.KEYWORD_SEARCH_RIDES ) );
 		        
 		    
+		        System.out.println( "Making http request for searching rides" );
+		        
             	// getting JSON string from URL
+		        jParser = new JSONParser();
             	JSONObject json = jParser.makeHttpRequest( Util.url, 
             										   	   "POST",
             										   	   httpParams );
@@ -928,6 +946,50 @@ public class SearchRidesActivity extends Activity
 	            	if ( status == 1 ) {
 	            		
 	            		System.out.println( "Ride search successful" );
+	            		
+	            		JSONArray resultsArray = json.getJSONArray( JSONParser.TAG_RESULTS );
+	 
+	            		Ride.RIDES.clear();
+	            		Ride.RIDE_MAP.clear();
+	            		
+	            		for ( int i = 0; i < resultsArray.length(); i++ ) {
+	            		
+	            			JSONObject obj = resultsArray.getJSONObject( i );
+	            			
+		            		source = ( String ) obj.get( JSONParser.TAG_SOURCE );
+		            		
+		            		System.out.println( "source: " + source );
+		            		
+		            		dest = ( String ) obj.get( JSONParser.TAG_DESTINATION );
+		            		
+		            		System.out.println( "dest: " + dest );
+		            		
+		            		String departure_date_time = ( String ) obj.get( JSONParser.
+		            									 TAG_DEPARTURE_DATE_TIME );
+		            		
+		            		sourceFormat  = "yyyy-MM-dd HH:mm:ss";
+		    				desiredFormat = "EE, MMM dd, yyyy HH:mm";
+		    				String date = getDateInDesiredFormat( departure_date_time, 
+		    													  sourceFormat, 
+		    													  desiredFormat);
+		            		
+		            		System.out.println( "departure_date_time: " + date );
+	            		
+		            		String seats = ( String )obj.get( JSONParser.TAG_SEATS );
+		            		String price = ( String )obj.get( JSONParser.TAG_PRICE );
+		            		
+		            		RideItem ride = new RideItem( source,
+		            									  dest,
+		            									  date,
+		            									  seats,
+		            									  price,
+		            									  user_id );
+		            		
+		            		Ride.addItem( ride );
+		            		
+	            		}
+	            		
+	            		
 	            		
 	            	} else {
 	            		
@@ -951,7 +1013,16 @@ public class SearchRidesActivity extends Activity
 		@Override
 		protected void onPostExecute( final Boolean success ) {
 		
+			searchProgress.dismiss();
+			
 			if ( success ) {
+				
+				Intent rideListActivityIntent = new Intent( getApplicationContext(),
+															RideListActivity.class );
+				
+				
+				
+				startActivity( rideListActivityIntent );
 				
 			}
 			

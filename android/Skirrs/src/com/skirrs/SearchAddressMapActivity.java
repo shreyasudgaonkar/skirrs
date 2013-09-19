@@ -99,7 +99,9 @@ public class SearchAddressMapActivity extends Activity
         					findViewById( R.id.searchAddressMapAutoComplete );
         
         searchAddrMapAuto.setAdapter( new AddressAutoCompleteAdapter( 
-			       				this, R.layout.address_autocomplete_list ) );
+			       							this,
+			       							R.layout.address_autocomplete_list,
+			       							R.id.autocomplete_list_item ) );
         
         /*
          * Add an onItemClickListener so that the map can be updated when the

@@ -9,6 +9,14 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    
+    <permission android:name="com.skirrs..gcm.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.skirrs.gcm.permission.C2D_MESSAGE" />
+    
     <!--
      The following two permissions are not required to use
      Google Maps Android API v2, but are recommended.
@@ -25,7 +33,7 @@
         android:targetSdkVersion="18" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/SkirrsTheme" >
@@ -82,8 +90,20 @@
         <!-- Search rides activity -->
         <activity
             android:name="com.skirrs.SearchRidesActivity"
-            android:label="@string/title_activity_search_rides" 
-            android:windowSoftInputMode="stateHidden">
+            android:label="@string/title_activity_search_rides"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.skirrs.RideListActivity"
+            android:label="@string/title_ride_list" >
+        </activity>
+        <activity
+            android:name="com.skirrs.RideDetailActivity"
+            android:label="@string/title_ride_detail"
+            android:parentActivityName=".RideListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RideListActivity" />
         </activity>
     </application>
 

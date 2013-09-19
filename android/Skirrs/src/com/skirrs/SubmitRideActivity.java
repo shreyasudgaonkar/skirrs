@@ -117,7 +117,9 @@ public class SubmitRideActivity extends Activity
 		
 		sourceAutoComplete = ( AutoCompleteTextView ) findViewById( R.id.source );
 		sourceAutoComplete.setAdapter( new AddressAutoCompleteAdapter( 
-								       this, R.layout.address_autocomplete_list ) );
+								       		this,
+								       		R.layout.address_autocomplete_list,
+								       		R.id.autocomplete_list_item ) );
 		
 		/*
 		 * Auto complete for the source address field
@@ -328,7 +330,9 @@ public class SubmitRideActivity extends Activity
 					( AutoCompleteTextView ) findViewById( R.id.destination );
 		
 		destinationAutoComplete.setAdapter( new AddressAutoCompleteAdapter( 
-			       							this,R.layout.address_autocomplete_list ) );
+			       									this,
+			       									R.layout.address_autocomplete_list,
+			       									R.id.autocomplete_list_item ) );
 
 		final Drawable map_pin_dest = 
 				getResources().getDrawable( R.drawable.map_pin_dest_3 );

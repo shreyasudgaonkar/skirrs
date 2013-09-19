@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@null"
-    android:textSize="15sp">
-</TextView>
+    android:minHeight="40dip"
+    android:background="@color/skirrs_bg_color"
+    android:orientation="vertical">
+    
+	<TextView
+	    android:id="@+id/autocomplete_list_item"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:textSize="16sp"
+	    android:paddingLeft="5dip">
+	</TextView>
+	
+	<View style="@style/SkirrsDivider"/>
+
+</LinearLayout>

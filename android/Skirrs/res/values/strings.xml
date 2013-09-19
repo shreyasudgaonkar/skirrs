@@ -62,5 +62,12 @@
     <string name="com.skirrs.searchrideactivity.time">Time</string>
     <string name="com.skirrs.searchrideactivity.cancel">Cancel</string>
     <string name="title_activity_search_rides">Search rides</string>
+    <string name="title_ride_list">Rides</string>
+    <string name="title_ride_detail">Ride Detail</string>
     
+    <!--  Ride list -->
+    <string name="com.skirrs.ridelist.report">Report spam</string>
+    <string name="com.skirrs.ridelist.details">Details</string>
+    <string name="com.skirrs.ridelist.request_seat">Request seat</string> 
+
 </resources>

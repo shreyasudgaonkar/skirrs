@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="skirrs_bg_color">#fff5ee</color>
+    <color name="skirrs_bg_color_secondary">#fff5ee</color>
+    <color name="skirrs_bg_color">#EDF6FF</color>
     <color name="skirrs_action_bar_bg_color">#2f6699</color>
     <color name="skirrs_text_color">#000000</color>
-    <color name="skirrs_divider_color">#297A29</color>
+    <color name="skirrs_divider_color">#6EBF6E</color>
     <color name="skirrs_button_text_color">#FFFFFF</color>
     <color name="skirrs_textview_text_color">#008A2E</color>
-    
+    <color name="skirrs_ride_list_item_color">#589958</color>
     
     <!--  green theme -->
     <color name="skirrs_button_start_gradient">#6EBF6E</color>
     <color name="skirrs_button_end_gradient">#213921</color>
     <color name="skirrs_button_border_color">@color/skirrs_button_end_gradient</color>
-    <color name="skirrs_border_color">@color/skirrs_button_start_gradient</color>
+    <color name="skirrs_border_color">#6EBF6E</color>
 
-    <!--  grey with blue border theme 
-    <color name="skirrs_button_start_gradient">#CCD6E0</color>
-    <color name="skirrs_button_end_gradient">#194775</color>
-    <color name="skirrs_button_border_color">@color/skirrs_button_end_gradient</color>
-    <color name="skirrs_border_color">@color/skirrs_button_end_gradient</color>
-    -->
-    
 </resources>
