@@ -18,7 +18,7 @@ if (! isset($_SESSION['LOG_DIR'])) {
 }
 
 if (! isset($_SESSION['DISTANCE_THRESHOLD'])) {
-	$_SESSION['DISTANCE_THRESHOLD'] = 3;
+	$_SESSION['DISTANCE_THRESHOLD'] = 20;
 }
 
 
