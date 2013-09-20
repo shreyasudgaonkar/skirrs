@@ -22,8 +22,8 @@
         <item name="android:textSize">18sp</item>
         <item name="android:divider">@color/skirrs_border_color</item>
         <item name="android:shadowColor">#000000</item>
-	    <item name="android:shadowDx">0.5</item>
-	    <item name="android:shadowDy">0.5</item>
+	    <item name="android:shadowDx">0.1</item>
+	    <item name="android:shadowDy">0.1</item>
 	    <item name="android:shadowRadius">0.01</item>
     
     </style>

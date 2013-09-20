@@ -86,6 +86,8 @@ public class SubmitRideActivity extends Activity
      */
     public HashMap< String, String > formattedAddresses = null;
     
+    SkirrsProgressDialog submitDialog;
+    
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
 		
@@ -658,6 +660,12 @@ public class SubmitRideActivity extends Activity
 			GetLatLngTask getLatLngtask = new GetLatLngTask( latLng,
 															 formattedAddresses,
 															 this );
+			
+			submitDialog = SkirrsProgressDialog.show( this,
+													  "",
+													  "",
+													  true );
+			
 			getLatLngtask.execute( source, destination );
 			
 			System.out.println( "getLatLngTask kicked off for source and dest" );
@@ -954,7 +962,11 @@ public class SubmitRideActivity extends Activity
 		@Override
 		protected void onPostExecute( final Boolean success ) {
 		
+			submitDialog.dismiss();
+			
 			if ( success ) {
+				
+				finish();
 				
 			}
 			

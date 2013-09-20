@@ -8,6 +8,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -16,6 +22,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -60,10 +67,20 @@ public class SignInActivity extends Activity {
 		mPasswordView = ( EditText ) findViewById( R.id.password );
 
 		findViewById( R.id.sign_in_button ).setOnClickListener(
+				
 				new View.OnClickListener() {
 					@Override
 					public void onClick( View view ) {
 						attemptLogin();
+					}
+				});
+		
+		findViewById( R.id.sign_in_fb_button ).setOnClickListener(
+				
+				new View.OnClickListener() {
+					@Override
+					public void onClick( View view ) {
+						attemptFbLogin();
 					}
 				});
 		
@@ -176,7 +193,70 @@ public class SignInActivity extends Activity {
 		}
 	}
 
+	
+	/**
+	 * 
+	 */
+	public void attemptFbLogin()
+	{
+		// start Facebook Login
+	    Session.openActiveSession( this, true, new Session.StatusCallback() {
 
+	      // callback when session changes state
+	      @Override
+	      public void call( Session session,
+	    		  			SessionState state,
+	    		  			Exception exception ) {
+	    	  
+				if ( session.isOpened() ) {
+
+					System.out.println( "Inside session.isOpened()" );
+					
+					Request request = Request.newMeRequest( session,
+										  new Request.GraphUserCallback() {
+						@Override
+						public void onCompleted( GraphUser user,
+												 Response response ) {
+
+							System.out.println( "onCompleted called" );
+							
+							if ( user != null ) {
+								
+								System.out.println( "Hello "
+										+ user.getName() + "!");
+								
+							} else {
+								
+								System.out.println( "User is null!" );
+								
+							}
+
+						}
+
+					});
+					
+					Request.executeBatchAsync( request );
+
+				}
+	        
+	      }
+	      
+	    });
+	    
+	}
+	
+	
+	@Override
+    public void onActivityResult( int requestCode, int resultCode, Intent data ) 
+    {
+        super.onActivityResult( requestCode, resultCode, data );
+        Session.getActiveSession().onActivityResult( this,
+        											 requestCode,
+        											 resultCode,
+        											 data );
+    }
+	
+	
 	/**
 	 * Represents an asynchronous login task used to authenticate
 	 * the user.

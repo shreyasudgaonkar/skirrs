@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -45,6 +46,8 @@ public class RideListFragment extends ListFragment {
 	private int mActivatedPosition = ListView.INVALID_POSITION;
 	
 	private ListView rideListView;
+	
+	private TextView searchInfoTextView;
 
 	/**
 	 * A callback interface that all activities containing this fragment must
@@ -87,6 +90,21 @@ public class RideListFragment extends ListFragment {
         
         rideListView = ( ListView ) rootView.findViewById( android.R.id.list );
 
+        searchInfoTextView = 
+        		( TextView ) rootView.findViewById( R.id.ride_list_search_info );
+        
+        /*
+		 * Get the source and dest via the intent 
+		 * ( SearchRidesActivity provides the values )
+		 */
+		Intent intent = getActivity().getIntent();
+		String source = intent.getExtras().getString( "source" );
+		String dest   = intent.getExtras().getString( "dest" );
+		
+		System.out.println( "In fragment, source: " + source );
+        
+        searchInfoTextView.setText( source + " to \n" + dest );
+        
         return rootView;
     }
 	
@@ -107,6 +125,8 @@ public class RideListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
+		
+		
 	}
 
 	@Override

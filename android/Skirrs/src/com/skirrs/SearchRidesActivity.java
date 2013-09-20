@@ -53,6 +53,9 @@ public class SearchRidesActivity extends Activity
     private AutoCompleteTextView sourceAutoComplete;
     private AutoCompleteTextView destinationAutoComplete;
     
+    private String srcFmtAddr;
+    private String destFmtAddr;
+    
     private TextView sourceAutoCompleteShowAll;
     private TextView destAutoCompleteShowAll;
     
@@ -874,7 +877,7 @@ public class SearchRidesActivity extends Activity
 				String source = sourceAutoComplete.getText().toString();
 				Double srcLat = latLng.get( source + "lat" );
 				Double srcLng = latLng.get( source + "lng" );
-				String srcFmtAddr = formattedAddresses.get( source );
+				srcFmtAddr = formattedAddresses.get( source );
 				System.out.println( "srcFmtAddr: " + srcFmtAddr );
 				
 				srcLat = Double.valueOf( sixDecimal.format( srcLat ) );
@@ -887,7 +890,7 @@ public class SearchRidesActivity extends Activity
 				String dest = destinationAutoComplete.getText().toString();
 				Double destLat = latLng.get( dest + "lat" );
 				Double destLng = latLng.get( dest + "lng" );
-				String destFmtAddr = formattedAddresses.get( dest );
+				destFmtAddr = formattedAddresses.get( dest );
 				System.out.println( "destFmtAddr: " + destFmtAddr );
 				
 		        destLat = Double.valueOf( sixDecimal.format( destLat ) );
@@ -997,8 +1000,10 @@ public class SearchRidesActivity extends Activity
 	            	}
 	            	
                 } else {
+                	
                 	System.out.println( "Failed to search rides" );
                 	return false;
+                	
                 } 
             	
             } catch ( JSONException j ) {
@@ -1020,7 +1025,8 @@ public class SearchRidesActivity extends Activity
 				Intent rideListActivityIntent = new Intent( getApplicationContext(),
 															RideListActivity.class );
 				
-				
+				rideListActivityIntent.putExtra( "source", srcFmtAddr );
+				rideListActivityIntent.putExtra( "dest", destFmtAddr );
 				
 				startActivity( rideListActivityIntent );
 				

@@ -48,7 +48,8 @@
 	                android:layout_width="0dip"
 	                android:text="@string/com.skirrs.signinactivity.signin"
 	                style="@style/SkirrsButton"
-	                android:layout_weight="1"/>
+	                android:layout_weight="1"
+	                android:layout_marginRight="2dip"/>
 	            
 	             <Button 
 	                android:id="@+id/link_to_register"
@@ -57,8 +58,38 @@
 	                android:text="@string/com.skirrs.signinactivity.register"
 	                android:onClick="launchRegisterActivity"
 	                style="@style/SkirrsButton"
-	                android:layout_weight="1"/>
+	                android:layout_weight="1"
+	                android:layout_marginLeft="2dip"/>
 	
+             </LinearLayout>
+             
+            <!--  Sign-in with facebook  -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_element_margin_top"
+                android:orientation="vertical">
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="@string/com.skirrs.signinactivity.or"
+                    android:textStyle="italic"/>
+                
+                <Button
+                    android:id="@+id/sign_in_fb_button"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/com.skirrs.signinactivity.signinfb"
+                    style="@style/SkirrsButton"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:paddingLeft="15dip"
+                    android:paddingRight="15dip"
+                    android:layout_marginTop="@dimen/activity_element_margin_top"/>
+    
              </LinearLayout>
             
         </LinearLayout>
