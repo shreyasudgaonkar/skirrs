@@ -13,6 +13,7 @@ import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
+import com.facebook.widget.LoginButton;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,7 +23,6 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -43,6 +43,8 @@ public class SignInActivity extends Activity {
 	private EditText mEmailView;
 	private EditText mPasswordView;
 	
+	private View mLoginFormView;
+	
 	// JSON Parser object
     JSONParser jParser = new JSONParser();
     
@@ -53,6 +55,8 @@ public class SignInActivity extends Activity {
 	
 	SkirrsProgressDialog signInDialog;
 
+	UserDetailsTask userDetailsTask;
+	
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
 		
@@ -74,18 +78,177 @@ public class SignInActivity extends Activity {
 						attemptLogin();
 					}
 				});
+
+		LoginButton loginButton = (LoginButton) findViewById( R.id.sign_in_fb_button );
+
+		if ( Session.getActiveSession() !=null ) {
+			
+			if ( Session.getActiveSession().isOpened() ) {
+				/* 
+				 * An active open session
+				 * Hide the loginFrom
+				 */
+				mLoginFormView = ( View ) findViewById( R.id.login_form );
+				mLoginFormView.setVisibility( View.INVISIBLE );
+			}
+		}
 		
-		findViewById( R.id.sign_in_fb_button ).setOnClickListener(
+		Session.StatusCallback callback =
 				
-				new View.OnClickListener() {
-					@Override
-					public void onClick( View view ) {
-						attemptFbLogin();
-					}
-				});
+			    new Session.StatusCallback() {
+			
+			    @Override
+			    public void call( Session session, 
+			    				  SessionState state,
+			    				  Exception exception ) {
+			    	
+			    	if ( state.isOpened() ) {
+
+			    		loginWithFb( session );
+			    		
+			    	} if ( state.isClosed() ) {
+			    		
+			    		mLoginFormView = ( View ) findViewById( R.id.login_form );
+						mLoginFormView.setVisibility( View.VISIBLE );
+						
+			    	}
+			       
+			    }
+		};
 		
+		loginButton.setSessionStatusCallback( callback );
 	}
 
+	
+	private void loginWithFb( Session session )
+	{
+		
+		signInDialog = SkirrsProgressDialog.show( this,
+												  "",
+												  "",
+												  true );
+		
+		/*
+		 * Login successful
+		 */
+		Request request = Request.newMeRequest( session,
+				  new Request.GraphUserCallback() {
+			
+			@Override
+			public void onCompleted( GraphUser user,
+									 Response response ) {
+
+				if ( user != null ) {
+					
+					System.out.println( "Hello "
+							+ user.getName() + "!");
+					
+					mEmail = user.getUsername();
+					
+					userDetailsTask = new UserDetailsTask();
+					userDetailsTask.execute( mEmail );
+					
+				} else {
+					
+					System.out.println( "User is null!" );
+					
+				}
+
+			}
+
+		});
+		
+		Request.executeBatchAsync( request );
+		
+	}
+	
+	
+	public class UserDetailsTask extends AsyncTask< String, Void, Boolean> {
+
+		@Override
+		protected Boolean doInBackground( String... arg0 ) {
+			
+			// Building Parameters
+            List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
+            httpParams.add( new BasicNameValuePair( "email_address", arg0[ 0 ] ) );
+            httpParams.add( new BasicNameValuePair( "keyword", Util.KEYWORD_USER_DETAILS ) );
+            
+            try {
+            
+            	// getting JSON string from URL
+            	JSONObject json = jParser.makeHttpRequest( Util.url, 
+            										   	   "POST",
+            										   	   httpParams);
+            	
+            	if ( json != null && json.length() > 0 ) {
+                    
+	            	int status = json.getInt( JSONParser.TAG_STATUS );
+	            	
+	            	if ( status == 1 ) {
+	            		
+	            		/*
+	            		 * User exists. Nothing to do. Redirect to HomeActivity
+	            		 */
+	            		System.out.println("User exists. Launching HomeActivity");
+	            		return true;
+
+	            	} else {
+
+	            		/*
+	            		 * Register this user using the emailaddress from FB
+	            		 */
+	            		System.out.println("User does not exist. Registering...");
+	            		return true;
+	            	}
+	            	
+                } else {
+                	System.out.println( "Failed to get user details" );
+                	return false;
+                }
+            	
+            } catch ( JSONException j ) {
+            	System.out.println( "JSONException: " + j );
+            	return false;
+            }
+
+		}
+		
+		
+		@Override
+		protected void onPostExecute( final Boolean success ) {
+		
+			signInDialog.dismiss();
+			
+			if ( success ) {
+				
+				/* 
+				 * Add user data to SessionManager
+				 */				
+				if ( sessionManager != null ) {
+					sessionManager.createLoginSession( mEmail );
+				}
+				
+				/*
+				 * Launch home screen activity here
+				 */
+				Intent homeActIntent =
+						new Intent( getApplicationContext(),
+									HomeActivity.class );
+				
+				homeActIntent.putExtra( "EMAIL_ADDRESS", mEmail );
+				
+				startActivity( homeActIntent );
+				finish();
+				
+			} else {
+
+			}
+			
+		}
+		
+		
+	}
+	
 	
 	/**
 	 * 
@@ -199,6 +362,12 @@ public class SignInActivity extends Activity {
 	 */
 	public void attemptFbLogin()
 	{
+		
+		signInDialog = SkirrsProgressDialog.show( this,
+												  "",
+												  "",
+												  true );
+		
 		// start Facebook Login
 	    Session.openActiveSession( this, true, new Session.StatusCallback() {
 
@@ -210,34 +379,7 @@ public class SignInActivity extends Activity {
 	    	  
 				if ( session.isOpened() ) {
 
-					System.out.println( "Inside session.isOpened()" );
-					
-					Request request = Request.newMeRequest( session,
-										  new Request.GraphUserCallback() {
-						@Override
-						public void onCompleted( GraphUser user,
-												 Response response ) {
-
-							System.out.println( "onCompleted called" );
-							
-							if ( user != null ) {
-								
-								System.out.println( "Hello "
-										+ user.getName() + "!");
-								
-							} else {
-								
-								System.out.println( "User is null!" );
-								
-							}
-
-						}
-
-					});
-					
-					Request.executeBatchAsync( request );
-
-				}
+									}
 	        
 	      }
 	      
@@ -333,7 +475,7 @@ public class SignInActivity extends Activity {
 				Intent homeActIntent = new Intent( getApplicationContext(), 
 												   HomeActivity.class );
 				
-				homeActIntent.putExtra( "EXTRA_EMAIL_ADDRESS", mEmail );
+				homeActIntent.putExtra( "EMAIL_ADDRESS", mEmail );
 				
 				startActivity( homeActIntent );
 				finish();
@@ -356,5 +498,5 @@ public class SignInActivity extends Activity {
 		}
 		
 	}
-	
+
 }

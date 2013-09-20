@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -247,6 +248,9 @@ public class RideListFragment extends ListFragment {
 	        ViewHolder holder = null;
 	        RideItem rowItem = getItem( position );
 
+	        Typeface robotoFont = Typeface.createFromAsset( 
+	        					getActivity().getAssets(), "Roboto-Regular.ttf"); 
+	        
 	        LayoutInflater mInflater = ( LayoutInflater ) context
 	                .getSystemService( Activity.LAYOUT_INFLATER_SERVICE );
 	        
@@ -258,11 +262,17 @@ public class RideListFragment extends ListFragment {
 	            holder.mFrom   =
 	            	( TextView ) convertView.findViewById( R.id.ride_list_from );
 	            
+	            holder.mFrom.setTypeface( robotoFont );
+	            
 	            holder.mTo     = 
 	            	( TextView ) convertView.findViewById( R.id.ride_list_to );
 	            
+	            holder.mTo.setTypeface( robotoFont );
+	            
 	            holder.mPrice  =
 	            	( TextView ) convertView.findViewById( R.id.ride_list_price );
+	            
+	            holder.mPrice.setTypeface( robotoFont );
 	            
 	            holder.mImageView =
 	            	( ImageView ) convertView.findViewById( R.id.ride_list_photo );
@@ -270,8 +280,12 @@ public class RideListFragment extends ListFragment {
 	            holder.mSeats  =
 	            	( TextView ) convertView.findViewById( R.id.ride_list_seats );
 	            
+	            holder.mSeats.setTypeface( robotoFont );
+	            
 	            holder.mDateTime  =
 		            	( TextView ) convertView.findViewById( R.id.ride_list_datetime );
+	            
+	            holder.mDateTime.setTypeface( robotoFont );
 	            
 	            holder.mThumbsUp = 
 	            		( TextView ) convertView.findViewById( R.id.ride_list_thumbsup );

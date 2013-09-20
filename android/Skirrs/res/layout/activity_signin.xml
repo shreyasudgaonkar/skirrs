@@ -2,98 +2,97 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".SignInActivity" >
 
-    <!-- Login form -->
-
-    <ScrollView
-        android:id="@+id/login_form"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="@dimen/activity_element_margin_top">
-
-        <LinearLayout
-            style="@style/LoginFormContainer"
-            android:layout_marginLeft="@dimen/activity_margin_left"
-            android:layout_marginRight="@dimen/activity_margin_right"
-            android:orientation="vertical" 
-            android:background="@drawable/border">
-
-            <EditText
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/com.skirrs.signinactivity.email"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:singleLine="true" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/activity_element_margin_top"
+        android:background="@drawable/border">
         
-            <EditText
-                android:layout_marginTop="16dp"
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/com.skirrs.signinactivity.password"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true"/>
-            
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:layout_marginTop="42dp"
-                android:orientation="horizontal">
-                
-	            <Button
-	                android:id="@+id/sign_in_button"
-	                 android:layout_height="wrap_content"
-	                android:layout_width="0dip"
-	                android:text="@string/com.skirrs.signinactivity.signin"
-	                style="@style/SkirrsButton"
-	                android:layout_weight="1"
-	                android:layout_marginRight="2dip"/>
-	            
-	             <Button 
-	                android:id="@+id/link_to_register"
-	                android:layout_width="0dip"
-	                android:layout_height="wrap_content"
-	                android:text="@string/com.skirrs.signinactivity.register"
-	                android:onClick="launchRegisterActivity"
-	                style="@style/SkirrsButton"
-	                android:layout_weight="1"
-	                android:layout_marginLeft="2dip"/>
+        <!-- Login form -->
+	   <LinearLayout
+	       android:id="@+id/login_form"
+	       style="@style/LoginFormContainer"
+	       android:layout_marginLeft="@dimen/activity_margin_left"
+	       android:layout_marginRight="@dimen/activity_margin_right"
+	       android:orientation="vertical" >
 	
-             </LinearLayout>
-             
-            <!--  Sign-in with facebook  -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_element_margin_top"
-                android:orientation="vertical">
-                
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:text="@string/com.skirrs.signinactivity.or"
-                    android:textStyle="italic"/>
-                
-                <Button
-                    android:id="@+id/sign_in_fb_button"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="@string/com.skirrs.signinactivity.signinfb"
-                    style="@style/SkirrsButton"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:paddingLeft="15dip"
-                    android:paddingRight="15dip"
-                    android:layout_marginTop="@dimen/activity_element_margin_top"/>
+	       <EditText
+	           android:id="@+id/email"
+	           android:layout_width="match_parent"
+	           android:layout_height="wrap_content"
+	           android:hint="@string/com.skirrs.signinactivity.email"
+	           android:inputType="textEmailAddress"
+	           android:maxLines="1"
+	           android:singleLine="true" />
+	   
+	       <EditText
+	           android:layout_marginTop="16dp"
+	           android:id="@+id/password"
+	           android:layout_width="match_parent"
+	           android:layout_height="wrap_content"
+	           android:hint="@string/com.skirrs.signinactivity.password"
+	           android:inputType="textPassword"
+	           android:maxLines="1"
+	           android:singleLine="true"/>
+	       
+	       <LinearLayout
+	           android:layout_width="match_parent"
+	           android:layout_height="wrap_content"
+	           android:layout_marginTop="@dimen/activity_extra_margin_top"
+	           android:orientation="horizontal">
+	           
+		        <Button
+		            android:id="@+id/sign_in_button"
+		             android:layout_height="wrap_content"
+		            android:layout_width="0dip"
+		            android:text="@string/com.skirrs.signinactivity.signin"
+		            style="@style/SkirrsButton"
+		            android:layout_weight="1"
+		            android:layout_marginRight="2dip"/>
+		        
+		         <Button 
+		            android:id="@+id/link_to_register"
+		            android:layout_width="0dip"
+		            android:layout_height="wrap_content"
+		            android:text="@string/com.skirrs.signinactivity.register"
+		            android:onClick="launchRegisterActivity"
+		            style="@style/SkirrsButton"
+		            android:layout_weight="1"
+		            android:layout_marginLeft="2dip"/>
+	
+	        </LinearLayout>
+	        
+	        <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center_horizontal"
+                 android:gravity="center"
+                 android:text="@string/com.skirrs.signinactivity.or"
+                 android:layout_marginTop="@dimen/activity_element_margin_top"
+                 android:textStyle="italic"/>
+	        
+	    </LinearLayout>
     
-             </LinearLayout>
+	    <!--  Sign-in with facebook  -->
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="@dimen/activity_element_margin_top"
+	        android:orientation="vertical">
+	        
+	        <com.facebook.widget.LoginButton
+	            android:id="@+id/sign_in_fb_button"
+	            android:layout_height="wrap_content"
+	            android:layout_width="wrap_content"
+	            android:text="@string/com.skirrs.signinactivity.signinfb"
+	            android:layout_gravity="center_horizontal"
+	            android:gravity="center"
+	            android:layout_marginBottom="@dimen/activity_element_margin_top"/>
+	
+	     </LinearLayout>
+     
+    </LinearLayout>
+    
             
-        </LinearLayout>
-        
-    </ScrollView>
-
 </merge>

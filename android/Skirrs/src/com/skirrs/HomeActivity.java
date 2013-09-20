@@ -41,9 +41,9 @@ public class HomeActivity extends Activity {
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
 		
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_home);
-		
+		super.onCreate( savedInstanceState );
+		setContentView( R.layout.activity_home );
+
 		sessionManager = SessionManager.getInstance( getApplicationContext() );
 		
 		/*
@@ -159,7 +159,7 @@ public class HomeActivity extends Activity {
 		 * Redirect the user to the sign-in screen
 		 */
 		Intent signInIntent = new Intent( getApplicationContext(),
-				  SignInActivity.class );
+				  						  SignInActivity.class );
 		startActivity( signInIntent );
 		
 		finish();
@@ -173,8 +173,12 @@ public class HomeActivity extends Activity {
 			
 			// Building Parameters
             List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
-            httpParams.add( new BasicNameValuePair( "email_address", emailAddress ) );
-            httpParams.add( new BasicNameValuePair( "keyword", "user_details" ) );
+            
+            httpParams.add( new BasicNameValuePair( "email_address",
+            										emailAddress ) );
+            
+            httpParams.add( new BasicNameValuePair( "keyword",
+            										Util.KEYWORD_USER_DETAILS ) );
             
             try {
             
@@ -185,8 +189,6 @@ public class HomeActivity extends Activity {
             	
             	if ( json != null && json.length() > 0 ) {
                     
-                	System.out.println( "json: " + json );
-                	
 	            	int status = json.getInt( JSONParser.TAG_STATUS );
 	            	
 	            	if ( status == 1 ) {
