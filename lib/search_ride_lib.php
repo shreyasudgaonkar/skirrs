@@ -18,10 +18,14 @@ function search_rides( $json_arr )
 	$log->logInfo( "ride_info: $ride_info_str" );
 
 	// collect all input params for searching
-	$srclat 		= $ride_info['srclat'];
-	$srclng 		= $ride_info['srclng'];
-	$destlat 		= $ride_info['destlat'];
-	$destlng 		= $ride_info['destlng'];
+	$srclat 				= $ride_info['srclat'];
+	$srclng 				= $ride_info['srclng'];
+	$destlat 				= $ride_info['destlat'];
+	$destlng 				= $ride_info['destlng'];
+	$permissibleDistance	= $ride_info['permissibleDistance'];
+	if (isset($permissibleDistance)) {
+		$_SESSION['DISTANCE_THRESHOLD'] = $permissibleDistance;
+	}
 
 	if (!isset($srclat) || !isset($srclng) || !isset($destlat) || !isset($destlng)) {
 		$log->logError("Source and / or dest is not set correctly.");
@@ -34,13 +38,17 @@ function search_rides( $json_arr )
 	$pickUpOffered	= $ride_info['pick_up_offered'];
 
 	// get data out of the db based on the params specified except for lat long params
-	$sqlStr = "Select * from `rides_offered` where ";
+	$sqlStr = "Select *, ". generateHaversinesFormula($srclat, $srclng, "srclat", "srclng", "srcdst") .", 
+			". generateHaversinesFormula($destlat, $destlng, "destlat", "destLng", "destdst") ." from `rides_offered` where ";
 	if (isset($datetime))
 		$sqlStr .= " `departure_date_time` > '".$datetime."'";
 	if (isset($price))
 		$sqlStr .= " AND `price` <= $price";
 	if (isset($pickUpOffered))
 		$sqlStr .= " AND `pick_up_offered` = $pickUpOffered";
+
+	$sqlStr .= " HAVING srcdst < ". $_SESSION['DISTANCE_THRESHOLD'] ." AND destdst < ". $_SESSION['DISTANCE_THRESHOLD'];
+	$sqlStr .= " ORDER BY srcdst, destdst";
 
 	$res = fetch($sqlStr,'multiple_rows');
 	if($res == false) {
@@ -54,10 +62,10 @@ function search_rides( $json_arr )
 	// iterate over results and keep relevant results around
 	foreach($res as $row) {
 		// if the source and destination are within 3 miles from the entries in the db show them in the ui
-		if ((getDistance($row['srclat'], $row['srclng'], $srclat, $srclng, "K") < $_SESSION['DISTANCE_THRESHOLD'])
-			&& (getDistance($row['destlat'], $row['destlng'], $destlat, $destlng, "K") < $_SESSION['DISTANCE_THRESHOLD'])) {
-			array_push($finalRows, $row);
-		}
+		// if ((getDistance($row['srclat'], $row['srclng'], $srclat, $srclng, "K") < $_SESSION['DISTANCE_THRESHOLD'])
+		// 	&& (getDistance($row['destlat'], $row['destlng'], $destlat, $destlng, "K") < $_SESSION['DISTANCE_THRESHOLD'])) {
+		array_push($finalRows, $row);
+		// }
 	}
 
 	// fill response
@@ -124,6 +132,13 @@ function getDistance($lat1, $lon1, $lat2, $lon2, $unit) {
     	} else {
         	return $miles;
       }
+}
+
+function generateHaversinesFormula($lat, $lng, $dbLatField, $dbLngField, $asField) {
+	$str = "(6371 * acos (cos(radians(". $lat .")) * cos(radians(`". $dbLatField ."`)) 
+		* cos(radians(`". $dbLngField ."`) - radians(". $lng .") ) + sin(radians(". $lat .") 
+			* sin( radians(`". $dbLatField ."`))))) as ". $asField;
+	return $str;
 }
 
 ?>
