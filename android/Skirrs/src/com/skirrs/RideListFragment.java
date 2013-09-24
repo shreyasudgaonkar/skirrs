@@ -5,7 +5,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -174,12 +173,9 @@ public class RideListFragment extends ListFragment {
 		
 		super.onListItemClick( listView, view, position, id );
 
-		ArrayAdapter<RideItem> a = new ArrayAdapter<RideItem>( getActivity(),
-															   android.R.id.list );
-		
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		// mCallbacks.onItemSelected( Ride.RIDES.get( position ).getId() );
+		mCallbacks.onItemSelected( Ride.RIDES.get( position ).getId() );
 	}
 
 	@Override
@@ -218,13 +214,13 @@ public class RideListFragment extends ListFragment {
 	}
 	
 	
-	public class SkirrsRideListArrayAdapter extends ArrayAdapter<RideItem> {
+	public class SkirrsRideListArrayAdapter extends ArrayAdapter< RideItem > {
 
 	    Context context;
 
 	    public SkirrsRideListArrayAdapter( Context context,
 	    								   int textViewResourceId,
-	    								   List<RideItem> objects ) {
+	    								   List< RideItem > objects ) {
 	    	
 	        super(context, textViewResourceId, objects);
 	        this.context = context;
@@ -248,9 +244,6 @@ public class RideListFragment extends ListFragment {
 	        ViewHolder holder = null;
 	        RideItem rowItem = getItem( position );
 
-	        Typeface robotoFont = Typeface.createFromAsset( 
-	        					getActivity().getAssets(), "Roboto-Regular.ttf"); 
-	        
 	        LayoutInflater mInflater = ( LayoutInflater ) context
 	                .getSystemService( Activity.LAYOUT_INFLATER_SERVICE );
 	        
@@ -262,33 +255,23 @@ public class RideListFragment extends ListFragment {
 	            holder.mFrom   =
 	            	( TextView ) convertView.findViewById( R.id.ride_list_from );
 	            
-	            holder.mFrom.setTypeface( robotoFont );
-	            
 	            holder.mTo     = 
 	            	( TextView ) convertView.findViewById( R.id.ride_list_to );
-	            
-	            holder.mTo.setTypeface( robotoFont );
-	            
+
 	            holder.mPrice  =
 	            	( TextView ) convertView.findViewById( R.id.ride_list_price );
-	            
-	            holder.mPrice.setTypeface( robotoFont );
 	            
 	            holder.mImageView =
 	            	( ImageView ) convertView.findViewById( R.id.ride_list_photo );
 	            
 	            holder.mSeats  =
 	            	( TextView ) convertView.findViewById( R.id.ride_list_seats );
-	            
-	            holder.mSeats.setTypeface( robotoFont );
-	            
+
 	            holder.mDateTime  =
-		            	( TextView ) convertView.findViewById( R.id.ride_list_datetime );
-	            
-	            holder.mDateTime.setTypeface( robotoFont );
+		            ( TextView ) convertView.findViewById( R.id.ride_list_datetime );
 	            
 	            holder.mThumbsUp = 
-	            		( TextView ) convertView.findViewById( R.id.ride_list_thumbsup );
+	            	( TextView ) convertView.findViewById( R.id.ride_list_thumbsup );
 	            
 	            convertView.setTag(holder);
 	            
@@ -302,10 +285,6 @@ public class RideListFragment extends ListFragment {
 	        holder.mImageView.setImageResource( R.drawable.user_3 );
 	        holder.mDateTime.setText( rowItem.getDateTime() );
 	        holder.mThumbsUp.setText( "0" );
-	        
-	        if ( position % 2 == 1 ) {
-	        	//convertView.setBackgroundColor( Color.parseColor( "#E6E6FF" ) );
-	        }
 	        
 	        return convertView;
 	    }

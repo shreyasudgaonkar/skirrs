@@ -1,9 +1,15 @@
 package com.skirrs;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import android.content.Context;
+import android.os.AsyncTask;
 
 public class Util {
 
@@ -13,6 +19,11 @@ public class Util {
     public static String url = 
     			"http://ec2-54-221-233-104.compute-1.amazonaws.com/" +
         		"skirrs/website/app_wrapper.php";
+    
+    
+    public static final String GCM_SENDER_ID = "1039856074910";
+    
+    public static String gcmRegistrationId = null;
     
     /*
      * The keyword(s) that will be used by app_wrapper.php to determine
@@ -58,6 +69,55 @@ public class Util {
 		}
 		
 		return date;
+	}
+	
+	/*
+	 * This background task is used to get the registration ID from the GCM 
+	 * servers using the project ID (or GCM_SENDER_ID)
+	 */
+	public static class GetGCMRegistrationId extends AsyncTask< Context, Void, Boolean > {
+
+		@Override
+		protected Boolean doInBackground( Context... arg0 ) {
+			
+        	GoogleCloudMessaging gcm =
+        				GoogleCloudMessaging.getInstance( arg0[ 0 ] );
+        	
+        	try {
+        		
+        		Util.gcmRegistrationId = gcm.register( Util.GCM_SENDER_ID );
+        		System.out.println( "registrationId: " + Util.gcmRegistrationId );
+        		
+        	} catch ( IOException i ) {
+        		
+        		System.out.println( "Exception when getting registrationId: " +
+        							i.getMessage() );
+        		
+        	}
+
+        	return true;
+        	
+		}
+		
+	}
+	
+	
+	/*
+	 * This background task is used to get the registration ID from the GCM 
+	 * servers using the project ID (or GCM_SENDER_ID)
+	 */
+	public static class SetGCMRegistrationIdinDb 
+						extends AsyncTask< Void, Void, Boolean > {
+
+		@Override
+		protected Boolean doInBackground( Void... arg0 ) {
+
+			
+			
+        	return true;
+        	
+		}
+		
 	}
 	
 }

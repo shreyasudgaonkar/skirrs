@@ -1,18 +1,21 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:skirrs="http://schemas.android.com/apk/res/com.skirrs"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/LinearLayout1"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
     
-    <TextView
+    <com.skirrs.widget.SkirrsTypeFacedTextView
         android:id="@+id/ride_list_search_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="2"
         android:textSize="16sp"
         android:background="#C1C1C1"
-        android:padding="8dip"/>
+        android:padding="8dip"
+        skirrs:typeface="Roboto-Regular.ttf"/>
 
     <ListView
         android:id="@+id/android:list"

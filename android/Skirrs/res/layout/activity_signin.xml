@@ -1,4 +1,6 @@
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<merge 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:skirrs="http://schemas.android.com/apk/res/com.skirrs"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".SignInActivity" >
 
@@ -63,14 +65,14 @@
 	
 	        </LinearLayout>
 	        
-	        <TextView
+	        <com.skirrs.widget.SkirrsTypeFacedTextView 
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_gravity="center_horizontal"
                  android:gravity="center"
                  android:text="@string/com.skirrs.signinactivity.or"
-                 android:layout_marginTop="@dimen/activity_element_margin_top"
-                 android:textStyle="italic"/>
+                 android:layout_marginTop="@dimen/activity_extra_margin_top"
+                 skirrs:typeface="Roboto-LightItalic.ttf"/>
 	        
 	    </LinearLayout>
     

@@ -9,6 +9,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.skirrs.Util.GetGCMRegistrationId;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -37,6 +39,8 @@ public class HomeActivity extends Activity {
     JSONParser jParser = new JSONParser();
     
     private UserDetailsTask userDetailsTask;
+    
+    SkirrsProgressDialog progressDialog;
 	
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
@@ -44,7 +48,16 @@ public class HomeActivity extends Activity {
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_home );
 
+		progressDialog = SkirrsProgressDialog.show( this,
+													"",
+													"",
+													true );
+		
 		sessionManager = SessionManager.getInstance( getApplicationContext() );
+		
+		GetGCMRegistrationId getGCMRegistrationId = new GetGCMRegistrationId();
+    	getGCMRegistrationId.execute( getBaseContext() );
+    	
 		
 		/*
 		 * If the user has never signed-in, then show the sign-in screen
@@ -181,7 +194,7 @@ public class HomeActivity extends Activity {
             										Util.KEYWORD_USER_DETAILS ) );
             
             try {
-            
+            	
             	// getting JSON string from URL
             	JSONObject json = jParser.makeHttpRequest( Util.url, 
             										   	   "POST",
@@ -220,6 +233,8 @@ public class HomeActivity extends Activity {
 		@Override
 		protected void onPostExecute( final Boolean success ) {
 		
+			progressDialog.dismiss();
+			
 			if ( success ) {
 
     			welcomeMessage.setText( "Welcome, " + firstName );

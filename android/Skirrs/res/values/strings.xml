@@ -19,7 +19,7 @@
     <string name="com.skirrs.signinactivity.error_invalid_password">This password is too short</string>
     <string name="com.skirrs.signinactivity.error_incorrect_password">This password is incorrect</string>
     <string name="com.skirrs.signinactivity.error_field_required">This field is required</string>
-    <string name="com.skirrs.signinactivity.or"> --- Or --- </string>
+    <string name="com.skirrs.signinactivity.or">  Or  </string>
     <string name="com.skirrs.signinactivity.signinfb">Sign in with facebook</string>
 
     <!-- Register screen -->

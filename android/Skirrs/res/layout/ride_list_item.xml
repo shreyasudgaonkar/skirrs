@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:skirrs="http://schemas.android.com/apk/res/com.skirrs"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -35,7 +37,7 @@
 	             android:contentDescription="@string/none"
 	             android:background="@drawable/border"/>
 	         
-	         <TextView 
+	         <com.skirrs.widget.SkirrsTypeFacedTextView 
 	             android:id="@+id/ride_list_thumbsup"
 	             android:drawableRight="@drawable/thumbsup_3"
 	             android:layout_width="wrap_content"
@@ -64,18 +66,17 @@
 			    android:orientation="horizontal">
 		         
 			        <!--  Price -->
-			        <TextView 
+			        <com.skirrs.widget.SkirrsTypeFacedTextView 
 			            android:id="@+id/ride_list_price"
 			            android:layout_width="wrap_content"
 			            android:layout_height="wrap_content"
 			            android:textSize="20sp"
 			            android:drawableLeft="@drawable/rupee_3"
 			            android:drawablePadding="2dip"
-			            android:textColor="#FFA347"
-			            android:textStyle="bold"/>
+			            android:textColor="#FFA347"/>
 			        
 			        <!--  Seats -->
-	                <TextView 
+	                <com.skirrs.widget.SkirrsTypeFacedTextView
 	                    android:id="@+id/ride_list_seats"
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
@@ -87,7 +88,7 @@
 		    </LinearLayout>
 		    
 			 <!--  Date -->
-             <TextView
+             <com.skirrs.widget.SkirrsTypeFacedTextView
                  android:id="@+id/ride_list_datetime"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
@@ -109,7 +110,7 @@
         android:layout_marginRight="8dip">
         
         <!--  From -->
-        <TextView 
+        <com.skirrs.widget.SkirrsTypeFacedTextView 
             android:id="@+id/ride_list_from"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -118,20 +119,21 @@
             android:textSize="14sp"
             android:ellipsize="end"
             android:scrollHorizontally="false"
-            android:textColor="@color/skirrs_ride_list_item_color"/>
+            android:textColor="@color/skirrs_ride_list_item_color"
+            skirrs:typeface="RobotoCondensed-Regular.ttf"/>
         
         <!-- To -->
-        <TextView 
+        <com.skirrs.widget.SkirrsTypeFacedTextView 
             android:id="@+id/ride_list_to"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:text="@string/none"
             android:textSize="14sp"
-            android:layout_marginTop="2dip"
-            
+            android:layout_marginTop="2dip"       
             android:ellipsize="end"
-            android:scrollHorizontally="false"/>
+            android:scrollHorizontally="false"
+            skirrs:typeface="RobotoCondensed-Regular.ttf"/>
         
     </LinearLayout>
 
@@ -145,7 +147,7 @@
         android:layout_marginTop="6dip"
         android:visibility="gone">
         
-        <TextView
+        <com.skirrs.widget.SkirrsTypeFacedTextView
             android:id="@+id/ride_list_report"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
@@ -155,7 +157,7 @@
             android:textStyle="bold"
             android:textSize="16sp"/>
         
-        <TextView
+        <com.skirrs.widget.SkirrsTypeFacedTextView
             android:id="@+id/ride_list_request_seat"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
@@ -164,7 +166,7 @@
             android:textStyle="bold"
             android:textSize="16sp"/>
         
-        <TextView
+        <com.skirrs.widget.SkirrsTypeFacedTextView
             android:id="@+id/ride_list_view_details"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
