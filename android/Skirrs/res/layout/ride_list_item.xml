@@ -36,12 +36,11 @@
 	             android:id="@+id/ride_list_photo"
 	             android:layout_width="match_parent"
 	             android:layout_height="wrap_content"
-	             android:contentDescription="@string/none"
-	             android:background="@drawable/border"/>
+	             android:contentDescription="@string/none"/>
 	         
 	         <com.skirrs.widget.SkirrsTypeFacedTextView 
 	             android:id="@+id/ride_list_thumbsup"
-	             android:drawableRight="@drawable/thumbsup_3"
+	             android:drawableRight="@drawable/thumbsup_9"
 	             android:layout_width="wrap_content"
 	             android:layout_height="wrap_content"
 	             android:text="@string/none"
