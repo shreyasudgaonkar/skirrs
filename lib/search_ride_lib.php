@@ -15,7 +15,7 @@ function search_rides( $json_arr )
 	$ride_info = json_decode( $json_arr, true );
 	$ride_info_str = serialize($ride_info);
 
-	$log->logInfo( "ride_info: $ride_info_str" );
+	$log->logInfo( "ride_info: $ride_info" );
 
 	// collect all input params for searching
 	$srclat 				= $ride_info['srclat'];
@@ -39,7 +39,7 @@ function search_rides( $json_arr )
 
 	// get data out of the db based on the params specified except for lat long params
 	$sqlStr = "Select *, ". generateHaversinesFormula($srclat, $srclng, "srclat", "srclng", "srcdst") .", 
-			". generateHaversinesFormula($destlat, $destlng, "destlat", "destLng", "destdst") ." from `rides_offered` where ";
+			". generateHaversinesFormula($destlat, $destlng, "destlat", "destlng", "destdst") ." from `rides_offered` where ";
 	if (isset($datetime))
 		$sqlStr .= " `departure_date_time` > '".$datetime."'";
 	if (isset($price))
@@ -50,9 +50,11 @@ function search_rides( $json_arr )
 	$sqlStr .= " HAVING srcdst < ". $_SESSION['DISTANCE_THRESHOLD'] ." AND destdst < ". $_SESSION['DISTANCE_THRESHOLD'];
 	$sqlStr .= " ORDER BY srcdst, destdst";
 
+	$log->logInfo("sqlStr: $sqlStr");
+
 	$res = fetch($sqlStr,'multiple_rows');
 	if($res == false) {
-		$log->logError( "No ride details found with params: $ride_info_str");
+		$log->logError( "No ride details found with params: $ride_info");
 		return json_encode($response);
 	}
 
@@ -135,9 +137,9 @@ function getDistance($lat1, $lon1, $lat2, $lon2, $unit) {
 }
 
 function generateHaversinesFormula($lat, $lng, $dbLatField, $dbLngField, $asField) {
-	$str = "(6371 * acos (cos(radians(". $lat .")) * cos(radians(`". $dbLatField ."`)) 
-		* cos(radians(`". $dbLngField ."`) - radians(". $lng .") ) + sin(radians(". $lat .") 
-			* sin( radians(`". $dbLatField ."`))))) as ". $asField;
+	$str = "( 6371 * acos ( cos( radians( ". $lat ." ) ) * cos( radians( `". $dbLatField ."` ) ) 
+				* cos( radians( `". $dbLngField ."` ) - radians( ". $lng ." ) )
+				+ sin( radians( ". $lat ." ) ) * sin( radians(`". $dbLatField ."` ) ) ) ) as ". $asField;
 	return $str;
 }
 
