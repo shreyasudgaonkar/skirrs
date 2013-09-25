@@ -1,17 +1,20 @@
 package com.skirrs;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -67,7 +70,7 @@ public class RideListFragment extends ListFragment {
 	 */
 	private static Callbacks sDummyCallbacks = new Callbacks() {
 		@Override
-		public void onItemSelected(String id) {
+		public void onItemSelected( String id ) {
 		}
 	};
 
@@ -100,9 +103,7 @@ public class RideListFragment extends ListFragment {
 		Intent intent = getActivity().getIntent();
 		String source = intent.getExtras().getString( "source" );
 		String dest   = intent.getExtras().getString( "dest" );
-		
-		System.out.println( "In fragment, source: " + source );
-        
+
         searchInfoTextView.setText( source + " to \n" + dest );
         
         return rootView;
@@ -119,6 +120,13 @@ public class RideListFragment extends ListFragment {
 												android.R.id.list,
 												Ride.RIDES );
         rideListView.setAdapter( adapter );
+        
+        if ( Util.progressDialog != null &&
+        	 Util.progressDialog.isShowing() ) {
+        	
+        	Util.progressDialog.dismiss();
+        	
+        }
     }
 	
 	@Override
@@ -175,13 +183,25 @@ public class RideListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected( Ride.RIDES.get( position ).getId() );
+		// mCallbacks.onItemSelected( Ride.RIDES.get( position ).getId() );
+		
+		RideItem rideItem = ( RideItem ) listView.getItemAtPosition( position );
+		boolean showMenu = rideItem.getShowMenu();
+
+		if ( showMenu ) {		
+			rideItem.setShowMenu( false );		
+		} else {		
+			rideItem.setShowMenu( true );
+		}
+		
+		( ( BaseAdapter ) listView.getAdapter() ).notifyDataSetChanged();
+		
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
+	public void onSaveInstanceState( Bundle outState ) {
 		
-		super.onSaveInstanceState(outState);
+		super.onSaveInstanceState( outState );
 		if ( mActivatedPosition != ListView.INVALID_POSITION ) {
 			
 			// Serialize and persist the activated item position.
@@ -205,7 +225,7 @@ public class RideListFragment extends ListFragment {
 	private void setActivatedPosition( int position ) {
 		
 		if (position == ListView.INVALID_POSITION) {		
-			getListView().setItemChecked( mActivatedPosition, false);
+			getListView().setItemChecked( mActivatedPosition, false );
 		} else {
 			getListView().setItemChecked( position, true );
 		}
@@ -214,17 +234,33 @@ public class RideListFragment extends ListFragment {
 	}
 	
 	
-	public class SkirrsRideListArrayAdapter extends ArrayAdapter< RideItem > {
+	public class SkirrsRideListArrayAdapter extends BaseAdapter {
 
-	    Context context;
+	    Context mContext;
+	    
+	    ArrayList< RideItem >  mItems;
+	    private boolean[]      mRowStatuses;
+	    private LayoutInflater mInflater;
 
 	    public SkirrsRideListArrayAdapter( Context context,
 	    								   int textViewResourceId,
-	    								   List< RideItem > objects ) {
-	    	
-	        super(context, textViewResourceId, objects);
-	        this.context = context;
+	    								   ArrayList< RideItem > objects ) {
+	    	mContext  = context;
+	        mInflater = LayoutInflater.from( context );
+	        
+	        mItems = objects;
+	        
+	        int count = objects.size();
+			mRowStatuses = new boolean[ count ];
+			for ( int i = 0; i < count; i++ ) {
+				mRowStatuses[ i ] = false;
+			}
 	    }
+	    
+	    @Override
+		public int getCount() {
+			return mItems.size();
+		}
 
 	    /*private view holder class*/
 	    private class ViewHolder {
@@ -244,9 +280,6 @@ public class RideListFragment extends ListFragment {
 	        ViewHolder holder = null;
 	        RideItem rowItem = getItem( position );
 
-	        LayoutInflater mInflater = ( LayoutInflater ) context
-	                .getSystemService( Activity.LAYOUT_INFLATER_SERVICE );
-	        
 	        if ( convertView == null ) {
 	        	
 	            convertView = mInflater.inflate( R.layout.ride_list_item, null );
@@ -273,7 +306,7 @@ public class RideListFragment extends ListFragment {
 	            holder.mThumbsUp = 
 	            	( TextView ) convertView.findViewById( R.id.ride_list_thumbsup );
 	            
-	            convertView.setTag(holder);
+	            convertView.setTag( holder );
 	            
 	        } else
 	            holder = ( ViewHolder ) convertView.getTag();
@@ -286,6 +319,62 @@ public class RideListFragment extends ListFragment {
 	        holder.mDateTime.setText( rowItem.getDateTime() );
 	        holder.mThumbsUp.setText( "0" );
 	        
+	        /*
+	         * Show/Hide the menu under the lisitem based on the boolean value
+	         */
+	        if ( rowItem.getShowMenu() ) {
+	        	
+	        	( ( LinearLayout ) convertView.
+	        					findViewById( R.id.ride_list_menu ) ).
+	        							setVisibility( View.VISIBLE );
+	        	
+	        	TextView requestSeat =
+	        			( TextView ) convertView.
+	        						findViewById( R.id.ride_list_request_seat );
+	        	
+	        	/*
+	        	 * Set the position tag so that the item can be referenced
+	        	 * when it gets clicked
+	        	 */
+	        	requestSeat.setTag( Integer.valueOf( position ) );
+	        	
+	        	requestSeat.setOnClickListener( new OnClickListener() {
+	        		 
+					@Override
+					public void onClick( View v ) {
+	
+					}
+				});
+	        	
+	        	TextView details =
+	        			( TextView ) convertView.
+	        						findViewById( R.id.ride_list_view_details );
+	        	
+	        	details.setTag( Integer.valueOf( position ) );
+	        	
+	        	details.setOnClickListener( new OnClickListener() {
+	        		 
+					@Override
+					public void onClick( View v ) {
+	
+					}
+				});
+	        	
+	        	/*
+		        ( ( LinearLayout ) convertView.
+						findViewById( R.id.ride_list_layout ) ).setBackgroundColor( Color.LTGRAY );
+	        	*/
+	        	
+	        } else {
+	        	( ( LinearLayout ) convertView.
+    					findViewById( R.id.ride_list_menu ) ).
+    							setVisibility( View.GONE );
+	        	/*
+		        ( ( LinearLayout ) convertView.
+						findViewById( R.id.ride_list_layout ) ).setBackgroundColor( Color.TRANSPARENT );
+	        	 */
+	        }
+	        
 	        return convertView;
 	    }
 	    
@@ -294,6 +383,16 @@ public class RideListFragment extends ListFragment {
 	    {
 	    	super.notifyDataSetChanged();
 	    }
+
+	    @Override
+		public RideItem getItem( int position ) {
+			return mItems.get( position );
+		}
+ 
+		@Override
+		public long getItemId( int position ) {
+			return position;
+		}
 
 	}
 	

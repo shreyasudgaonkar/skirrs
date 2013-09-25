@@ -14,6 +14,10 @@
     <color name="skirrs_button_border_color">@color/skirrs_button_end_gradient</color>
     <color name="skirrs_border_color">#6EBF6E</color>
     <!--  <color name="skirrs_divider_color">#6EBF6E</color> -->
-    <color name="skirrs_divider_color">#3059AC</color>
+    <color name="skirrs_divider_color">#000000</color>
 
+    <color name="textview_pressed_color">#00CCFF</color>
+    
+    <color name="ride_list_selected_color">#D4D4D4</color>
+    
 </resources>

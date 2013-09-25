@@ -28,7 +28,6 @@ public class RideListActivity extends FragmentActivity
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_ride_list );
 
-		// TODO: If exposing deep links into your app, handle intents here.
 	}
 
 	/**

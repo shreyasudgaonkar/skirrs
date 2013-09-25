@@ -7,7 +7,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:baselineAligned="false"
-    android:layout_margin="@dimen/activity_element_margin_top">
+    android:layout_margin="@dimen/activity_element_margin_top"
+    android:paddingTop="4dip"
+    android:id="@+id/ride_list_layout">
     
     <!--  Photo                
                 thumbsups       price  seats   date
@@ -93,7 +95,10 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:textSize="18sp"
-                 android:layout_marginTop="10dip"/>
+                 android:layout_marginTop="10dip"
+                 android:drawableLeft="@drawable/date_4"
+                 android:drawablePadding="4dip"
+                 android:textColor="@color/skirrs_ride_list_item_color"/>
 		    
 	    </LinearLayout>
 	    
@@ -119,8 +124,9 @@
             android:textSize="14sp"
             android:ellipsize="end"
             android:scrollHorizontally="false"
-            android:textColor="@color/skirrs_ride_list_item_color"
-            skirrs:typeface="RobotoCondensed-Regular.ttf"/>
+            skirrs:typeface="RobotoCondensed-Regular.ttf"
+            android:drawableLeft="@drawable/map_pin_src_4"
+            android:drawablePadding="3dip"/>
         
         <!-- To -->
         <com.skirrs.widget.SkirrsTypeFacedTextView 
@@ -133,14 +139,16 @@
             android:layout_marginTop="2dip"       
             android:ellipsize="end"
             android:scrollHorizontally="false"
-            skirrs:typeface="RobotoCondensed-Regular.ttf"/>
+            skirrs:typeface="RobotoCondensed-Regular.ttf"
+            android:drawableLeft="@drawable/map_pin_dest_4"
+            android:drawablePadding="3dip"/>
         
     </LinearLayout>
 
     
     <!--  Report Request seat Details -->
     <LinearLayout
-        android:id="@+id/ride_list_extra_info_pane"
+        android:id="@+id/ride_list_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -154,8 +162,12 @@
             android:layout_weight="1"
             android:text="@string/com.skirrs.ridelist.report"
             android:layout_marginLeft="8dip"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            skirrs:typeface="Roboto-MediumItalic.ttf"
+            android:clickable="true"
+            android:background="@drawable/textview_selector"
+            android:paddingLeft="4dip"
+            android:textColor="#707070"/>
         
         <com.skirrs.widget.SkirrsTypeFacedTextView
             android:id="@+id/ride_list_request_seat"
@@ -163,8 +175,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/com.skirrs.ridelist.request_seat"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            skirrs:typeface="Roboto-MediumItalic.ttf"
+            android:clickable="true"
+            android:background="@drawable/textview_selector"
+            android:paddingLeft="4dip"
+            android:textColor="#707070"/>
         
         <com.skirrs.widget.SkirrsTypeFacedTextView
             android:id="@+id/ride_list_view_details"
@@ -172,8 +188,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/com.skirrs.ridelist.details"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            skirrs:typeface="Roboto-MediumItalic.ttf"
+            android:clickable="true"
+            android:background="@drawable/textview_selector"
+            android:paddingLeft="4dip"
+            android:textColor="#707070"/>
         
     </LinearLayout>
     

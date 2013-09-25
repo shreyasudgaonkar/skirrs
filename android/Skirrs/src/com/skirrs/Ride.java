@@ -2,7 +2,6 @@ package com.skirrs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,7 +15,7 @@ public class Ride {
 	/**
 	 * An array of rides
 	 */
-	public static List< RideItem > RIDES = new ArrayList< RideItem >();
+	public static ArrayList<RideItem> RIDES = new ArrayList< RideItem >();
 
 	/**
 	 * A map of rides, by ID.
@@ -44,6 +43,8 @@ public class Ride {
 		private String mPrice;
 		private String mSeats;
 		private String mUserId;
+		
+		private boolean mShowMenu;
 
 		public RideItem( String from,
 						 String to, 
@@ -59,6 +60,7 @@ public class Ride {
 			mUserId   = userId;
 			mPrice    = price;
 			mId       = Integer.toString( rideID++ );
+			mShowMenu = false;
 		}
 		
 		public String getDescription()
@@ -101,6 +103,16 @@ public class Ride {
 		public String getUserId()
 		{
 			return mUserId;
+		}
+		
+		public void setShowMenu( boolean showMenu )
+		{
+			mShowMenu = showMenu;
+		}
+		
+		public boolean getShowMenu()
+		{
+			return mShowMenu;
 		}
 		
 		@Override

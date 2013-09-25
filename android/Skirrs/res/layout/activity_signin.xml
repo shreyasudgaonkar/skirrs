@@ -9,7 +9,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/activity_element_margin_top"
-        android:background="@drawable/border">
+        android:background="@drawable/border"
+        android:layout_marginLeft="8dip"
+        android:layout_marginRight="8dip">
         
         <!-- Login form -->
 	   <LinearLayout

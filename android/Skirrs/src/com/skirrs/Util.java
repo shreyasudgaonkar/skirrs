@@ -37,6 +37,7 @@ public class Util {
     public static final String KEYWORD_SEARCH_RIDES  = "search_rides";
     public static final String KEYWORD_VIEW_MESSAGES = "view_messages";
     
+    public static SkirrsProgressDialog progressDialog;
     
     /**
 	 * 

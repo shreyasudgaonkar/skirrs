@@ -93,11 +93,6 @@ public class SearchRidesActivity extends Activity
      */
     public HashMap< String, String > formattedAddresses = null;
     
-    /*
-     * Spinning progress dialog when searching for rides
-     */
-    SkirrsProgressDialog searchProgress;
-    
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
 		
@@ -689,10 +684,10 @@ public class SearchRidesActivity extends Activity
 															 formattedAddresses,
 															 this );
 			
-			searchProgress = SkirrsProgressDialog.show( this,
-														"",
-														"",
-														true );
+			Util.progressDialog = SkirrsProgressDialog.show( this,
+															 "",
+															 "",
+															 true );
 			
 			getLatLngtask.execute( source, destination );
 
@@ -1018,8 +1013,6 @@ public class SearchRidesActivity extends Activity
 		@Override
 		protected void onPostExecute( final Boolean success ) {
 		
-			searchProgress.dismiss();
-			
 			if ( success ) {
 				
 				Intent rideListActivityIntent = new Intent( getApplicationContext(),
@@ -1029,6 +1022,7 @@ public class SearchRidesActivity extends Activity
 				rideListActivityIntent.putExtra( "dest", destFmtAddr );
 				
 				startActivity( rideListActivityIntent );
+				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 				
 			}
 			
