@@ -36,7 +36,8 @@
 	             android:id="@+id/ride_list_photo"
 	             android:layout_width="match_parent"
 	             android:layout_height="wrap_content"
-	             android:contentDescription="@string/none"/>
+	             android:contentDescription="@string/none"
+	             android:src="@drawable/user_4"/>
 	         
 	         <com.skirrs.widget.SkirrsTypeFacedTextView 
 	             android:id="@+id/ride_list_thumbsup"

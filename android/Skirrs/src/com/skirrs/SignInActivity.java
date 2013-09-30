@@ -146,7 +146,7 @@ public class SignInActivity extends Activity {
 					mEmail = user.getUsername();
 					
 					userDetailsTask = new UserDetailsTask();
-					userDetailsTask.execute( mEmail );
+					userDetailsTask.execute( mEmail, user.getName() );
 					
 				} else {
 					
@@ -173,6 +173,8 @@ public class SignInActivity extends Activity {
             httpParams.add( new BasicNameValuePair( "email_address", arg0[ 0 ] ) );
             httpParams.add( new BasicNameValuePair( "keyword", Util.KEYWORD_USER_DETAILS ) );
             
+            String fullName = arg0[ 1 ];
+            
             try {
             
             	// getting JSON string from URL
@@ -189,16 +191,28 @@ public class SignInActivity extends Activity {
 	            		/*
 	            		 * User exists. Nothing to do. Redirect to HomeActivity
 	            		 */
-	            		System.out.println("User exists. Launching HomeActivity");
+	            		System.out.println( "User exists. Launching HomeActivity" );
 	            		return true;
 
 	            	} else {
 
+	            		System.out.println( "User does not exist. Registering..." );
+	            		
 	            		/*
 	            		 * Register this user using the emailaddress from FB
-	            		 */
-	            		System.out.println("User does not exist. Registering...");
-	            		return true;
+	            		 */	            		
+	            		Intent registerIntent =
+	    						new Intent( getApplicationContext(),
+	    									RegisterActivity.class );
+	    				
+	            		registerIntent.putExtra( "EMAIL_ADDRESS", mEmail );
+	            		registerIntent.putExtra( "FULL_NAME",     fullName );
+	            		registerIntent.putExtra( "FB_REGISTER",   true );
+	            		
+	    				startActivity( registerIntent );
+	    				finish();
+
+	            		return false;
 	            	}
 	            	
                 } else {

@@ -115,6 +115,8 @@ public class GetLatLngTask extends AsyncTask< String, Void, Boolean > {
 	        		
 	        		if ( status.equals( "OK" ) ) {
 	        			
+	        			System.out.println("in GetLatLngTask, json: " + json );
+	        			
 	        			JSONObject location = json.getJSONArray( JSONParser.TAG_RESULTS ).
 	        									   getJSONObject( 0 ).
 	        									   getJSONObject( JSONParser.TAG_GEOMETRY ).

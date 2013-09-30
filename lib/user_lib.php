@@ -218,6 +218,35 @@ function get_user_details_from_email( $email_address )
 }
 
 
+/*
+ This function will register the user when the user has logged-in using facebook
+NOTE: This function receives json encoded array
+*/
+function register_fb_user($json_arr)
+{
+	require($_SESSION['SKIRRS_HOME'] . 'lib/password_handler_lib.php');
+	$user_info = json_decode($json_arr, true);
+
+	// make an entry in users table
+	$query1 = "INSERT INTO `users`(`email_address`, `user_id`, `first_name`, `last_name`) "
+			." VALUES ('"
+			.$user_info['email_address']."', DEFAULT,'"
+					.$user_info['first_name']."', '"
+							.$user_info['last_name'] .")";
+	
+	$log = new KLogger($_SESSION['LOG_DIR'], KLogger::INFO);
+	
+	$log->logInfo( "In register_fb_user: $query1" );
+	
+	$register_result = execute($query1);
+	if($register_result == -1)
+	{
+		echo "Failed to register the user";
+		return -1;
+	}
+
+}
+
 ?>
 
 		

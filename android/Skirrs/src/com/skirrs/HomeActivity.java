@@ -188,7 +188,7 @@ public class HomeActivity extends Activity {
             List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
             
             httpParams.add( new BasicNameValuePair( "email_address",
-            										emailAddress ) );
+            										 emailAddress ) );
             
             httpParams.add( new BasicNameValuePair( "keyword",
             										Util.KEYWORD_USER_DETAILS ) );

@@ -314,8 +314,7 @@ public class RideListFragment extends ListFragment {
 	        holder.mFrom.setText( rowItem.getFrom() );
 	        holder.mTo.setText( rowItem.getTo() );
 	        holder.mPrice.setText( rowItem.getPrice() );
-	        holder.mSeats.setText( rowItem.getSeats() );        
-	        holder.mImageView.setImageResource( R.drawable.user_4 );
+	        holder.mSeats.setText( rowItem.getSeats() );
 	        holder.mDateTime.setText( rowItem.getDateTime() );
 	        holder.mThumbsUp.setText( "0" );
 	        
