@@ -20,27 +20,23 @@ $log->logInfo( "Inside app_wrapper.php" );
     					)
 */
 $map_keyword = array(
-						"sign_in" => array(
-											"lib"  => "verify_lib.php",
-											"func" => "verify_login_credentials"
-										  ),
-						"submit_ride" => array(
-									     		"lib"  => "rides_offered_lib.php",
-										    	"func" => "submit_ride"
-										      ),
+						"sign_in" => array( "lib"  => "verify_lib.php",
+								    "func" => "verify_login_credentials" ),
+
+						"submit_ride" => array( "lib"  => "rides_offered_lib.php",
+									"func" => "submit_ride" ),
 						
-						"user_details" => array(
-									        	  "lib"  => "user_lib.php",
-										    	  "func" => "get_user_details_from_email"
-										       ),
-						"register" => array(
-											"lib"  => "user_lib.php",
-											"func" => "register_user"
-										   ),								       
-						"search_rides" => array(
-								"lib"  => "search_ride_lib.php",
-								"func" => "search_rides"
-						),
+						"user_details" => array( "lib"  => "user_lib.php",
+									 "func" => "get_user_details_from_email" ),
+
+						"register" => array( "lib"  => "user_lib.php",
+								     "func" => "register_user" ),
+								       
+						"search_rides" => array( "lib"  => "search_ride_lib.php",
+									 "func" => "search_rides" ),
+
+						"fb_register" => array( "lib"  => "user_lib.php",
+									 "func" => "register_fb_user" ),
 					);
 
 

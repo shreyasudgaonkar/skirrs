@@ -227,12 +227,16 @@ function register_fb_user($json_arr)
 	require($_SESSION['SKIRRS_HOME'] . 'lib/password_handler_lib.php');
 	$user_info = json_decode($json_arr, true);
 
+	$response = array();
+
+	$response['status'] = 0;
+
 	// make an entry in users table
 	$query1 = "INSERT INTO `users`(`email_address`, `user_id`, `first_name`, `last_name`) "
 			." VALUES ('"
 			.$user_info['email_address']."', DEFAULT,'"
 					.$user_info['first_name']."', '"
-							.$user_info['last_name'] .")";
+							.$user_info['last_name'] ."')";
 	
 	$log = new KLogger($_SESSION['LOG_DIR'], KLogger::INFO);
 	
@@ -242,8 +246,14 @@ function register_fb_user($json_arr)
 	if($register_result == -1)
 	{
 		echo "Failed to register the user";
-		return -1;
+		
+	} else {
+
+		$response[ 'status' ] = 1;
+
 	}
+
+	return json_encode( $response );
 
 }
 
