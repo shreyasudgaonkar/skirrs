@@ -36,7 +36,9 @@ function submit_ride( $json_arr )
 		// make an entry in rides_offered table
 		$submit_ride_query = "INSERT INTO `rides_offered` ".
 			                 "( `ride_id`, `user_id`, `source`, `destination`, `departure_date_time`, `seats_offered`,`price`,".
-			                 " `pick_up_offered`, `share_contact_info`, `srclat`, `srclng`, `destlat`, `destlng`,  `comments`)".
+			                 " `pick_up_offered`, `share_contact_info`, `srclat`, `srclng`, `destlat`, `destlng`, `source_administrative_area_level_1`,".
+					 " `source_administrative_area_level_2`, `source_route`, `source_sublocality`, `source_locality`, `source_establishment`, ".
+					 " `dest_administrative_area_level_1`, `dest_administrative_area_level_2`, `dest_route`, `dest_sublocality`, `dest_locality`, `dest_establishment`, `comments`)".
 			                 " VALUES ".
 					         "( DEFAULT, "
 					         .$ride_info['user_id'].", '"
@@ -51,6 +53,18 @@ function submit_ride( $json_arr )
 							 .$ride_info['srclng'].", "
 							 .$ride_info['destlat'].", "
 							 .$ride_info['destlng'].", '"
+							 .$ride_info['source_administrative_area_level_1']."','"
+							 .$ride_info['source_administrative_area_level_2']."','"
+							 .$ride_info['source_route']."','"
+							 .$ride_info['source_sublocality']."','"
+							 .$ride_info['source_locality']."','"
+							 .$ride_info['source_establishment']."','"
+							 .$ride_info['dest_administrative_area_level_1']."','"
+							 .$ride_info['dest_administrative_area_level_2']."','"
+							 .$ride_info['dest_route']."','"
+							 .$ride_info['dest_sublocality']."','"
+							 .$ride_info['dest_locality']."','"
+							 .$ride_info['dest_establishment']."','"
 							 .$ride_info['comments']."')";
 		
 		$log->logInfo( "Query: ". $submit_ride_query );
