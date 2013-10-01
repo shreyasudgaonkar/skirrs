@@ -41,7 +41,7 @@
 	         
 	         <com.skirrs.widget.SkirrsTypeFacedTextView 
 	             android:id="@+id/ride_list_thumbsup"
-	             android:drawableRight="@drawable/thumbsup_9"
+	             android:drawableRight="@drawable/goldstar_2"
 	             android:layout_width="wrap_content"
 	             android:layout_height="wrap_content"
 	             android:text="@string/none"
@@ -124,9 +124,9 @@
             android:textSize="14sp"
             android:ellipsize="end"
             android:scrollHorizontally="false"
-            skirrs:typeface="RobotoCondensed-Regular.ttf"
+            skirrs:typeface="Roboto-Regular.ttf"
             android:drawableLeft="@drawable/map_pin_src_4"
-            android:drawablePadding="3dip"/>
+            android:drawablePadding="4dip"/>
         
         <!-- To -->
         <com.skirrs.widget.SkirrsTypeFacedTextView 
@@ -139,9 +139,9 @@
             android:layout_marginTop="2dip"       
             android:ellipsize="end"
             android:scrollHorizontally="false"
-            skirrs:typeface="RobotoCondensed-Regular.ttf"
+            skirrs:typeface="Roboto-Regular.ttf"
             android:drawableLeft="@drawable/map_pin_dest_4"
-            android:drawablePadding="3dip"/>
+            android:drawablePadding="4dip"/>
         
     </LinearLayout>
 

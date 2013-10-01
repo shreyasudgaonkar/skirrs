@@ -44,6 +44,18 @@ public class JSONParser {
     public static final String TAG_DEPARTURE_DATE_TIME = "departure_date_time";
     public static final String TAG_SEATS               = "seats_offered";
     public static final String TAG_PRICE               = "price";
+    public static final String TAG_ADDR_COMPONENTS     = "address_components";
+    public static final String TAG_TYPES               = "types";
+    public static final String TAG_LONG_NAME           = "long_name";
+    
+    public static final String TAG_ADMIN_AREA_1        = "administrative_area_level_1";
+    public static final String TAG_ADMIN_AREA_2        = "administrative_area_level_2";
+    public static final String TAG_COUNTRY             = "country";
+    public static final String TAG_ROUTE               = "route";
+    public static final String TAG_LOCALITY            = "locality";
+    public static final String TAG_SUB_LOCALITY        = "sublocality";
+    public static final String TAG_ESTABLISHMENT       = "establishment";
+    
  
     /**
      * 

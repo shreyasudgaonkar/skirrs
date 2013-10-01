@@ -44,6 +44,20 @@ public class Ride {
 		private String mSeats;
 		private String mUserId;
 		
+		private String mSrcEstablishment;
+		private String mSrcRoute;
+		private String mSrcSubLocality;
+		private String mSrcLocality;
+		private String mSrcAdminArea1;
+		private String mSrcAdminArea2;
+		
+		private String mDestEstablishment;
+		private String mDestRoute;
+		private String mDestSubLocality;
+		private String mDestLocality;
+		private String mDestAdminArea1;
+		private String mDestAdminArea2;
+		
 		private boolean mShowMenu;
 
 		public RideItem( String from,
@@ -121,6 +135,132 @@ public class Ride {
 			return mFrom + " " +
 				   mTo + " " +
 				   mDateTime + " ";
+		}
+		
+		
+		public void setRideDetails( String srcEstablishment,
+									String srcRoute,
+									String srcSubLocality,
+									String srcLocality,
+									String srcAdminArea1,
+									String srcAdminArea2,
+									String destEstablishment,
+									String destRoute,
+									String destSubLocality,
+									String destLocality,
+									String destAdminArea1,
+									String destAdminArea2 )
+		{
+			mSrcEstablishment = srcEstablishment;
+			mSrcRoute         = srcRoute;
+			mSrcSubLocality   = srcSubLocality;
+			mSrcLocality      = srcLocality;
+			mSrcAdminArea1    = srcAdminArea1;
+			mSrcAdminArea2    = srcAdminArea2;
+			
+			mDestEstablishment = destEstablishment;
+			mDestRoute         = destRoute;
+			mDestSubLocality   = destSubLocality;
+			mDestLocality      = destLocality;
+			mDestAdminArea1    = destAdminArea1;
+			mDestAdminArea2    = destAdminArea2;
+			
+		}
+		
+		public String getmSrcEstablishment() {
+			return mSrcEstablishment;
+		}
+
+		public void setmSrcEstablishment(String mSrcEstablishment) {
+			this.mSrcEstablishment = mSrcEstablishment;
+		}
+
+		public String getmSrcRoute() {
+			return mSrcRoute;
+		}
+
+		public void setmSrcRoute(String mSrcRoute) {
+			this.mSrcRoute = mSrcRoute;
+		}
+
+		public String getmSrcSubLocality() {
+			return mSrcSubLocality;
+		}
+
+		public void setmSrcSubLocality(String mSrcSubLocality) {
+			this.mSrcSubLocality = mSrcSubLocality;
+		}
+
+		public String getmSrcLocality() {
+			return mSrcLocality;
+		}
+
+		public void setmSrcLocality(String mSrcLocality) {
+			this.mSrcLocality = mSrcLocality;
+		}
+
+		public String getmSrcAdminArea1() {
+			return mSrcAdminArea1;
+		}
+
+		public void setmSrcAdminArea1(String mSrcAdminArea1) {
+			this.mSrcAdminArea1 = mSrcAdminArea1;
+		}
+
+		public String getmSrcAdminArea2() {
+			return mSrcAdminArea2;
+		}
+
+		public void setmSrcAdminArea2(String mSrcAdminArea2) {
+			this.mSrcAdminArea2 = mSrcAdminArea2;
+		}
+
+		public String getmDestEstablishment() {
+			return mDestEstablishment;
+		}
+
+		public void setmDestEstablishment(String mDestEstablishment) {
+			this.mDestEstablishment = mDestEstablishment;
+		}
+
+		public String getmDestRoute() {
+			return mDestRoute;
+		}
+
+		public void setmDestRoute(String mDestRoute) {
+			this.mDestRoute = mDestRoute;
+		}
+
+		public String getmDestSubLocality() {
+			return mDestSubLocality;
+		}
+
+		public void setmDestSubLocality(String mDestSubLocality) {
+			this.mDestSubLocality = mDestSubLocality;
+		}
+
+		public String getmDestLocality() {
+			return mDestLocality;
+		}
+
+		public void setmDestLocality(String mDestLocality) {
+			this.mDestLocality = mDestLocality;
+		}
+
+		public String getmDestAdminArea1() {
+			return mDestAdminArea1;
+		}
+
+		public void setmDestAdminArea1(String mDestAdminArea1) {
+			this.mDestAdminArea1 = mDestAdminArea1;
+		}
+
+		public String getmDestAdminArea2() {
+			return mDestAdminArea2;
+		}
+
+		public void setmDestAdminArea2(String mDestAdminArea2) {
+			this.mDestAdminArea2 = mDestAdminArea2;
 		}
 		
 	}

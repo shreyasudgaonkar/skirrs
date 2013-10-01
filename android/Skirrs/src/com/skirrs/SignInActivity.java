@@ -1,6 +1,7 @@
 package com.skirrs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -80,7 +81,8 @@ public class SignInActivity extends Activity {
 				});
 
 		LoginButton loginButton = (LoginButton) findViewById( R.id.sign_in_fb_button );
-
+		loginButton.setReadPermissions( Arrays.asList("email") );
+		
 		if ( Session.getActiveSession() !=null ) {
 			
 			if ( Session.getActiveSession().isOpened() ) {
@@ -143,7 +145,7 @@ public class SignInActivity extends Activity {
 					System.out.println( "Hello "
 							+ user.getName() + "!");
 					
-					mEmail = user.getUsername();
+					mEmail = ( String ) user.asMap().get("email");
 					
 					userDetailsTask = new UserDetailsTask();
 					userDetailsTask.execute( mEmail, user.getName() );

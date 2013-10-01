@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -311,8 +310,91 @@ public class RideListFragment extends ListFragment {
 	        } else
 	            holder = ( ViewHolder ) convertView.getTag();
 
-	        holder.mFrom.setText( rowItem.getFrom() );
-	        holder.mTo.setText( rowItem.getTo() );
+	       
+	        String source = "";
+	        
+	        /*
+	         * Establishment name
+	         */    
+	        if ( rowItem.getmSrcEstablishment() != null && 
+	        	 rowItem.getmSrcEstablishment().length() > 1 ) {
+
+	        	source = rowItem.getmSrcEstablishment() + ", ";
+	        	
+	        } 
+	        
+	        /*
+	         * Street/road
+	         */
+	        if ( rowItem.getmSrcRoute() != null && 
+	        	 rowItem.getmSrcRoute().length() > 1 ) {
+	        	
+	        	source = source + rowItem.getmSrcRoute() + ", ";
+	        }
+	        
+	        
+	        /*
+	         * Sublocality
+	         * Show sublocality only if road is not present
+	         */
+	        if ( rowItem.getmSrcSubLocality() != null && 
+	        	 rowItem.getmSrcSubLocality().equals( "" ) == false &&
+	        	 ( rowItem.getmSrcRoute() == null || 
+	        	   rowItem.getmSrcRoute().length() <= 1 ) ) {
+	        	
+	        	source = source + rowItem.getmSrcSubLocality() + ", ";
+	        	
+	        }
+	        				    
+	        /*
+	         * Locality
+	         */
+	        source = source + rowItem.getmSrcLocality();
+	        
+	        String dest = "";
+	        
+	        /*
+	         * Establishment name
+	         */
+	         if ( rowItem.getmDestEstablishment() != null && 
+	        	 rowItem.getmDestEstablishment().length() > 1 ) {
+	        	
+	        	dest = rowItem.getmDestEstablishment() + ", ";
+	        	
+	        }
+
+	        /*
+	         * Street/road
+	         */
+	        if ( rowItem.getmDestRoute() != null && 
+	        	 rowItem.getmDestRoute().length() > 1 ) {
+	        	
+	        	dest = dest + rowItem.getmDestRoute() + ", ";
+	        	
+	        }
+	        			  
+	        
+	        /*
+	         * Sublocality
+	         * Show sublocality only if road is not present
+	         */
+	        if ( rowItem.getmDestSubLocality() != null && 
+	        	 rowItem.getmDestSubLocality().equals( "" ) == false &&
+	        	 ( rowItem.getmDestRoute() == null ||
+	        	   rowItem.getmDestRoute().length() <= 1 ) ) {
+	        	
+	        	dest = dest + rowItem.getmDestSubLocality() + ", ";
+	        	
+	        }
+	        			  
+	        
+	        /*
+	         * Locality
+	         */
+	        dest = dest + rowItem.getmDestLocality();
+	        
+	        holder.mFrom.setText( source );
+	        holder.mTo.setText( dest );
 	        holder.mPrice.setText( rowItem.getPrice() );
 	        holder.mSeats.setText( rowItem.getSeats() );
 	        holder.mDateTime.setText( rowItem.getDateTime() );

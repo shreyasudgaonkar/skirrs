@@ -8,12 +8,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.Menu;
-import android.widget.TextView;
+import android.view.View;
 
 public class RegisterActivity extends Activity {
 
@@ -41,6 +41,8 @@ public class RegisterActivity extends Activity {
 		setContentView( R.layout.activity_register );
 		
 		sessionManager = SessionManager.getInstance( getApplicationContext() );
+		
+		jParser = new JSONParser();
 		
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
@@ -77,6 +79,11 @@ public class RegisterActivity extends Activity {
 				mLastName = "";
 			}
 			
+			System.out.println( "Starting register user task" );
+			System.out.println( "mEmailAddress: " + mEmailAddress );
+			System.out.println( "mFirstName: " + mFirstName );
+			System.out.println( "mLastName: " + mLastName );
+			
 			RegisterUserTask registerUserTask = new RegisterUserTask();
 			registerUserTask.execute();
 			
@@ -100,6 +107,10 @@ public class RegisterActivity extends Activity {
 	}
 
 	
+	public void cancelActivity( View v ) {
+		finish();
+	}
+	
 	public class RegisterUserTask extends AsyncTask< Void, Void, Boolean > {
 
 		@Override
@@ -111,9 +122,12 @@ public class RegisterActivity extends Activity {
             httpParams.add( new BasicNameValuePair( "email_address",
             										 mEmailAddress ) );
             
-            httpParams.add( new BasicNameValuePair( "full_name",
-            										mFullName ) );
+            httpParams.add( new BasicNameValuePair( "first_name",
+            										mFirstName ) );
             
+            httpParams.add( new BasicNameValuePair( "last_name",
+            										mLastName ) );
+
             httpParams.add( new BasicNameValuePair( "keyword",
             										Util.KEYWORD_REGISTER_FB_USER ) );
             

@@ -6,9 +6,11 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 
@@ -48,17 +50,15 @@ public class GetLatLngTask extends AsyncTask< String, Void, Boolean > {
     
     JSONParser jParser = new JSONParser();
 	
-    
     public static String LAT_SUFFIX = "lat";
     public static String LNG_SUFFIX = "lng";
-    
     
     /*
      * Constructor
      */
     public GetLatLngTask( HashMap< String, Double > latLngMap,
     					  HashMap< String, String > formattedAddressMap,
-    					  LatLngClient client ) {
+    					  LatLngClient              client ) {
     	
     	latLng             = latLngMap;
     	formattedAddresses = formattedAddressMap;
@@ -115,8 +115,6 @@ public class GetLatLngTask extends AsyncTask< String, Void, Boolean > {
 	        		
 	        		if ( status.equals( "OK" ) ) {
 	        			
-	        			System.out.println("in GetLatLngTask, json: " + json );
-	        			
 	        			JSONObject location = json.getJSONArray( JSONParser.TAG_RESULTS ).
 	        									   getJSONObject( 0 ).
 	        									   getJSONObject( JSONParser.TAG_GEOMETRY ).
@@ -124,8 +122,6 @@ public class GetLatLngTask extends AsyncTask< String, Void, Boolean > {
 	        			
 	        			double lat = location.getDouble("lat");
 	        			double lng = location.getDouble("lng");
-	        			
-	        			System.out.println( "lat: " + lat + " lng: " + lng );
 	        			
 	        			latLng.put( address + LAT_SUFFIX, lat );
 	        			latLng.put( address + LNG_SUFFIX, lng );
@@ -135,6 +131,80 @@ public class GetLatLngTask extends AsyncTask< String, Void, Boolean > {
 									 getJSONObject( 0 ).
 									 get( JSONParser.TAG_FORMATTED_ADDRESS );
 													   
+	        			
+	        			JSONArray addrComponents = 
+	        							( JSONArray ) 
+	        							json.getJSONArray( JSONParser.TAG_RESULTS ).
+	        								 getJSONObject( 0 ).getJSONArray( 
+	        								 JSONParser.TAG_ADDR_COMPONENTS );
+	        			
+	        			System.out.println( "addrComponents: " + addrComponents );
+	        			
+	        			for ( int j = 0; j < addrComponents.length(); j++ ) {
+	        				
+	        				JSONObject entry = addrComponents.getJSONObject( j );
+	        				
+	        				String entity   = ( String ) 
+	        							entry.get( JSONParser.TAG_LONG_NAME );
+	        				
+	        				JSONArray types = entry.getJSONArray( JSONParser.TAG_TYPES );
+	        				
+	        				for ( int k = 0; k < types.length(); k++ ) {
+	        					
+	        					String type = types.getString( k );
+	        					
+	        					if ( type.equals( JSONParser.TAG_ADMIN_AREA_1 ) ) {
+	        						System.out.println( "State: " + entity );
+	        						formattedAddresses.put( 
+	        								address + JSONParser.TAG_ADMIN_AREA_1,
+	        								entity );
+	        					}
+	        					
+	        					else if ( type.equals( JSONParser.TAG_ADMIN_AREA_2 ) ) {
+	        						System.out.println( "City: " + entity );
+	        						formattedAddresses.put( 
+	        								address + JSONParser.TAG_ADMIN_AREA_2,
+	        								entity );
+	        					}
+	        					
+	        					else if ( type.equals( JSONParser.TAG_COUNTRY ) ) {
+	        						System.out.println( "Country: " + entity );
+	        						formattedAddresses.put( 
+	        								address + JSONParser.TAG_COUNTRY,
+	        								entity );
+	        					}
+	        					
+	        					else if ( type.equals( JSONParser.TAG_ROUTE ) ) {
+	        						System.out.println( "Road: " + entity );
+	        						formattedAddresses.put( 
+	        								address + JSONParser.TAG_ROUTE,
+	        								entity );
+	        					}
+	        					
+	        					else if ( type.equals( JSONParser.TAG_SUB_LOCALITY ) ) {
+	        						System.out.println( "Sublocality: " + entity );
+	        						formattedAddresses.put( 
+	        								address + JSONParser.TAG_SUB_LOCALITY,
+	        								entity );
+	        					}
+	        					
+	        					else if ( type.equals( JSONParser.TAG_LOCALITY ) ) {
+	        						System.out.println( "Locality: " + entity );
+	        						formattedAddresses.put( 
+	        								address + JSONParser.TAG_LOCALITY,
+	        								entity );
+	        					}
+	        					
+	        					else if ( type.equals( JSONParser.TAG_ESTABLISHMENT ) ) {
+	        						System.out.println( "Establishment: " + entity );
+	        						formattedAddresses.put( 
+	        								address + JSONParser.TAG_ESTABLISHMENT,
+	        								entity );
+	        					}
+	        					
+	        				}
+	        				
+	        			}
 	        			
 	        			formattedAddresses.put( address, formattedAddress.toString() );
 	        			
@@ -160,6 +230,7 @@ public class GetLatLngTask extends AsyncTask< String, Void, Boolean > {
 									address +
 									"ErrorCode: " + s.getErrorCode() );
 				return false;
+				
 			}
 			
 		}

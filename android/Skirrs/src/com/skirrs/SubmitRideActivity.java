@@ -659,7 +659,7 @@ public class SubmitRideActivity extends Activity
 	
 			GetLatLngTask getLatLngtask = new GetLatLngTask( latLng,
 															 formattedAddresses,
-															 this );
+															 this  );
 			
 			submitDialog = SkirrsProgressDialog.show( this,
 													  "",
@@ -667,8 +667,6 @@ public class SubmitRideActivity extends Activity
 													  true );
 			
 			getLatLngtask.execute( source, destination );
-			
-			System.out.println( "getLatLngTask kicked off for source and dest" );
 			
 		}
 			
@@ -877,6 +875,54 @@ public class SubmitRideActivity extends Activity
 		        destLat = Double.valueOf( sixDecimal.format( destLat ) );
 				destLng = Double.valueOf( sixDecimal.format( destLng ) );
 		        
+				String srcAdminArea1 =
+						formattedAddresses.get( source +
+												JSONParser.TAG_ADMIN_AREA_1 );
+				
+				String srcAdminArea2 =
+						formattedAddresses.get( source +
+												JSONParser.TAG_ADMIN_AREA_2 );
+				
+				String srcRoute =
+						formattedAddresses.get( source +
+												JSONParser.TAG_ROUTE );
+				
+				String srcSublocality =
+						formattedAddresses.get( source +
+												JSONParser.TAG_SUB_LOCALITY );
+				
+				String srcLocality =
+						formattedAddresses.get( source +
+												JSONParser.TAG_LOCALITY );
+				
+				String srcEstablishment =
+						formattedAddresses.get( source +
+												JSONParser.TAG_ESTABLISHMENT );
+				
+				String destAdminArea1 =
+						formattedAddresses.get( dest +
+												JSONParser.TAG_ADMIN_AREA_1 );
+				
+				String destAdminArea2 =
+						formattedAddresses.get( dest +
+												JSONParser.TAG_ADMIN_AREA_2 );
+				
+				String destRoute =
+						formattedAddresses.get( dest +
+												JSONParser.TAG_ROUTE );
+				
+				String destSublocality =
+						formattedAddresses.get( dest +
+												JSONParser.TAG_SUB_LOCALITY );
+				
+				String destLocality =
+						formattedAddresses.get( dest +
+												JSONParser.TAG_LOCALITY );
+				
+				String destEstablishment =
+						formattedAddresses.get( dest +
+												JSONParser.TAG_ESTABLISHMENT );
+				
 				/*
 				 * Create an arraylist of all params
 				 */					
@@ -917,6 +963,42 @@ public class SubmitRideActivity extends Activity
 		        
 		        httpParams.add( new BasicNameValuePair( "destlng",
 		        										destLng.toString() ) );
+		        
+		        httpParams.add( new BasicNameValuePair( "source_administrative_area_level_1",
+														srcAdminArea1 ) );
+		        
+		        httpParams.add( new BasicNameValuePair( "source_administrative_area_level_2",
+														srcAdminArea2 ) );
+		        
+		        httpParams.add( new BasicNameValuePair( "source_route",
+														srcRoute ) );
+		        
+		        httpParams.add( new BasicNameValuePair( "source_sublocality",
+														srcSublocality ) );
+		        
+		        httpParams.add( new BasicNameValuePair( "source_locality",
+														srcLocality ) );
+		        
+		        httpParams.add( new BasicNameValuePair( "source_establishment",
+														srcEstablishment ) );
+
+		        httpParams.add( new BasicNameValuePair( "dest_administrative_area_level_1",
+														destAdminArea1 ) );
+
+				httpParams.add( new BasicNameValuePair( "dest_administrative_area_level_2",
+														destAdminArea2 ) );
+				
+				httpParams.add( new BasicNameValuePair( "dest_route",
+														destRoute ) );
+				
+				httpParams.add( new BasicNameValuePair( "dest_sublocality",
+														destSublocality ) );
+				
+				httpParams.add( new BasicNameValuePair( "dest_locality",
+														destLocality ) );
+				
+				httpParams.add( new BasicNameValuePair( "dest_establishment",
+														destEstablishment ) );
 		        
 		        httpParams.add( new BasicNameValuePair( "comments",
 		        										comments ) );

@@ -48,7 +48,7 @@
                 <!-- Register button -->
                 <Button
                     android:id="@+id/register_button"
-                    android:text="@string/com.skirrs.submitrideactivity.submit_ride" 
+                    android:text="@string/com.skirrs.registeractivity.registerbtn" 
                     android:onClick="verifyUserInput"
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
