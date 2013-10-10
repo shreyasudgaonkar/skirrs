@@ -1,10 +1,18 @@
 package com.skirrs;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -50,6 +58,10 @@ public class RideListFragment extends ListFragment {
 	private ListView rideListView;
 	
 	private TextView searchInfoTextView;
+	
+	private User user;
+	
+	JSONParser jParser = new JSONParser();
 
 	/**
 	 * A callback interface that all activities containing this fragment must
@@ -92,6 +104,12 @@ public class RideListFragment extends ListFragment {
         
         rideListView = ( ListView ) rootView.findViewById( android.R.id.list );
 
+        SkirrsRideListArrayAdapter adapter =
+				new SkirrsRideListArrayAdapter( getActivity(),
+												android.R.id.list,
+												Ride.RIDES );
+        rideListView.setAdapter( adapter );
+        
         searchInfoTextView = 
         		( TextView ) rootView.findViewById( R.id.ride_list_search_info );
         
@@ -103,6 +121,8 @@ public class RideListFragment extends ListFragment {
 		String source = intent.getExtras().getString( "source" );
 		String dest   = intent.getExtras().getString( "dest" );
 
+		user = ( User ) intent.getExtras().get( "user" );
+		
         searchInfoTextView.setText( source + " to \n" + dest );
         
         return rootView;
@@ -114,12 +134,6 @@ public class RideListFragment extends ListFragment {
 		
         super.onActivityCreated( savedInstanceState );
 
-        SkirrsRideListArrayAdapter adapter =
-				new SkirrsRideListArrayAdapter( getActivity(),
-												android.R.id.list,
-												Ride.RIDES );
-        rideListView.setAdapter( adapter );
-        
         if ( Util.progressDialog != null &&
         	 Util.progressDialog.isShowing() ) {
         	
@@ -184,13 +198,28 @@ public class RideListFragment extends ListFragment {
 		// fragment is attached to one) that an item has been selected.
 		// mCallbacks.onItemSelected( Ride.RIDES.get( position ).getId() );
 		
-		RideItem rideItem = ( RideItem ) listView.getItemAtPosition( position );
-		boolean showMenu = rideItem.getShowMenu();
-
-		if ( showMenu ) {		
-			rideItem.setShowMenu( false );		
-		} else {		
-			rideItem.setShowMenu( true );
+		
+		for ( int i = 0; i < listView.getCount(); i++ ) {
+			
+			RideItem rideItem = ( RideItem ) listView.getItemAtPosition( i );
+			
+			if ( i == position ) {
+				
+				if ( rideItem.mShowMenu ) {
+					
+					rideItem.mShowMenu = false;	
+					
+				} else {
+					
+					rideItem.mShowMenu = true;
+					
+				}
+				
+			} else {
+				
+				rideItem.mShowMenu = false;
+			}
+			
 		}
 		
 		( ( BaseAdapter ) listView.getAdapter() ).notifyDataSetChanged();
@@ -316,20 +345,20 @@ public class RideListFragment extends ListFragment {
 	        /*
 	         * Establishment name
 	         */    
-	        if ( rowItem.getmSrcEstablishment() != null && 
-	        	 rowItem.getmSrcEstablishment().length() > 1 ) {
+	        if ( rowItem.mSrcEstablishment != null && 
+	        	 rowItem.mSrcEstablishment.length() > 1 ) {
 
-	        	source = rowItem.getmSrcEstablishment() + ", ";
+	        	source = rowItem.mSrcEstablishment + ", ";
 	        	
 	        } 
 	        
 	        /*
 	         * Street/road
 	         */
-	        if ( rowItem.getmSrcRoute() != null && 
-	        	 rowItem.getmSrcRoute().length() > 1 ) {
+	        if ( rowItem.mSrcRoute != null && 
+	        	 rowItem.mSrcRoute.length() > 1 ) {
 	        	
-	        	source = source + rowItem.getmSrcRoute() + ", ";
+	        	source = source + rowItem.mSrcRoute + ", ";
 	        }
 	        
 	        
@@ -337,39 +366,39 @@ public class RideListFragment extends ListFragment {
 	         * Sublocality
 	         * Show sublocality only if road is not present
 	         */
-	        if ( rowItem.getmSrcSubLocality() != null && 
-	        	 rowItem.getmSrcSubLocality().equals( "" ) == false &&
-	        	 ( rowItem.getmSrcRoute() == null || 
-	        	   rowItem.getmSrcRoute().length() <= 1 ) ) {
+	        if ( rowItem.mSrcSubLocality != null && 
+	        	 rowItem.mSrcSubLocality.equals( "" ) == false &&
+	        	 ( rowItem.mSrcRoute == null || 
+	        	   rowItem.mSrcRoute.length() <= 1 ) ) {
 	        	
-	        	source = source + rowItem.getmSrcSubLocality() + ", ";
+	        	source = source + rowItem.mSrcSubLocality + ", ";
 	        	
 	        }
 	        				    
 	        /*
 	         * Locality
 	         */
-	        source = source + rowItem.getmSrcLocality();
+	        source = source + rowItem.mSrcLocality;
 	        
 	        String dest = "";
 	        
 	        /*
 	         * Establishment name
 	         */
-	         if ( rowItem.getmDestEstablishment() != null && 
-	        	 rowItem.getmDestEstablishment().length() > 1 ) {
+	         if ( rowItem.mDestEstablishment != null && 
+	        	 rowItem.mDestEstablishment.length() > 1 ) {
 	        	
-	        	dest = rowItem.getmDestEstablishment() + ", ";
+	        	dest = rowItem.mDestEstablishment + ", ";
 	        	
 	        }
 
 	        /*
 	         * Street/road
 	         */
-	        if ( rowItem.getmDestRoute() != null && 
-	        	 rowItem.getmDestRoute().length() > 1 ) {
+	        if ( rowItem.mDestRoute != null && 
+	        	 rowItem.mDestRoute.length() > 1 ) {
 	        	
-	        	dest = dest + rowItem.getmDestRoute() + ", ";
+	        	dest = dest + rowItem.mDestRoute + ", ";
 	        	
 	        }
 	        			  
@@ -378,12 +407,12 @@ public class RideListFragment extends ListFragment {
 	         * Sublocality
 	         * Show sublocality only if road is not present
 	         */
-	        if ( rowItem.getmDestSubLocality() != null && 
-	        	 rowItem.getmDestSubLocality().equals( "" ) == false &&
-	        	 ( rowItem.getmDestRoute() == null ||
-	        	   rowItem.getmDestRoute().length() <= 1 ) ) {
+	        if ( rowItem.mDestSubLocality != null && 
+	        	 rowItem.mDestSubLocality.equals( "" ) == false &&
+	        	 ( rowItem.mDestRoute == null ||
+	        	   rowItem.mDestRoute.length() <= 1 ) ) {
 	        	
-	        	dest = dest + rowItem.getmDestSubLocality() + ", ";
+	        	dest = dest + rowItem.mDestSubLocality + ", ";
 	        	
 	        }
 	        			  
@@ -391,19 +420,19 @@ public class RideListFragment extends ListFragment {
 	        /*
 	         * Locality
 	         */
-	        dest = dest + rowItem.getmDestLocality();
+	        dest = dest + rowItem.mDestLocality;
 	        
 	        holder.mFrom.setText( source );
 	        holder.mTo.setText( dest );
-	        holder.mPrice.setText( rowItem.getPrice() );
-	        holder.mSeats.setText( rowItem.getSeats() );
-	        holder.mDateTime.setText( rowItem.getDateTime() );
+	        holder.mPrice.setText( rowItem.mPrice );
+	        holder.mSeats.setText( rowItem.mSeats );
+	        holder.mDateTime.setText( rowItem.mDateTime );
 	        holder.mThumbsUp.setText( "0" );
 	        
 	        /*
 	         * Show/Hide the menu under the lisitem based on the boolean value
 	         */
-	        if ( rowItem.getShowMenu() ) {
+	        if ( rowItem.mShowMenu ) {
 	        	
 	        	( ( LinearLayout ) convertView.
 	        					findViewById( R.id.ride_list_menu ) ).
@@ -423,7 +452,22 @@ public class RideListFragment extends ListFragment {
 	        		 
 					@Override
 					public void onClick( View v ) {
-	
+
+						Util.progressDialog = SkirrsProgressDialog.show( 
+												v.getContext(),
+												"",
+												"",
+												true );
+						
+						int position = ( Integer ) v.getTag();
+						
+						System.out.println( "Seat request for position: " + position );
+						
+						RideItem rideItem = getItem( position );
+						
+						RequestSeatTask requestSeatTask = new RequestSeatTask();
+						requestSeatTask.execute( rideItem );
+						
 					}
 				});
 	        	
@@ -441,19 +485,16 @@ public class RideListFragment extends ListFragment {
 					}
 				});
 	        	
-	        	/*
-		        ( ( LinearLayout ) convertView.
-						findViewById( R.id.ride_list_layout ) ).setBackgroundColor( Color.LTGRAY );
-	        	*/
+		        convertView.setBackgroundColor( Color.LTGRAY );
+	        	
 	        	
 	        } else {
 	        	( ( LinearLayout ) convertView.
     					findViewById( R.id.ride_list_menu ) ).
     							setVisibility( View.GONE );
-	        	/*
-		        ( ( LinearLayout ) convertView.
-						findViewById( R.id.ride_list_layout ) ).setBackgroundColor( Color.TRANSPARENT );
-	        	 */
+
+		        convertView.setBackgroundColor( Color.TRANSPARENT );
+		        
 	        }
 	        
 	        return convertView;
@@ -473,6 +514,84 @@ public class RideListFragment extends ListFragment {
 		@Override
 		public long getItemId( int position ) {
 			return position;
+		}
+
+	}
+	
+	
+	public class RequestSeatTask extends AsyncTask< RideItem, Void, Boolean > {
+
+		@Override
+		protected Boolean doInBackground( RideItem... arg0 ) {
+			
+			RideItem rideItem = arg0[ 0 ];
+			
+            List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
+            
+            httpParams.add( new BasicNameValuePair( "keyword",
+            										Util.KEYWORD_REQUEST_SEAT ) );
+            
+            httpParams.add( new BasicNameValuePair( "requester_user_id",
+													user.mUserId ) );
+            
+            httpParams.add( new BasicNameValuePair( "requestee_user_id",
+													rideItem.mUserId ) );
+            
+            httpParams.add( new BasicNameValuePair( "ride_id",
+													rideItem.mRideId ) );
+            
+            try {
+            	
+            	JSONObject json = jParser.makeHttpRequest( Util.url, 
+            										   	   "POST",
+            										   	   httpParams);
+            	
+            	if ( json != null && json.length() > 0 ) {
+                    
+	            	int status = json.getInt( JSONParser.TAG_STATUS );
+	            	
+	            	if ( status == 1 ) {
+	            		
+	            		/*
+	            		 * Seat successfully requested
+	            		 */
+	            		return true;
+	            		
+	            	} else {
+	            		
+	            		/*
+	            		 * Seat request failed
+	            		 */
+	            		
+	            		return false;
+	            	}
+	            	
+                } else {
+                	System.out.println( "Failed to request seat" );
+                	return false;
+                }
+            	
+            } catch ( JSONException j ) {
+            	System.out.println( "JSONException: " + j );
+            	return false;
+            }
+
+		}
+		
+		
+		@Override
+		protected void onPostExecute( final Boolean success ) {
+		
+			Util.progressDialog.dismiss();
+			
+			if ( success ) {
+
+    			
+				
+			} else {
+
+			}
+			
 		}
 
 	}

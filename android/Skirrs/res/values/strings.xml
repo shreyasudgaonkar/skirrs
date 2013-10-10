@@ -71,6 +71,7 @@
     <!--  Ride list -->
     <string name="com.skirrs.ridelist.report">Report spam</string>
     <string name="com.skirrs.ridelist.details">Details</string>
-    <string name="com.skirrs.ridelist.request_seat">Request seat</string> 
+    <string name="com.skirrs.ridelist.request_seat">Request seat</string>
+    <string name="com.skirrs.ridelist.fbreguser">User is facebook registered</string>
 
 </resources>

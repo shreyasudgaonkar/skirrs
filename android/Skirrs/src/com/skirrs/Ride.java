@@ -36,36 +36,38 @@ public class Ride {
 	 */
 	public static class RideItem {
 		
-		private String mId;
-		private String mFrom;
-		private String mTo;
-		private String mDateTime;
-		private String mPrice;
-		private String mSeats;
-		private String mUserId;
+		public String mId;
+		public String mRideId;
+		public String mFrom;
+		public String mTo;
+		public String mDateTime;
+		public String mPrice;
+		public String mSeats;
+		public String mUserId;
 		
-		private String mSrcEstablishment;
-		private String mSrcRoute;
-		private String mSrcSubLocality;
-		private String mSrcLocality;
-		private String mSrcAdminArea1;
-		private String mSrcAdminArea2;
+		public String mSrcEstablishment;
+		public String mSrcRoute;
+		public String mSrcSubLocality;
+		public String mSrcLocality;
+		public String mSrcAdminArea1;
+		public String mSrcAdminArea2;
 		
-		private String mDestEstablishment;
-		private String mDestRoute;
-		private String mDestSubLocality;
-		private String mDestLocality;
-		private String mDestAdminArea1;
-		private String mDestAdminArea2;
+		public String mDestEstablishment;
+		public String mDestRoute;
+		public String mDestSubLocality;
+		public String mDestLocality;
+		public String mDestAdminArea1;
+		public String mDestAdminArea2;
 		
-		private boolean mShowMenu;
+		public boolean mShowMenu;
 
 		public RideItem( String from,
 						 String to, 
 						 String dateTime,
 						 String seats,
 						 String price,
-						 String userId ) 
+						 String userId,
+						 String rideId ) 
 		{
 			mFrom     = from;
 			mTo       = to;
@@ -74,6 +76,7 @@ public class Ride {
 			mUserId   = userId;
 			mPrice    = price;
 			mId       = Integer.toString( rideID++ );
+			mRideId   = rideId;
 			mShowMenu = false;
 		}
 		
@@ -84,58 +87,6 @@ public class Ride {
 				   mDateTime + " ";
 		}
 		
-		public String getFrom()
-		{
-			return mFrom;
-		}
-		
-		public String getTo()
-		{
-			return mTo;
-		}
-		
-		public String getDateTime()
-		{
-			return mDateTime;
-		}
-		
-		public String getPrice()
-		{
-			return mPrice;
-		}
-		
-		public String getSeats()
-		{
-			return mSeats;
-		}
-		
-		public String getId()
-		{
-			return mId;
-		}
-		
-		public String getUserId()
-		{
-			return mUserId;
-		}
-		
-		public void setShowMenu( boolean showMenu )
-		{
-			mShowMenu = showMenu;
-		}
-		
-		public boolean getShowMenu()
-		{
-			return mShowMenu;
-		}
-		
-		@Override
-		public String toString() {
-			
-			return mFrom + " " +
-				   mTo + " " +
-				   mDateTime + " ";
-		}
 		
 		
 		public void setRideDetails( String srcEstablishment,
@@ -165,102 +116,6 @@ public class Ride {
 			mDestAdminArea1    = destAdminArea1;
 			mDestAdminArea2    = destAdminArea2;
 			
-		}
-		
-		public String getmSrcEstablishment() {
-			return mSrcEstablishment;
-		}
-
-		public void setmSrcEstablishment(String mSrcEstablishment) {
-			this.mSrcEstablishment = mSrcEstablishment;
-		}
-
-		public String getmSrcRoute() {
-			return mSrcRoute;
-		}
-
-		public void setmSrcRoute(String mSrcRoute) {
-			this.mSrcRoute = mSrcRoute;
-		}
-
-		public String getmSrcSubLocality() {
-			return mSrcSubLocality;
-		}
-
-		public void setmSrcSubLocality(String mSrcSubLocality) {
-			this.mSrcSubLocality = mSrcSubLocality;
-		}
-
-		public String getmSrcLocality() {
-			return mSrcLocality;
-		}
-
-		public void setmSrcLocality(String mSrcLocality) {
-			this.mSrcLocality = mSrcLocality;
-		}
-
-		public String getmSrcAdminArea1() {
-			return mSrcAdminArea1;
-		}
-
-		public void setmSrcAdminArea1(String mSrcAdminArea1) {
-			this.mSrcAdminArea1 = mSrcAdminArea1;
-		}
-
-		public String getmSrcAdminArea2() {
-			return mSrcAdminArea2;
-		}
-
-		public void setmSrcAdminArea2(String mSrcAdminArea2) {
-			this.mSrcAdminArea2 = mSrcAdminArea2;
-		}
-
-		public String getmDestEstablishment() {
-			return mDestEstablishment;
-		}
-
-		public void setmDestEstablishment(String mDestEstablishment) {
-			this.mDestEstablishment = mDestEstablishment;
-		}
-
-		public String getmDestRoute() {
-			return mDestRoute;
-		}
-
-		public void setmDestRoute(String mDestRoute) {
-			this.mDestRoute = mDestRoute;
-		}
-
-		public String getmDestSubLocality() {
-			return mDestSubLocality;
-		}
-
-		public void setmDestSubLocality(String mDestSubLocality) {
-			this.mDestSubLocality = mDestSubLocality;
-		}
-
-		public String getmDestLocality() {
-			return mDestLocality;
-		}
-
-		public void setmDestLocality(String mDestLocality) {
-			this.mDestLocality = mDestLocality;
-		}
-
-		public String getmDestAdminArea1() {
-			return mDestAdminArea1;
-		}
-
-		public void setmDestAdminArea1(String mDestAdminArea1) {
-			this.mDestAdminArea1 = mDestAdminArea1;
-		}
-
-		public String getmDestAdminArea2() {
-			return mDestAdminArea2;
-		}
-
-		public void setmDestAdminArea2(String mDestAdminArea2) {
-			this.mDestAdminArea2 = mDestAdminArea2;
 		}
 		
 	}

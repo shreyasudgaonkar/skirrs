@@ -9,6 +9,8 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
     @Override
     public void onReceive( Context context, Intent intent ) {
     	
+    	System.out.println( "inside OnReceive in GcmBroadcastReceiver" );
+    	
 		String regId = intent.getExtras().getString( "registration_id" );
 		
 		if( regId != null && !regId.equals("") ) {

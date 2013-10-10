@@ -38,7 +38,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.skirrs.Ride.RideItem;
 
@@ -64,8 +63,8 @@ public class SearchRidesActivity extends Activity
     private boolean  destShowAllOpen = false;
 
     private TextView commentsTextView;
-    
-    private String user_id;
+
+    private User user;
 
 	private static String selectedDate;
 	private static String selectedTime;
@@ -133,7 +132,8 @@ public class SearchRidesActivity extends Activity
 		 * Get the user id via the intent ( HomeActivity provides it )
 		 */
 		Intent intent = getIntent();
-		user_id = intent.getExtras().getString( "user_id" );
+
+		user = ( User ) intent.getExtras().get( "user" );
 		
 		/*
 		 * Auto complete for the source address field
@@ -900,7 +900,7 @@ public class SearchRidesActivity extends Activity
 				List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
 				
 				httpParams.add( new BasicNameValuePair( "user_id",
-														 user_id ) );
+														 user.mUserId ) );
 				
 		        httpParams.add( new BasicNameValuePair( "source",
 		        										srcFmtAddr ) );
@@ -949,9 +949,7 @@ public class SearchRidesActivity extends Activity
 	            		for ( int i = 0; i < resultsArray.length(); i++ ) {
 	            		
 	            			JSONObject obj = resultsArray.getJSONObject( i );
-	            			
-	            			System.out.println( "seachhRides obj: " + obj );
-	                		
+
 		            		source = ( String ) obj.get( JSONParser.TAG_SOURCE );
 		            		dest = ( String ) obj.get( JSONParser.TAG_DESTINATION );
 
@@ -970,81 +968,62 @@ public class SearchRidesActivity extends Activity
 		            		String srcEstablishment =
 	            					( String )obj.get( "source_" +
 	            										JSONParser.TAG_ESTABLISHMENT );
-		            		
-		            		System.out.println( "srcEstablishment: " + srcEstablishment );
-		            		
+	
 		            		String destEstablishment =
 	            					( String )obj.get( "dest_" +
 	            										JSONParser.TAG_ESTABLISHMENT );
-		            		
-		            		System.out.println( "destEatablishment: " + destEstablishment );
-		            		
+
 		            		String srcRoute         =
 	            					( String )obj.get( "source_" +
 	            										JSONParser.TAG_ROUTE );
-		            		
-		            		System.out.println( "srcRoute: " + srcRoute );
-		            		
+
 		            		String destRoute         =
 	            					( String )obj.get( "dest_" +
 	            										JSONParser.TAG_ROUTE );
-		            		
-		            		System.out.println( "destRoute: " + destRoute );
-		            		
+
 		            		String srcSubLocality   =
 	            					( String )obj.get( "source_" +
 	            										JSONParser.TAG_SUB_LOCALITY );
-		            		
-		            		System.out.println( "srcSubLocality: " + srcSubLocality );
-		            		
+
 		            		String destSubLocality   =
 	            					( String )obj.get( "dest_" +
 	            										JSONParser.TAG_SUB_LOCALITY );
-		            		
-		            		System.out.println( "destSubLocality: " + destSubLocality );
-		            		
+
 		            		String srcLocality      =
 	            					( String )obj.get( "source_" +
 	            										JSONParser.TAG_LOCALITY );
-		            		
-		            		System.out.println( "srcLocality: " + srcLocality );
-		            		
+
 		            		String destLocality      =
 	            					( String )obj.get( "dest_" +
 	            										JSONParser.TAG_LOCALITY );
-		            		
-		            		System.out.println( "destLocality: " + destLocality );
-		            		
+
 		            		String srcAdminArea1    =
 	            					( String )obj.get( "source_" +
 	            										JSONParser.TAG_ADMIN_AREA_1 );
-		            		
-		            		System.out.println( "srcAdminArea1: " + srcAdminArea1 );
-		            		
+
 		            		String destAdminArea1    =
 	            					( String )obj.get( "dest_" +
 	            										JSONParser.TAG_ADMIN_AREA_1 );
-		            		
-		            		System.out.println( "destAdminArea1: " + destAdminArea1 );
-		            		
+
 		            		String srcAdminArea2    = 
 	            					( String )obj.get( "source_" +
 	            										JSONParser.TAG_ADMIN_AREA_2 );
-		            		
-		            		System.out.println( "srcAdminArea2: " + srcAdminArea2 );
-		            		
+
 		            		String destAdminArea2    = 
 	            					( String )obj.get( "dest_" +
 	            										JSONParser.TAG_ADMIN_AREA_2 );
+
+		            		String submittedBy = ( String ) obj.get( JSONParser.TAG_USER_ID );
 		            		
-		            		System.out.println( "destAdminArea2: " + destAdminArea2 );
+		            		String rideId = ( String ) obj.get( JSONParser.TAG_RIDE_ID );
 		            		
 		            		RideItem ride = new RideItem( source,
 		            									  dest,
 		            									  date,
 		            									  seats,
 		            									  price,
-		            									  user_id );
+		            									  submittedBy,
+		            									  rideId );
 		            		
 		            		ride.setRideDetails( srcEstablishment,
 		            							 srcRoute,
@@ -1089,8 +1068,6 @@ public class SearchRidesActivity extends Activity
 		@Override
 		protected void onPostExecute( final Boolean success ) {
 		
-			Util.progressDialog.dismiss();
-			
 			if ( success ) {
 				
 				Intent rideListActivityIntent = new Intent( getApplicationContext(),
@@ -1098,6 +1075,7 @@ public class SearchRidesActivity extends Activity
 				
 				rideListActivityIntent.putExtra( "source", srcFmtAddr );
 				rideListActivityIntent.putExtra( "dest", destFmtAddr );
+				rideListActivityIntent.putExtra( "user", user );
 
 				startActivity( rideListActivityIntent );
 				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );

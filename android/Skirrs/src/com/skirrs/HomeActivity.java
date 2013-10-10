@@ -29,11 +29,8 @@ public class HomeActivity extends Activity {
      * Managing sessions and user sign-ins
      */
 	SessionManager sessionManager;
-	private String emailAddress;
-	private String firstName;
-	private String lastName;
-	private String phoneNumber;
-	private String userId;
+	
+	User user;
 	
 	// JSON Parser object
     JSONParser jParser = new JSONParser();
@@ -54,11 +51,7 @@ public class HomeActivity extends Activity {
 													true );
 		
 		sessionManager = SessionManager.getInstance( getApplicationContext() );
-		
-		GetGCMRegistrationId getGCMRegistrationId = new GetGCMRegistrationId();
-    	getGCMRegistrationId.execute( getBaseContext() );
-    	
-		
+
 		/*
 		 * If the user has never signed-in, then show the sign-in screen
 		 */
@@ -71,15 +64,20 @@ public class HomeActivity extends Activity {
 			finish();
 			
 		} else {
-		
-			HashMap<String, String> user = sessionManager.getUserDetails();
+					
+			GetGCMRegistrationId getGCMRegistrationId = new GetGCMRegistrationId();
+	    	getGCMRegistrationId.execute( getBaseContext() );
+			
+			HashMap<String, String> userDetails = sessionManager.getUserDetails();
 			
 			/*
 			 * Fetch user profile and display a welcome message.
 			 * Also display any upcoming rides that the user might have
 			 */
 			
-			emailAddress = user.get( sessionManager.KEY_EMAIL );
+			user = new User();
+			
+			user.mEmail = userDetails.get( sessionManager.KEY_EMAIL );
 
         	welcomeMessage = ( TextView ) findViewById( R.id.welcome_message );
         	upcomingRidesMessage = ( TextView ) findViewById( R.id.upcoming_rides );
@@ -128,11 +126,13 @@ public class HomeActivity extends Activity {
 			Intent submitRideIntent = new Intent( getApplicationContext(),
 					  							  SubmitRideActivity.class );
 			
-			submitRideIntent.putExtra( "email_address", emailAddress );
-			submitRideIntent.putExtra( "first_name",    firstName );
-			submitRideIntent.putExtra( "last_name",     lastName );
-			submitRideIntent.putExtra( "phone_number",  phoneNumber );
-			submitRideIntent.putExtra( "user_id",       userId );
+			submitRideIntent.putExtra( "email_address", user.mEmail );
+			submitRideIntent.putExtra( "first_name",    user.mFirstName );
+			submitRideIntent.putExtra( "last_name",     user.mLastName );
+			submitRideIntent.putExtra( "phone_number",  user.mPhoneNumber );
+			submitRideIntent.putExtra( "user_id",       user.mUserId );
+			
+			submitRideIntent.putExtra( "user", user );
 			
 			startActivity( submitRideIntent );
 			
@@ -146,7 +146,9 @@ public class HomeActivity extends Activity {
 			Intent searchRideIntent = new Intent( getApplicationContext(),
 					  							  SearchRidesActivity.class );
 			
-			searchRideIntent.putExtra( "user_id", userId );
+			searchRideIntent.putExtra( "user_id", user.mUserId );
+			searchRideIntent.putExtra( "user", user );
+			
 			startActivity( searchRideIntent );
 			
 	    	return true;
@@ -188,7 +190,7 @@ public class HomeActivity extends Activity {
             List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
             
             httpParams.add( new BasicNameValuePair( "email_address",
-            										 emailAddress ) );
+            										 user.mEmail ) );
             
             httpParams.add( new BasicNameValuePair( "keyword",
             										Util.KEYWORD_USER_DETAILS ) );
@@ -206,10 +208,10 @@ public class HomeActivity extends Activity {
 	            	
 	            	if ( status == 1 ) {
 	            		
-	            		firstName   = json.getString( JSONParser.TAG_FIRST_NAME );
-	            		lastName    = json.getString( JSONParser.TAG_LAST_NAME );
-	            		phoneNumber = json.getString( JSONParser.TAG_PHONE_NUM );
-	            		userId      = json.getString( JSONParser.TAG_USER_ID );
+	            		user.mFirstName   = json.getString( JSONParser.TAG_FIRST_NAME );
+	            		user.mLastName    = json.getString( JSONParser.TAG_LAST_NAME );
+	            		user.mPhoneNumber = json.getString( JSONParser.TAG_PHONE_NUM );
+	            		user.mUserId      = json.getString( JSONParser.TAG_USER_ID );
 	            		
 	            	} else {
 	            		
@@ -237,7 +239,7 @@ public class HomeActivity extends Activity {
 			
 			if ( success ) {
 
-    			welcomeMessage.setText( "Welcome, " + firstName );
+    			welcomeMessage.setText( "Welcome, " + user.mFirstName );
     			upcomingRidesMessage.setText( "You have no upcoming rides" );
     			
     			errorMessage.setVisibility( TextView.INVISIBLE );

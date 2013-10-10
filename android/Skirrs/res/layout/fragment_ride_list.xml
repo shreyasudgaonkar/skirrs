@@ -21,9 +21,6 @@
         android:id="@+id/android:list"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="20sp"
-        android:paddingTop="16dip"
         android:clipToPadding="false"
         android:choiceMode="singleChoice">
         

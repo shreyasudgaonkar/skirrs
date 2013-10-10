@@ -35,6 +35,7 @@ public class JSONParser {
     public static final String TAG_LAST_NAME           = "last_name";
     public static final String TAG_PHONE_NUM           = "phone_number";
     public static final String TAG_USER_ID             = "user_id";
+    public static final String TAG_RIDE_ID             = "ride_id";
     public static final String TAG_RESULTS             = "results";
     public static final String TAG_GEOMETRY            = "geometry";
     public static final String TAG_LOCATION            = "location";

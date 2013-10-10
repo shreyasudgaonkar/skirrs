@@ -58,7 +58,7 @@ public class RideDetailFragment extends Fragment {
 		// Show the dummy content as text in a TextView.
 		if ( mItem != null ) {
 			
-			System.out.println( "Setting description for " + mItem.getId() );
+			System.out.println( "Setting description for " + mItem.mId );
 
 			if ( rootView != null ) {
 			

@@ -37,6 +37,7 @@ public class Util {
     public static final String KEYWORD_SUBMIT_RIDE      = "submit_ride";
     public static final String KEYWORD_SEARCH_RIDES     = "search_rides";
     public static final String KEYWORD_VIEW_MESSAGES    = "view_messages";
+    public static final String KEYWORD_REQUEST_SEAT     = "request_seat";
     
     public static SkirrsProgressDialog progressDialog;
     
@@ -79,22 +80,47 @@ public class Util {
 	 */
 	public static class GetGCMRegistrationId extends AsyncTask< Context, Void, Boolean > {
 
+		private int numTries   = 0;
+		private int backOff    = 2000;
+		
+		private static int MAXTRIES = 3;
+		
 		@Override
 		protected Boolean doInBackground( Context... arg0 ) {
 			
         	GoogleCloudMessaging gcm =
         				GoogleCloudMessaging.getInstance( arg0[ 0 ] );
         	
-        	try {
-        		
-        		Util.gcmRegistrationId = gcm.register( Util.GCM_SENDER_ID );
-        		System.out.println( "registrationId: " + Util.gcmRegistrationId );
-        		
-        	} catch ( IOException i ) {
-        		
-        		System.out.println( "Exception when getting registrationId: " +
-        							i.getMessage() );
-        		
+        	while ( numTries < MAXTRIES ) {
+        	
+	        	try {
+	        		
+	        		Util.gcmRegistrationId = gcm.register( Util.GCM_SENDER_ID );
+	        		System.out.println( "registrationId: " + Util.gcmRegistrationId );
+	        		
+	        		return true;
+	        		
+	        	} catch ( IOException i ) {
+	        		
+	        		System.out.println( "Exception when getting registrationId: " +
+	        							i.getMessage() );
+	        		
+	        		try {
+	        			
+	        			System.out.println( "Using exponential backoff before retry" );
+	        			Thread.sleep( backOff );
+	        			backOff = backOff * 3;
+	        			
+	        		} catch ( InterruptedException x ) {
+	        			
+	        			System.out.println( "Exception when sleeping" );
+	        		}
+	        		
+	        	} finally {
+	        		
+	        		numTries++;
+	        	}
+	        	
         	}
 
         	return true;

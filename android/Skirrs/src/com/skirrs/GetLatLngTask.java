@@ -10,7 +10,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 
@@ -137,9 +136,7 @@ public class GetLatLngTask extends AsyncTask< String, Void, Boolean > {
 	        							json.getJSONArray( JSONParser.TAG_RESULTS ).
 	        								 getJSONObject( 0 ).getJSONArray( 
 	        								 JSONParser.TAG_ADDR_COMPONENTS );
-	        			
-	        			System.out.println( "addrComponents: " + addrComponents );
-	        			
+
 	        			for ( int j = 0; j < addrComponents.length(); j++ ) {
 	        				
 	        				JSONObject entry = addrComponents.getJSONObject( j );
@@ -154,49 +151,42 @@ public class GetLatLngTask extends AsyncTask< String, Void, Boolean > {
 	        					String type = types.getString( k );
 	        					
 	        					if ( type.equals( JSONParser.TAG_ADMIN_AREA_1 ) ) {
-	        						System.out.println( "State: " + entity );
 	        						formattedAddresses.put( 
 	        								address + JSONParser.TAG_ADMIN_AREA_1,
 	        								entity );
 	        					}
 	        					
 	        					else if ( type.equals( JSONParser.TAG_ADMIN_AREA_2 ) ) {
-	        						System.out.println( "City: " + entity );
 	        						formattedAddresses.put( 
 	        								address + JSONParser.TAG_ADMIN_AREA_2,
 	        								entity );
 	        					}
 	        					
 	        					else if ( type.equals( JSONParser.TAG_COUNTRY ) ) {
-	        						System.out.println( "Country: " + entity );
 	        						formattedAddresses.put( 
 	        								address + JSONParser.TAG_COUNTRY,
 	        								entity );
 	        					}
 	        					
 	        					else if ( type.equals( JSONParser.TAG_ROUTE ) ) {
-	        						System.out.println( "Road: " + entity );
 	        						formattedAddresses.put( 
 	        								address + JSONParser.TAG_ROUTE,
 	        								entity );
 	        					}
 	        					
 	        					else if ( type.equals( JSONParser.TAG_SUB_LOCALITY ) ) {
-	        						System.out.println( "Sublocality: " + entity );
 	        						formattedAddresses.put( 
 	        								address + JSONParser.TAG_SUB_LOCALITY,
 	        								entity );
 	        					}
 	        					
 	        					else if ( type.equals( JSONParser.TAG_LOCALITY ) ) {
-	        						System.out.println( "Locality: " + entity );
 	        						formattedAddresses.put( 
 	        								address + JSONParser.TAG_LOCALITY,
 	        								entity );
 	        					}
 	        					
 	        					else if ( type.equals( JSONParser.TAG_ESTABLISHMENT ) ) {
-	        						System.out.println( "Establishment: " + entity );
 	        						formattedAddresses.put( 
 	        								address + JSONParser.TAG_ESTABLISHMENT,
 	        								entity );
@@ -207,8 +197,6 @@ public class GetLatLngTask extends AsyncTask< String, Void, Boolean > {
 	        			}
 	        			
 	        			formattedAddresses.put( address, formattedAddress.toString() );
-	        			
-	        			System.out.println( "formattedAddress: " + formattedAddress );
 
 	        		} else {
 	        			throw new SkirrsException( ErrorId.SKIRRS_JSON_SUCCESS_EXCEPTION );
